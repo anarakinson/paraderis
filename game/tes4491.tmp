@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://yv6c57f1i2d0"]
+
+[ext_resource type="Texture2D" uid="uid://c8pruu2l6ws21" path="res://assets/environment_altar1.png" id="1_oharo"]
+[ext_resource type="PackedScene" uid="uid://d1ohnlpwf086o" path="res://game/shady/shady.tscn" id="1_t5cdo"]
+[ext_resource type="Script" path="res://game/Technical/SmoothedCamera2D.gd" id="3_y161c"]
+[ext_resource type="PackedScene" uid="uid://ibxwrkjneal" path="res://game/environment/dungeon_platform_2.tscn" id="4_78d67"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kpevn"]
+size = Vector2(1930, 29)
+
+[node name="Test" type="Node2D"]
+
+[node name="EnvironmentAltar1" type="Sprite2D" parent="."]
+position = Vector2(302, 612)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_oharo")
+
+[node name="EnvironmentAltar2" type="Sprite2D" parent="."]
+position = Vector2(944, 613)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_oharo")
+flip_h = true
+
+[node name="EnvironmentAltar3" type="Sprite2D" parent="."]
+position = Vector2(-235, 612)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_oharo")
+
+[node name="Shady" parent="." instance=ExtResource("1_t5cdo")]
+position = Vector2(155, 524)
+scale = Vector2(0.5, 0.5)
+
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("player")]
+zoom = Vector2(0.8, 0.8)
+position_smoothing_speed = 3.0
+script = ExtResource("3_y161c")
+player = NodePath("../Shady")
+smoothing_enabled = true
+smoothing_distance = 3.0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(-353, 635)
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
+offset_top = 5.0
+offset_right = 1930.0
+offset_bottom = 34.0
+color = Color(0, 0, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(966, 21.5)
+shape = SubResource("RectangleShape2D_kpevn")
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="DungeonPlatform_2" parent="Environment" instance=ExtResource("4_78d67")]
+position = Vector2(598, 508)
+scale = Vector2(0.5, 0.5)
+
+[node name="DungeonPlatform_3" parent="Environment" instance=ExtResource("4_78d67")]
+position = Vector2(622, 204)
+scale = Vector2(0.5, 0.5)
+
+[node name="DungeonPlatform_4" parent="Environment" instance=ExtResource("4_78d67")]
+position = Vector2(77, 392)
+scale = Vector2(0.5, 0.5)
+
+[node name="DungeonPlatform_5" parent="Environment" instance=ExtResource("4_78d67")]
+position = Vector2(378, 348)
+scale = Vector2(0.5, 0.5)
