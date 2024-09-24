@@ -118,6 +118,11 @@ func set_direction(coeff = 1):
 		wall_ray_cast.target_position.x = 55
 		climb_ray_cast.target_position.x = 55
 		climb_ray_cast_2.target_position.x = 55
+	
+	if direction < 0:
+		face_direction = -1
+	elif direction > 0:
+		face_direction = 1
 
 
 
@@ -180,30 +185,24 @@ func _physics_process(delta):
 	
 	
 	
-	direction = Input.get_axis("left", "right")
-	if direction < 0:
-		face_direction = -1
-	elif direction > 0:
-		face_direction = 1
-		
-	
 	# Add the gravity.
 	if (not is_on_floor() and not is_floating):
 		velocity.y += gravity * delta
 		if state == WALL_BOUNCING:
 			velocity.y = 0
 			velocity.x = 0
-			
-	
 	
 	if velocity.y > 0:
 		state = FALL
-	
 	
 	if health <= 0:
 		animation_player.play("collapse_start")
 		health = 0
 		state = DEATH
+	
+
+	# DISABLE INPUT
+	direction = Input.get_axis("left", "right")
 	
 	
 	# Handle jump.
@@ -388,7 +387,6 @@ func disappear():
 	await animation_player.animation_finished
 	appear()
 
-
 func appear():
 	position.x += speed_blink * face_direction
 	animation_player.play("collapse_end")
@@ -543,9 +541,10 @@ func wall_bouncing():
 	
 	animation_player.play("wall_jump_start")
 	await animation_player.animation_finished
+	state = IDLE
+	animation_player.play("wall_jump")
 	velocity.y = jump_velocity * 1.3
 	velocity.x = -jump_velocity * face_direction * 0.7
-	animation_player.play("wall_jump")
 	#await animation_player.animation_finished
 	velocity.y = move_toward(velocity.y, 0, -jump_velocity / 2)
 	fall_counter = 0
