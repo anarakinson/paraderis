@@ -519,14 +519,30 @@ func climb_ledge_state():
 	#print("IS ON WALL")
 	fall_counter = 0
 	$ClimbCollision.disabled = false
-	animation_player.play("on_wall")
-	if Input.is_action_just_pressed("jump"):
-		wall_bouncing()
+	
+	if wall_ray_cast.is_colliding():
+		animation_player.play("on_wall")
+		if Input.is_action_just_pressed("jump"):
+			wall_bouncing()
+	elif not wall_ray_cast.is_colliding():
+		#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		animation_player.play("on_wall")
 	if Input.is_action_just_pressed("down"):
+		animation_player.play("out_wall")
 		face_direction = -face_direction
 		direction = face_direction
 		set_direction()
-	pass
+	elif Input.is_action_just_pressed("up"):
+		state = IDLE
+		animation_player.play("climb")
+		await animation_player.animation_finished 
+		position.x += 98 * face_direction * scale.x
+		position.y -= 198 * scale.y
+		animation_player.play("climb_finish")
+		await animation_player.animation_finished 
+		stand_up()
+		await animation_player.animation_finished
+		state = MOVE
 
 
 

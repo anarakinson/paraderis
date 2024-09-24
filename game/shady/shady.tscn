@@ -1,4 +1,4 @@
-[gd_scene load_steps=265 format=3 uid="uid://d1ohnlpwf086o"]
+[gd_scene load_steps=271 format=3 uid="uid://d1ohnlpwf086o"]
 
 [ext_resource type="Script" path="res://Game/shady/shady.gd" id="1_6wk1j"]
 [ext_resource type="Texture2D" uid="uid://1wajedxp568w" path="res://assets/shady/frames/idle/frame0009.png" id="1_8d43n"]
@@ -66,12 +66,12 @@
 [ext_resource type="Texture2D" uid="uid://cnge36ckox5yx" path="res://assets/shady/frames/attack_jump/frame0009.png" id="26_72tw0"]
 [ext_resource type="Texture2D" uid="uid://c03bv3bu1gtkg" path="res://assets/shady/frames/hit/frame0014.png" id="26_ug5g1"]
 [ext_resource type="Texture2D" uid="uid://bo4ids2ad3nje" path="res://assets/shady/frames/hit/frame0015.png" id="27_ke63w"]
-[ext_resource type="Texture2D" uid="uid://1lyrtscpvsic" path="res://assets/shady/frames/climb/frame0014.png" id="27_rqmjl"]
 [ext_resource type="Texture2D" uid="uid://6qkku6p6j7u3" path="res://assets/shady/frames/climb/frame0015.png" id="28_0fl4v"]
 [ext_resource type="Texture2D" uid="uid://d0rt5mhxrx5oy" path="res://assets/shady/frames/hit/frame0016.png" id="28_0374n"]
 [ext_resource type="Texture2D" uid="uid://dqncb2o5s5jlx" path="res://assets/shady/frames/climb/frame0016.png" id="29_2ffnk"]
 [ext_resource type="Texture2D" uid="uid://bmp03b7ya3r5m" path="res://assets/shady/frames/dissolve/frame0021.png" id="29_miy02"]
 [ext_resource type="Texture2D" uid="uid://cqptfdfah41b2" path="res://assets/shady/frames/hit/frame0002.png" id="29_r5fma"]
+[ext_resource type="Texture2D" uid="uid://c18f36tktakbq" path="res://assets/shady/frames/climb/frame0017.png" id="29_ylt7r"]
 [ext_resource type="Texture2D" uid="uid://cgyehnx5yeahy" path="res://assets/shady/frames/dissolve/frame0022.png" id="30_dv1nj"]
 [ext_resource type="Texture2D" uid="uid://c6dx2fui5yp8s" path="res://assets/shady/frames/hit/frame0003.png" id="30_nbnue"]
 [ext_resource type="Texture2D" uid="uid://xarxkhi1mtyp" path="res://assets/shady/frames/dissolve/frame0023.png" id="31_5es32"]
@@ -107,6 +107,7 @@
 [ext_resource type="Texture2D" uid="uid://ck5ta1jpcqnbr" path="res://assets/shady/frames/dissolve/frame0017.png" id="48_ya6dc"]
 [ext_resource type="Texture2D" uid="uid://bir0myavh86fu" path="res://assets/shady/frames/pickup/frame0003.png" id="49_lgos7"]
 [ext_resource type="Texture2D" uid="uid://b1gnetgycy30t" path="res://assets/shady/frames/dissolve/frame0018.png" id="49_pxo46"]
+[ext_resource type="Texture2D" uid="uid://k07o0hj1vkog" path="res://assets/shady/frames/climb/frame0007.png" id="50_38cvk"]
 [ext_resource type="Texture2D" uid="uid://0etort8yc8al" path="res://assets/shady/frames/dissolve/frame0019.png" id="50_mblle"]
 [ext_resource type="Texture2D" uid="uid://dkdvyohv20bqb" path="res://assets/shady/frames/pickup/frame0004.png" id="50_mwbcu"]
 [ext_resource type="Texture2D" uid="uid://cbn0aqlgq5hje" path="res://assets/shady/frames/pickup/frame0005.png" id="51_0moy4"]
@@ -174,6 +175,8 @@
 [ext_resource type="Texture2D" uid="uid://du7rc2vtnl5iu" path="res://assets/shady/frames/idle/frame0021.png" id="102_5wxku"]
 [ext_resource type="Texture2D" uid="uid://bti4ymlwfamhc" path="res://assets/shady/frames/idle/frame0022.png" id="103_qeiw6"]
 [ext_resource type="Texture2D" uid="uid://dtf0rvvhmvprd" path="res://assets/shady/frames/idle/frame0023.png" id="104_13wrt"]
+[ext_resource type="Texture2D" uid="uid://cxuf5gg725ggq" path="res://assets/shady/frames/out_wall/frame0009.png" id="128_1hgvl"]
+[ext_resource type="Texture2D" uid="uid://de0p2qutdh6rj" path="res://assets/shady/frames/out_wall/frame0013.png" id="129_o32f6"]
 [ext_resource type="Texture2D" uid="uid://cqwd431oeniji" path="res://assets/shady/frames/sit/frame0012.png" id="138_y3rqk"]
 [ext_resource type="Texture2D" uid="uid://void01pr6lyu" path="res://assets/shady/frames/sit/frame0013.png" id="139_56anl"]
 [ext_resource type="Texture2D" uid="uid://y54pfya66xyy" path="res://assets/shady/frames/sit/frame0001.png" id="140_hphri"]
@@ -186,6 +189,7 @@
 [ext_resource type="Texture2D" uid="uid://0y73feaghqjn" path="res://assets/shady/frames/sit/frame0008.png" id="147_iyou7"]
 [ext_resource type="Texture2D" uid="uid://1iaktkgtssye" path="res://assets/shady/frames/sit/frame0009.png" id="148_4hkls"]
 [ext_resource type="Texture2D" uid="uid://nbllcgnj7n05" path="res://assets/shady/frames/sit/frame0010.png" id="149_syv5e"]
+[ext_resource type="Texture2D" uid="uid://77ua6fb8b1k4" path="res://assets/shady/frames/climb/frame0019.png" id="167_b2w1k"]
 [ext_resource type="Texture2D" uid="uid://cur20j1vd04k0" path="res://assets/shady/frames/wall_jump/frame0023.png" id="187_uv68j"]
 [ext_resource type="Texture2D" uid="uid://c26b8ka32881x" path="res://assets/shady/frames/wall_jump/frame0024.png" id="188_xjt4b"]
 [ext_resource type="Texture2D" uid="uid://d3ev3gu7nkg2u" path="res://assets/shady/frames/wall_jump/frame0020.png" id="189_07k86"]
@@ -323,13 +327,13 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("27_rqmjl")
-}, {
-"duration": 1.0,
 "texture": ExtResource("28_0fl4v")
 }, {
 "duration": 1.0,
 "texture": ExtResource("29_2ffnk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_ylt7r")
 }],
 "loop": false,
 "name": &"attack_wall",
@@ -425,9 +429,20 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("20_67dke")
+}, {
+"duration": 1.0,
+"texture": ExtResource("167_b2w1k")
 }],
 "loop": false,
 "name": &"climb",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("50_38cvk")
+}],
+"loop": false,
+"name": &"climb_finish",
 "speed": 10.0
 }, {
 "frames": [{
@@ -783,6 +798,17 @@ animations = [{
 "loop": true,
 "name": &"on_wall",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("128_1hgvl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("129_o32f6")
+}],
+"loop": false,
+"name": &"out_wall",
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1476,10 +1502,10 @@ tracks/0/path = NodePath("AnimatedSprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3, 4]
+"values": [0, 1, 2, 3, 4, 5]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -1492,6 +1518,33 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": ["climb"]
+}
+
+[sub_resource type="Animation" id="Animation_jutpu"]
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["climb_finish"]
 }
 
 [sub_resource type="Animation" id="Animation_8gmjo"]
@@ -2070,6 +2123,33 @@ tracks/1/keys = {
 "values": ["on_wall"]
 }
 
+[sub_resource type="Animation" id="Animation_73sa0"]
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["out_wall"]
+}
+
 [sub_resource type="Animation" id="Animation_lxjd3"]
 length = 0.8
 loop_mode = 1
@@ -2522,6 +2602,7 @@ _data = {
 "bored": SubResource("Animation_p0b5a"),
 "bored_trans_idle": SubResource("Animation_0t0sv"),
 "climb": SubResource("Animation_ms436"),
+"climb_finish": SubResource("Animation_jutpu"),
 "collapse_end": SubResource("Animation_8gmjo"),
 "collapse_start": SubResource("Animation_2nx6s"),
 "conjure": SubResource("Animation_hjul8"),
@@ -2543,6 +2624,7 @@ _data = {
 "look_up": SubResource("Animation_tmslh"),
 "lying": SubResource("Animation_vylfw"),
 "on_wall": SubResource("Animation_f1812"),
+"out_wall": SubResource("Animation_73sa0"),
 "pickup": SubResource("Animation_lxjd3"),
 "rest": SubResource("Animation_scfar"),
 "rest_awake": SubResource("Animation_7r20g"),
@@ -2583,9 +2665,9 @@ script = ExtResource("1_6wk1j")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -21)
 sprite_frames = SubResource("SpriteFrames_flbuy")
-animation = &"run"
+animation = &"climb"
 autoplay = "idle"
-frame = 6
+frame = 5
 
 [node name="SlashSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
