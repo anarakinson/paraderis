@@ -5,6 +5,8 @@ extends CharacterBody2D
 @onready var timer = $Timer
 @onready var camera_2d = $Camera2D
 @onready var edge_detection = $EdgeDetection
+@onready var edge_detection_2 = $EdgeDetection2
+
 @onready var wall_ray_cast = $WallRayCast
 @onready var climb_ray_cast = $ClimbRayCast
 @onready var climb_ray_cast_2 = $ClimbRayCast2
@@ -47,7 +49,7 @@ enum {
 	WAKE_UP,
 	LOOK_UP,
 	LOOK_DOWN,
-	ON_WALL,
+	WALL_CLIMB,
 	WALL_BOUNCING,
 	ATTACK,
 	ATTACK_JUMP,
@@ -106,17 +108,13 @@ func set_direction(coeff = 1):
 		#time_to_turn = false
 		velocity.x = direction * speed * coeff
 	
-	if direction < 0:
-		face_direction = -1
+	if face_direction == -1:
 		animated_sprite_2d.flip_h = true 
-		edge_detection.position.x = -25
 		wall_ray_cast.target_position.x = -55
 		climb_ray_cast.target_position.x = -55
 		climb_ray_cast_2.target_position.x = -55
-	elif direction > 0:
-		face_direction = 1
+	elif face_direction == 1:
 		animated_sprite_2d.flip_h = false 
-		edge_detection.position.x = 25
 		wall_ray_cast.target_position.x = 55
 		climb_ray_cast.target_position.x = 55
 		climb_ray_cast_2.target_position.x = 55
@@ -124,8 +122,8 @@ func set_direction(coeff = 1):
 
 
 func _physics_process(delta):
-	#print(state)
-	print(direction, face_direction)
+	print(state)
+	#print(direction, face_direction)
 	match state:
 		IDLE:
 			idle_state()
@@ -174,7 +172,7 @@ func _physics_process(delta):
 		LOOK_DOWN:
 			set_collision_shape(collider_shape["basic"])
 			look_down_state()
-		ON_WALL:
+		WALL_CLIMB:
 			set_collision_shape(collider_shape["on_wall"])
 			climb_ledge_state()
 		WALL_BOUNCING:
@@ -183,13 +181,19 @@ func _physics_process(delta):
 	
 	
 	direction = Input.get_axis("left", "right")
-
+	if direction < 0:
+		face_direction = -1
+	elif direction > 0:
+		face_direction = 1
+		
 	
 	# Add the gravity.
-	if (not is_on_floor() and 
-		not is_floating):
-		if state != ON_WALL and state != WALL_BOUNCING:
-			velocity.y += gravity * delta
+	if (not is_on_floor() and not is_floating):
+		velocity.y += gravity * delta
+		if state == WALL_BOUNCING:
+			velocity.y = 0
+			velocity.x = 0
+			
 	
 	
 	if velocity.y > 0:
@@ -210,17 +214,28 @@ func _physics_process(delta):
 		jump_start()
 	
 	# wall bouncing
-	if (climb_ray_cast.is_colliding() and wall_ray_cast.is_colliding()
+	if (not is_on_floor() and 
+		climb_ray_cast.is_colliding() and wall_ray_cast.is_colliding()
 		and Input.is_action_just_pressed("jump") 
 		and (state == FALL or state == JUMP)):
 		velocity.y = 0
-		state = WALL_BOUNCING
+		velocity.x = 0
 		wall_bouncing()
 	
 	# ledge climb
-	#############
+	if ((state == FALL or state == JUMP) and
+		climb_ray_cast.is_colliding() and not climb_ray_cast_2.is_colliding()):
+		velocity.x = 100 * face_direction
+		velocity.y = -jump_velocity
+		state = WALL_CLIMB
 	
-
+	
+	if state == FALL:
+		$ClimbCollision.disabled = true
+	elif state == WALL_CLIMB:
+		$ClimbCollision.disabled = false
+	
+	
 	if Input.is_anything_pressed():
 		is_bored = false
 		bored_counter = 0
@@ -271,7 +286,9 @@ func move_state(delta):
 				animation_player.play("idle")
 				bored_counter += 1 * delta
 				#print(bored_counter)
-				if bored_counter > is_bored_timer or not edge_detection.is_colliding():
+				if (bored_counter > is_bored_timer or 
+					not edge_detection.is_colliding() or 
+					not edge_detection_2.is_colliding()):
 					state = BORED
 			else:
 				animation_player.play("run_stop")
@@ -499,31 +516,45 @@ func fading_state():
 	state = LYING
 
 
+
 func climb_ledge_state():
 	#print("IS ON WALL")
+	fall_counter = 0
+	$ClimbCollision.disabled = false
 	animation_player.play("on_wall")
 	if Input.is_action_just_pressed("jump"):
 		wall_bouncing()
 	if Input.is_action_just_pressed("down"):
-		state = MOVE
+		face_direction = -face_direction
+		direction = face_direction
+		set_direction()
 	pass
 
 
 
-
 func wall_bouncing():
+	state = WALL_BOUNCING
 	velocity.x = 0
 	velocity.y = 0
-	animation_player.play("wall_jump_start")
-	await animation_player.animation_finished
+
 	face_direction = -face_direction
 	direction = face_direction
 	set_direction()
+	
+	animation_player.play("wall_jump_start")
+	await animation_player.animation_finished
 	velocity.y = jump_velocity * 1.3
 	velocity.x = -jump_velocity * face_direction * 0.7
-
 	animation_player.play("wall_jump")
+	#await animation_player.animation_finished
 	velocity.y = move_toward(velocity.y, 0, -jump_velocity / 2)
 	fall_counter = 0
 	state = FALL
+
+
+
+
+
+
+
 
