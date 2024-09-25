@@ -1,12 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://cwong0d4m4l0d"]
+[gd_scene load_steps=4 format=3 uid="uid://ces6d02e2bqyy"]
 
-[ext_resource type="Texture2D" uid="uid://d4f3c060nnc3t" path="res://game/tilemap/base_tile.png" id="1_gnvmy"]
+[ext_resource type="Texture2D" uid="uid://d4f3c060nnc3t" path="res://game/tilemap/base_tile.png" id="1_clte3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mndlj"]
-texture = ExtResource("1_gnvmy")
+texture = ExtResource("1_clte3")
 0:0/0 = 0
-0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-0:0/0/physics_layer_0/angular_velocity = 0.0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="TileSet" id="TileSet_1u1oe"]
