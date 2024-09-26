@@ -1,4 +1,4 @@
-[gd_scene load_steps=283 format=3 uid="uid://clc02tsxv7afg"]
+[gd_scene load_steps=293 format=3 uid="uid://clc02tsxv7afg"]
 
 [ext_resource type="Script" path="res://game/shady/shady.gd" id="1_rfscw"]
 [ext_resource type="Texture2D" uid="uid://dd2lxnwiskudh" path="res://assets/shady/frames/attack/frame0001.png" id="2_tmwfq"]
@@ -23,9 +23,12 @@
 [ext_resource type="Texture2D" uid="uid://b7ppg2gwbdp01" path="res://assets/shady/frames/attack_jump/frame0001.png" id="21_tx6yw"]
 [ext_resource type="Texture2D" uid="uid://dqihs1tsyj02w" path="res://assets/shady/frames/attack_jump/frame0002.png" id="22_yiaru"]
 [ext_resource type="Texture2D" uid="uid://belgetnssrw0p" path="res://assets/shady/frames/attack_jump/frame0003.png" id="23_2cx0h"]
+[ext_resource type="Texture2D" uid="uid://jfsu2fp40tah" path="res://assets/shady/frames/attack_jump/frame0019.png" id="24_mimo3"]
 [ext_resource type="Texture2D" uid="uid://82ak0cdv3dlq" path="res://assets/shady/frames/attack_jump/frame0007.png" id="24_ywisc"]
 [ext_resource type="Texture2D" uid="uid://cbuqemngbqfbq" path="res://assets/shady/frames/attack_jump/frame0008.png" id="25_ijkj2"]
+[ext_resource type="Texture2D" uid="uid://2iy4aqta3or4" path="res://assets/shady/frames/attack_jump/frame0020.png" id="25_w2vth"]
 [ext_resource type="Texture2D" uid="uid://cnge36ckox5yx" path="res://assets/shady/frames/attack_jump/frame0009.png" id="26_1pgyt"]
+[ext_resource type="Texture2D" uid="uid://cyf1rvmwogd0n" path="res://assets/shady/frames/attack_jump/frame0021.png" id="26_wcag3"]
 [ext_resource type="Texture2D" uid="uid://b31y0whpdhah2" path="res://assets/shady/frames/climb/frame0015.png" id="27_vgd7m"]
 [ext_resource type="Texture2D" uid="uid://cckbqg153kf3y" path="res://assets/shady/frames/climb/frame0016.png" id="28_iba7v"]
 [ext_resource type="Texture2D" uid="uid://b5ryomu2exnaq" path="res://assets/shady/frames/climb/frame0017.png" id="29_gh1jk"]
@@ -135,7 +138,7 @@
 [ext_resource type="Texture2D" uid="uid://b0qn5d6eamo28" path="res://assets/shady/frames/climb2/frame0001.png" id="133_tjp7v"]
 [ext_resource type="Texture2D" uid="uid://bgq7t37tt322f" path="res://assets/shady/frames/climb2/frame0002.png" id="134_pwlln"]
 [ext_resource type="Texture2D" uid="uid://d6mc2tba424l" path="res://assets/shady/frames/climb2/frame0003.png" id="135_e6wnb"]
-[ext_resource type="Texture2D" uid="uid://cxuf5gg725ggq" path="res://assets/shady/frames/out_wall/frame0009.png" id="136_acvv5"]
+[ext_resource type="Texture2D" uid="uid://djihiuptgefoq" path="res://assets/shady/frames/out_wall/frame0009.png" id="136_acvv5"]
 [ext_resource type="Texture2D" uid="uid://de0p2qutdh6rj" path="res://assets/shady/frames/out_wall/frame0013.png" id="137_gdp22"]
 [ext_resource type="Texture2D" uid="uid://fgxem21i2gpq" path="res://assets/shady/frames/pickup/frame0001.png" id="138_yok85"]
 [ext_resource type="Texture2D" uid="uid://b2fx7s8kuc05b" path="res://assets/shady/frames/pickup/frame0002.png" id="139_ikcmn"]
@@ -206,7 +209,9 @@
 [ext_resource type="Texture2D" uid="uid://eieg1b5h0bng" path="res://assets/shady/frames/attack_slash/frame0002.png" id="204_qba4a"]
 [ext_resource type="Texture2D" uid="uid://23d7d7vy12pr" path="res://assets/shady/frames/attack_slash/frame0003.png" id="205_e2d6m"]
 [ext_resource type="Texture2D" uid="uid://cste5w4f6bj44" path="res://assets/shady/frames/attack_slash/frame0004.png" id="206_51yve"]
+[ext_resource type="Texture2D" uid="uid://o22oqomyih4x" path="res://assets/shady/frames/climb/frame0013.png" id="207_utp0g"]
 [ext_resource type="Texture2D" uid="uid://bdqdu10h4pvbd" path="res://assets/shady/frames/attack_slash/frame0005.png" id="207_x8b1e"]
+[ext_resource type="Shader" path="res://game/shaders/glowing.gdshader" id="207_xjeho"]
 [ext_resource type="Texture2D" uid="uid://etlr7lr8dy73" path="res://assets/shady/frames/attack_slash/frame0006.png" id="208_ujad4"]
 [ext_resource type="Texture2D" uid="uid://b0v70rwkbx50e" path="res://assets/shady/frames/attack_slash/frame0007.png" id="209_y2ybe"]
 [ext_resource type="Texture2D" uid="uid://chaoe0qok5c4w" path="res://assets/shady/frames/attack_slash/frame0009.png" id="210_6113k"]
@@ -317,7 +322,21 @@ animations = [{
 "texture": ExtResource("23_2cx0h")
 }],
 "loop": false,
-"name": &"attack_jump",
+"name": &"attack_jump1",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("24_mimo3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_w2vth")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_wcag3")
+}],
+"loop": false,
+"name": &"attack_jump2",
 "speed": 10.0
 }, {
 "frames": [{
@@ -1153,6 +1172,13 @@ animations = [{
 "speed": 15.0
 }]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qobwd"]
+shader = ExtResource("207_xjeho")
+shader_parameter/glow_color = Color(1, 1, 1, 1)
+shader_parameter/glow_power = 1.5
+shader_parameter/glow_shift = 1.0
+shader_parameter/glow_radius = 1.0
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_0wrte"]
 animations = [{
 "frames": [{
@@ -1164,6 +1190,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("206_51yve")
+}, {
+"duration": 1.0,
+"texture": ExtResource("207_utp0g")
 }],
 "loop": false,
 "name": &"attack1",
@@ -1178,6 +1207,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("209_y2ybe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("207_utp0g")
 }],
 "loop": false,
 "name": &"attack2",
@@ -1192,6 +1224,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("212_kx6yi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("207_utp0g")
 }],
 "loop": false,
 "name": &"attack3",
@@ -1206,6 +1241,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("215_c6g3c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("207_utp0g")
 }],
 "loop": false,
 "name": &"attack_down",
@@ -1220,6 +1258,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("218_jcf5v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("207_utp0g")
 }],
 "loop": false,
 "name": &"attack_up",
@@ -1234,11 +1275,29 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("221_s8bbi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("207_utp0g")
 }],
 "loop": false,
 "name": &"attack_wall",
 "speed": 10.0
 }]
+
+[sub_resource type="Animation" id="Animation_d8wd0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"attack1"]
+}
 
 [sub_resource type="Animation" id="Animation_08jv0"]
 length = 0.4
@@ -1273,12 +1332,9 @@ tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.1),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"combo1_state"
-}]
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
 }
 
 [sub_resource type="Animation" id="Animation_bcf2i"]
@@ -1314,12 +1370,9 @@ tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.1),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"combo1_state"
-}]
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
 }
 
 [sub_resource type="Animation" id="Animation_lxx71"]
@@ -1417,7 +1470,7 @@ tracks/1/keys = {
 "values": ["attack_finished"]
 }
 
-[sub_resource type="Animation" id="Animation_ck6ow"]
+[sub_resource type="Animation" id="Animation_ih0q3"]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -1441,7 +1494,34 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": ["attack_jump"]
+"values": ["attack_jump1"]
+}
+
+[sub_resource type="Animation" id="Animation_11qjr"]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["attack_jump2"]
 }
 
 [sub_resource type="Animation" id="Animation_oe88a"]
@@ -2731,21 +2811,6 @@ tracks/1/keys = {
 "values": ["wall_jump_start"]
 }
 
-[sub_resource type="Animation" id="Animation_d8wd0"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"attack1"]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eddf2"]
 _data = {
 "RESET": SubResource("Animation_d8wd0"),
@@ -2754,7 +2819,8 @@ _data = {
 "attack3": SubResource("Animation_lxx71"),
 "attack_down": SubResource("Animation_qg2pi"),
 "attack_finished": SubResource("Animation_acvgm"),
-"attack_jump": SubResource("Animation_ck6ow"),
+"attack_jump1": SubResource("Animation_ih0q3"),
+"attack_jump2": SubResource("Animation_11qjr"),
 "attack_up": SubResource("Animation_oe88a"),
 "attack_wall": SubResource("Animation_4peqq"),
 "back": SubResource("Animation_8rr2i"),
@@ -2817,7 +2883,19 @@ radius = 35.0
 height = 200.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bpqpf"]
-size = Vector2(110, 0)
+size = Vector2(120, 0)
+
+[sub_resource type="Gradient" id="Gradient_16t6o"]
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_151gm"]
+gradient = SubResource("Gradient_16t6o")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.770642, 0.284404)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_rrx7w"]
+polygon = PackedVector2Array(-1, 5.3, 1, 5.3, 1.1, 5.5, -1.1, 5.5)
 
 [node name="Shady" type="CharacterBody2D"]
 floor_max_angle = 0.0
@@ -2831,9 +2909,10 @@ autoplay = "idle"
 
 [node name="SlashSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
+material = SubResource("ShaderMaterial_qobwd")
 position = Vector2(0, -21)
 sprite_frames = SubResource("SpriteFrames_0wrte")
-animation = &"attack1"
+animation = &"attack2"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -2870,17 +2949,39 @@ position = Vector2(55, -106)
 target_position = Vector2(10, 0)
 
 [node name="WallRayCast" type="RayCast2D" parent="."]
-target_position = Vector2(55, 0)
+target_position = Vector2(60, 0)
 
 [node name="ClimbRayCast" type="RayCast2D" parent="."]
 position = Vector2(0, -80)
 target_position = Vector2(60, 0)
 
 [node name="ClimbRayCast2" type="RayCast2D" parent="."]
-position = Vector2(0, -100)
+position = Vector2(0, -105)
 target_position = Vector2(60, 0)
 
 [node name="ClimbCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -105)
 shape = SubResource("RectangleShape2D_bpqpf")
 disabled = true
+
+[node name="Label" type="Label" parent="."]
+offset_left = -101.0
+offset_top = -276.0
+offset_right = 101.0
+offset_bottom = -207.0
+theme_override_font_sizes/font_size = 50
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
+position = Vector2(0, -56)
+scale = Vector2(30, 30)
+energy = 0.5
+texture = SubResource("GradientTexture2D_151gm")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+position = Vector2(0, -56)
+scale = Vector2(30, 30)
+occluder = SubResource("OccluderPolygon2D_rrx7w")

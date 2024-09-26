@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://dstmf1qriwhwk"]
+
+[ext_resource type="Shader" path="res://game/shaders/glowing.gdshader" id="1_0x8pj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_328sg"]
+shader = ExtResource("1_0x8pj")
+shader_parameter/glow_color = Color(1, 1, 1, 1)
+shader_parameter/glow_power = 2.5
+shader_parameter/glow_shift = 1.0
+shader_parameter/glow_radius = 1.0
+
+[sub_resource type="Gradient" id="Gradient_m3asf"]
+offsets = PackedFloat32Array(0, 0.28169, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.901961, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ys4qe"]
+gradient = SubResource("Gradient_m3asf")
+width = 6
+height = 8
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.9, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_qr3ed"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="MagicPlace" type="Node2D"]
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+texture_filter = 2
+material = SubResource("ShaderMaterial_328sg")
+amount = 12
+lifetime = 1.5
+texture = SubResource("GradientTexture2D_ys4qe")
+emission_shape = 3
+emission_rect_extents = Vector2(100, 1)
+direction = Vector2(0, -1)
+spread = 0.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+damping_min = 10.0
+damping_max = 15.0
+scale_amount_max = 1.75
+color_ramp = SubResource("Gradient_qr3ed")

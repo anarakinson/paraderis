@@ -22,12 +22,17 @@ extends CharacterBody2D
 @export var speed = 500.0
 @export var jump_velocity = -750
 @export var speed_blink = 150
+@export var koyotee_time = 0.1
 
+@export_category("Effects")
+@export_range(0., 2., 0.1) var slash_glowing = 0.3
+
+@export_category("Parameters")
 @export var health = 5
 
 
 @onready var basic_collision_shape_2d = $BasicCollisionShape2D
-
+@onready var wall_ray_cast_lenght = wall_ray_cast.target_position.x
 
 enum {
 	IDLE,
@@ -35,6 +40,7 @@ enum {
 	MOVE,
 	JUMP,
 	JUMP_START,
+	JUMP_KOYOTEE,
 	FALL,
 	DEATH,
 	CONJURE,
@@ -52,11 +58,47 @@ enum {
 	LOOK_DOWN,
 	WALL_CLIMB,
 	WALL_BOUNCING,
-	ATTACK_START,
+	ATTACK_PROCESS,
 	ATTACK,
-	ATTACK_END,
 	ATTACK_JUMP,
 	ATTACK_WALL,
+	ATTACK_UP,
+	ATTACK_DOWN,
+	ATTACK_END,
+}
+
+
+var state_dict = {
+	IDLE : "IDLE",
+	BORED : "BORED",
+	MOVE : "MOVE",
+	JUMP : "JUMP",
+	JUMP_START : "JUMP_START",
+	JUMP_KOYOTEE : "JUMP_KOYOTEE",
+	FALL : "FALL",
+	DEATH : "DEATH",
+	CONJURE : "CONJURE",
+	MAGIC_ATTACK : "MAGIC_ATTACK",
+	MAGICAL_STATE : "MAGICAL_STATE",
+	DISAPPEAR : "DISAPPEAR",
+	APPEAR : "APPEAR",
+	SIT : "SIT",
+	STAND_UP : "STAND_UP",
+	REST : "REST",
+	LYING : "LYING",
+	FADING : "FADING",
+	WAKE_UP : "WAKE_UP",
+	LOOK_UP : "LOOK_UP",
+	LOOK_DOWN : "LOOK_DOWN",
+	WALL_CLIMB : "WALL_CLIMB",
+	WALL_BOUNCING : "WALL_BOUNCING",
+	ATTACK_PROCESS : "ATTACK_PROCESS",
+	ATTACK : "ATTACK",
+	ATTACK_JUMP : "ATTACK_JUMP",
+	ATTACK_WALL : "ATTACK_WALL",
+	ATTACK_UP : "ATTACK_UP",
+	ATTACK_DOWN : "ATTACK_DOWN",
+	ATTACK_END : "ATTACK_END",
 }
 
 
@@ -64,14 +106,17 @@ enum {
 var face_direction = 1
 var direction = 0
 var time_to_turn = false
+var time_to_climb_up = 0
 
 var state = MOVE
 
 # conditions
+var is_in_attack_cooldown = false
 var is_in_magical_state = false
 var is_floating = false 
 var is_bored = false
 var is_in_combo = false
+var is_koyotee_awailable = false
 var full_idle = true
 
 # stater counters
@@ -116,24 +161,28 @@ func set_direction(coeff = 1):
 	
 	if face_direction == -1:
 		animated_sprite_2d.flip_h = true 
-		wall_ray_cast.target_position.x = -55
-		climb_ray_cast.target_position.x = -60
-		climb_ray_cast_2.target_position.x = -60
+		wall_ray_cast.target_position.x = -wall_ray_cast_lenght
+		climb_ray_cast.target_position.x = -wall_ray_cast_lenght
+		climb_ray_cast_2.target_position.x = -wall_ray_cast_lenght
 	elif face_direction == 1:
 		animated_sprite_2d.flip_h = false 
-		wall_ray_cast.target_position.x = 55
-		climb_ray_cast.target_position.x = 60
-		climb_ray_cast_2.target_position.x = 60
+		wall_ray_cast.target_position.x = wall_ray_cast_lenght
+		climb_ray_cast.target_position.x = wall_ray_cast_lenght
+		climb_ray_cast_2.target_position.x = wall_ray_cast_lenght
 	
 	if direction < 0:
 		face_direction = -1
 	elif direction > 0:
 		face_direction = 1
 
+func _ready() -> void:
+	$PointLight2D.visible = true
+	slash_sprite_2d.material.set_shader_parameter("glow_power", slash_glowing)
 
 
 func _physics_process(delta):
-	print(state, " ", combo_counter, " ", attack_again)
+	print(state, " ", combo_counter, " ", fall_counter)
+	$Label.text = state_dict[state]
 	#print(direction, face_direction)
 	match state:
 		IDLE:
@@ -158,7 +207,7 @@ func _physics_process(delta):
 			set_collision_shape(collider_shape["jump"])
 			jump_state()
 		JUMP_START:
-			set_collision_shape(collider_shape["basic"])
+			set_collision_shape(collider_shape["sit"])
 			pass
 		CONJURE:
 			set_collision_shape(collider_shape["basic"])
@@ -186,23 +235,27 @@ func _physics_process(delta):
 			look_down_state()
 		WALL_CLIMB:
 			set_collision_shape(collider_shape["on_wall"])
-			climb_ledge_state()
+			climb_ledge_state(delta)
 		WALL_BOUNCING:
 			set_collision_shape(collider_shape["on_wall"])
 			wall_bouncing_state()
-		ATTACK_START:
-			set_collision_shape(collider_shape["run"])
-			attack_start()
 		ATTACK:
 			set_collision_shape(collider_shape["run"])
 			attack_state()
+		ATTACK_JUMP:
+			set_collision_shape(collider_shape["jump"])
+			attack_jump_state()
+		ATTACK_WALL:
+			attack_wall_state()
+		ATTACK_UP:
+			attack_up_state()
+		ATTACK_DOWN:
+			attack_down_state()
+		ATTACK_PROCESS:
+			attack_process_state()
 		ATTACK_END:
 			set_collision_shape(collider_shape["basic"])
 			attack_end_state()
-		ATTACK_JUMP:
-			set_collision_shape(collider_shape["run"])
-			attack_jump_state()
-		
 	
 	# Add the gravity.
 	if (not is_on_floor() and not is_floating):
@@ -212,9 +265,11 @@ func _physics_process(delta):
 			velocity.x = 0
 	
 	if velocity.y > 0: 
-		if state != ATTACK_JUMP and state != ATTACK:
+		if state != ATTACK_PROCESS:
 			state = FALL
 		fall_counter += 1 * delta
+	elif velocity.y == 0 and fall_counter < critical_fall_lenght:
+		fall_counter = 0
 	
 	if health <= 0:
 		animation_player.play("collapse_start")
@@ -227,11 +282,17 @@ func _physics_process(delta):
 		direction = Input.get_axis("left", "right")
 	
 	# Handle jump.
-	if (is_on_floor() and Input.is_action_just_pressed("jump")
-	 	and (state == MOVE or state == SIT or state == STAND_UP or state == BORED
-			or state == LOOK_DOWN or state == LOOK_UP)):
-		state = JUMP_START
-		jump_start()
+	if Input.is_action_just_pressed("jump"):
+		if is_on_floor() and (state == MOVE or 
+			state == SIT or state == STAND_UP or state == BORED or
+			state == LOOK_DOWN or state == LOOK_UP):
+			state = JUMP_START
+			jump_start()
+		# koyotee timme
+		elif (state == FALL and fall_counter < koyotee_time and is_koyotee_awailable):
+			state = JUMP_KOYOTEE
+			koyotee_jump_start()
+
 	
 	# wall bouncing
 	if (not is_on_floor() and 
@@ -243,7 +304,7 @@ func _physics_process(delta):
 		wall_bouncing()
 	
 	# ledge climb
-	if ((state == FALL or state == JUMP) and
+	if ((state == FALL or state == JUMP or state == WALL_CLIMB) and
 		climb_ray_cast.is_colliding() and not climb_ray_cast_2.is_colliding()):
 		velocity.x = 100 * face_direction
 		velocity.y = -jump_velocity
@@ -277,6 +338,27 @@ func _physics_process(delta):
 			sit_down()
 		if Input.is_action_pressed("fading"):
 			state = FADING
+	
+	#attack
+	if Input.is_action_just_pressed("attack"):
+		if (state == MOVE or state == BORED or
+			state == LOOK_DOWN or state == LOOK_UP or
+			state == SIT):
+			if Input.is_action_pressed("up"):
+				state = ATTACK_UP
+			else:
+				state = ATTACK
+
+		elif state == FALL or state == JUMP:
+			if Input.is_action_pressed("down"):
+				state = ATTACK_DOWN
+			elif Input.is_action_pressed("up"):
+				state = ATTACK_UP
+			else:
+				state = ATTACK_JUMP
+		
+		elif state == WALL_CLIMB:
+			state = ATTACK_WALL
 	
 	
 	move_and_slide()
@@ -321,10 +403,6 @@ func move_state(delta):
 	elif direction == 0 and Input.is_action_pressed("look_down"):
 		state = LOOK_DOWN
 		
-	#attack
-	if Input.is_action_just_pressed("attack"):
-		state = ATTACK_START
-
 
 
 func idle_state():
@@ -347,22 +425,28 @@ func jump_state():
 		velocity.y = move_toward(velocity.y, 0, -jump_velocity / 2)
 		#velocity.y = -jump_velocity / 2
 		state = FALL
-	if Input.is_action_just_pressed("attack"):
-		state = ATTACK_JUMP
 
 func jump_start():
+	is_koyotee_awailable = false
 	velocity.x = 0
 	animation_player.play("jump_start")
 	await animation_player.animation_finished
 	velocity.y = jump_velocity
 	animation_player.play("jump")
 	state = JUMP
+	
+func koyotee_jump_start():
+	velocity.x = 0
+	velocity.y = jump_velocity
+	animation_player.play("jump")
+	state = JUMP
+	is_koyotee_awailable = false
+
 
 func fall_state():
 	time_to_turn = false
 	if velocity.y == 0:
-		velocity.x = 0
-		full_idle = true
+		full_stop()
 		if fall_counter >= critical_fall_lenght:
 			state = IDLE
 			set_collision_shape(collider_shape["lying"])
@@ -379,12 +463,10 @@ func fall_state():
 		#print(fall_counter)
 		set_direction()
 		animation_player.play("fall")
-	if Input.is_action_just_pressed("attack"):
-		state = ATTACK_JUMP
+
 
 func conjure_state():
-	velocity.x = 0
-	full_idle = true
+	full_stop()
 	animation_player.play("conjure")
 	if Input.is_action_just_released("trick"):
 		state = MOVE
@@ -408,8 +490,7 @@ func magic_attack_state():
 
 func disappear():
 	state = IDLE
-	velocity.x = 0
-	full_idle = true
+	full_stop()
 	is_floating = true
 	animation_player.play("collapse_start")
 	#is_in_magical_state = true 
@@ -429,8 +510,7 @@ func interaction_state():
 	# !!!if restplace near!!!
 	##########################
 	state = IDLE
-	velocity.x = 0
-	full_idle = true
+	full_stop()
 	animation_player.play("rest_start")
 	await animation_player.animation_finished 
 	state = REST 
@@ -461,8 +541,7 @@ func look_down_state():
 
 func sit_down():
 	state = IDLE
-	velocity.x = 0
-	full_idle = true
+	full_stop()
 	set_collision_shape(collider_shape["sit"])
 	animation_player.play("sit_start")
 	await animation_player.animation_finished
@@ -501,8 +580,7 @@ func sit_state():
 
 func stand_up():
 	state = STAND_UP
-	velocity.x = 0
-	full_idle = true
+	full_stop()
 	animation_player.play("sit_end")
 
 
@@ -519,8 +597,7 @@ func is_any_button_pressed():
 
 func wake_up_state():
 	state = IDLE 
-	velocity.x = 0 
-	full_idle = true
+	full_stop()
 	animation_player.play("wake_up")
 	await animation_player.animation_finished
 	state = MOVE 
@@ -534,8 +611,7 @@ func lying_state():
 
 func fading_state():
 	state = IDLE 
-	velocity.x = 0 
-	full_idle = true
+	full_stop()
 	animation_player.play("fading")
 	await animation_player.animation_finished
 	set_collision_shape(collider_shape["lying"])
@@ -543,8 +619,7 @@ func fading_state():
 	state = LYING
 
 
-
-func climb_ledge_state():
+func climb_ledge_state(delta):
 	#print("IS ON WALL")
 	fall_counter = 0
 	$ClimbCollision.disabled = false
@@ -557,11 +632,14 @@ func climb_ledge_state():
 		#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		animation_player.play("on_wall2")
 	if Input.is_action_just_pressed("down"):
+		#state = IDLE
 		animation_player.play("out_wall")
 		face_direction = -face_direction
 		direction = face_direction
 		set_direction()
-	elif Input.is_action_just_pressed("up"):
+		await get_tree().create_timer(0.01).timeout
+		state = FALL
+	elif Input.is_action_just_pressed("up") or time_to_climb_up > 0.3:
 		state = IDLE
 		if not wall_ray_cast.is_colliding():
 			animation_player.play("climb2")
@@ -575,8 +653,14 @@ func climb_ledge_state():
 		stand_up()
 		await animation_player.animation_finished
 		$ClimbCollision.disabled = true
+		time_to_climb_up = 0
 		state = MOVE
-
+	
+	if direction == face_direction:
+		time_to_climb_up += 1 * delta
+		print(time_to_climb_up)
+	elif direction != face_direction:
+		time_to_climb_up = 0
 
 
 func wall_bouncing():
@@ -605,51 +689,44 @@ func wall_bouncing_state():
 	state = FALL
 
 
-func attack_start():
+func attack_state():
 	if is_in_attack_cooldown:
+		state = MOVE
 		return
-	state = ATTACK 
-	velocity.x = 0 
-	full_idle = true
-	run_counter = 0
-	slash_sprite_2d.visible = true
+	state = ATTACK_PROCESS 
+	full_stop()
+	position.x = move_toward(position.x, position.x + face_direction * speed / 20, speed)
 	slash_sprite_2d.flip_h = animated_sprite_2d.flip_h
+	slash_sprite_2d.visible = true
 	if combo_counter == 0:
-		velocity.x = face_direction * speed / 5
 		slash_sprite_2d.play("attack1")
 		animation_player.play("attack1")
 		combo_counter = 1
-		await animation_player.animation_finished
-	if attack_again and combo_counter == 1:
-		attack_again = false
+	elif combo_counter == 1:
 		slash_sprite_2d.play("attack2")
 		animation_player.play("attack2")
-		combo_counter = 2
-		await animation_player.animation_finished
-	if attack_again and combo_counter == 2:
-		attack_again = false
-		slash_sprite_2d.play("attack3")
-		animation_player.play("attack3")
-		combo_counter = 3
-		await animation_player.animation_finished
+		combo_counter = 0
+	await animation_player.animation_finished
 	slash_sprite_2d.visible = false
 	attack_cooldown()
-	combo_counter = 0
-	attack_again = false
-	if combo_counter == 3:
-		state = ATTACK_END
-	else:
-		state = MOVE
+	state = MOVE
+
 
 func attack_jump_state():
 	if is_in_attack_cooldown:
+		state = MOVE
 		return
-	if is_on_floor():
-		velocity.x = 0
-	slash_sprite_2d.visible = true
+	state = ATTACK_PROCESS
 	slash_sprite_2d.flip_h = animated_sprite_2d.flip_h
-	slash_sprite_2d.play("attack1")
-	animation_player.play("attack_jump")
+	slash_sprite_2d.visible = true
+	if combo_counter == 0:
+		slash_sprite_2d.play("attack1")
+		animation_player.play("attack_jump1")
+		combo_counter = 1
+	elif combo_counter == 1:
+		slash_sprite_2d.play("attack2")
+		animation_player.play("attack_jump2")
+		combo_counter = 0
 	await animation_player.animation_finished
 	slash_sprite_2d.visible = false
 	attack_cooldown()
@@ -657,12 +734,14 @@ func attack_jump_state():
 	if is_on_floor() and fall_counter < critical_fall_lenght:
 		state = MOVE
 
+func attack_process_state():
+	if is_on_floor():
+		full_stop()
+
 
 func attack_end_state():
-	#state = MOVE
-	velocity.x = 0 
-	full_idle = true
-	run_counter = 0
+	#state = IDLE
+	full_stop()
 	if Input.is_anything_pressed():
 		state = MOVE
 	animation_player.play("attack_finished")
@@ -670,22 +749,63 @@ func attack_end_state():
 	state = MOVE
 
 
-func combo1_state():
+func attack_wall_state():
+	if is_in_attack_cooldown or !wall_ray_cast.is_colliding():
+		state = WALL_CLIMB
+		return
+	state = ATTACK_PROCESS
+	slash_sprite_2d.flip_h = animated_sprite_2d.flip_h
+	slash_sprite_2d.visible = true
+	slash_sprite_2d.play("attack_wall")
+	animation_player.play("attack_wall")
+	await animation_player.animation_finished
+	slash_sprite_2d.visible = false
+	attack_cooldown()
+	state = WALL_CLIMB
+
+
+func attack_up_state():
+	if is_in_attack_cooldown:
+		state = MOVE
+		return
+	state = ATTACK_PROCESS
+	slash_sprite_2d.flip_h = animated_sprite_2d.flip_h
+	slash_sprite_2d.visible = true
+	slash_sprite_2d.play("attack_up")
+	animation_player.play("attack_up")
+	await animation_player.animation_finished
+	slash_sprite_2d.visible = false
+	attack_cooldown()
+	state = MOVE
+	
+	
+func attack_down_state():
+	if is_in_attack_cooldown:
+		state = MOVE
+		return
+	state = ATTACK_PROCESS
+	slash_sprite_2d.flip_h = animated_sprite_2d.flip_h
+	slash_sprite_2d.visible = true
+	slash_sprite_2d.play("attack_down")
+	animation_player.play("attack_down")
+	await animation_player.animation_finished
+	slash_sprite_2d.visible = false
+	attack_cooldown()
+	state = MOVE
+
+func combo_state():
 	is_in_combo = true
 	await animation_player.animation_finished
 	is_in_combo = false
 
 
-var attack_again = false
-var is_in_attack_cooldown = false
-func attack_state():
-	print("CHECK", combo_counter)
-	if is_in_combo:
-		if Input.is_action_just_pressed("attack"):
-			attack_again = true
-	
-
 func attack_cooldown():
 	is_in_attack_cooldown = true
-	await get_tree().create_timer(0.3).timeout
+	await get_tree().create_timer(0.15).timeout
 	is_in_attack_cooldown = false
+
+func full_stop():
+	velocity.x = 0 
+	full_idle = true
+	run_counter = 0
+	is_koyotee_awailable = true
