@@ -2959,6 +2959,9 @@ target_position = Vector2(60, 0)
 position = Vector2(0, -105)
 target_position = Vector2(60, 0)
 
+[node name="CeilingRayCast" type="RayCast2D" parent="."]
+target_position = Vector2(0, -115)
+
 [node name="ClimbCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -105)
 shape = SubResource("RectangleShape2D_bpqpf")

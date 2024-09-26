@@ -268,7 +268,9 @@ func _physics_process(delta):
 		if state != ATTACK_PROCESS:
 			state = FALL
 		fall_counter += 1 * delta
-	elif velocity.y == 0 and fall_counter < critical_fall_lenght:
+	elif velocity.y == 0:
+		if fall_counter > critical_fall_lenght:
+			fall_hit_state()
 		fall_counter = 0
 	
 	if health <= 0:
@@ -443,22 +445,26 @@ func koyotee_jump_start():
 	is_koyotee_awailable = false
 
 
+func fall_hit_state():
+	state = IDLE
+	fall_counter = 0
+	set_collision_shape(collider_shape["lying"])
+	animation_player.play("fall_hit")
+	await animation_player.animation_finished
+	state = IDLE
+	await get_tree().create_timer(1).timeout
+	state = LYING
+
+
 func fall_state():
 	time_to_turn = false
-	if velocity.y == 0:
+	if velocity.y == 0 and is_on_floor():
 		full_stop()
-		if fall_counter >= critical_fall_lenght:
+		if fall_counter < critical_fall_lenght:
 			state = IDLE
-			set_collision_shape(collider_shape["lying"])
-			animation_player.play("fall_hit")
-			await animation_player.animation_finished
-			await get_tree().create_timer(1).timeout
-			state = LYING
-		else:
 			animation_player.play("landing")
 			await animation_player.animation_finished
 			state = SIT
-		fall_counter = 0
 	elif velocity.y > 0:
 		#print(fall_counter)
 		set_direction()
@@ -730,13 +736,14 @@ func attack_jump_state():
 	await animation_player.animation_finished
 	slash_sprite_2d.visible = false
 	attack_cooldown()
-	state = FALL
-	if is_on_floor() and fall_counter < critical_fall_lenght:
-		state = MOVE
+	state = MOVE
 
 func attack_process_state():
 	if is_on_floor():
 		full_stop()
+		if fall_counter >= critical_fall_lenght:
+			state = FALL
+			fall_hit_state()
 
 
 func attack_end_state():
@@ -777,7 +784,7 @@ func attack_up_state():
 	slash_sprite_2d.visible = false
 	attack_cooldown()
 	state = MOVE
-	
+
 	
 func attack_down_state():
 	if is_in_attack_cooldown:
@@ -809,3 +816,5 @@ func full_stop():
 	full_idle = true
 	run_counter = 0
 	is_koyotee_awailable = true
+	
+	
