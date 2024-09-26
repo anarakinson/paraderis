@@ -28,7 +28,8 @@ extends CharacterBody2D
 @export_range(0., 2., 0.1) var slash_glowing = 0.3
 
 @export_category("Parameters")
-@export var health = 5
+@export_range(1, 30, 1) var health = 5
+@export_range(0., 60., 0.01) var attack_cooldown_time = 0.15
 
 
 @onready var basic_collision_shape_2d = $BasicCollisionShape2D
@@ -630,22 +631,16 @@ func climb_ledge_state(delta):
 	fall_counter = 0
 	$ClimbCollision.disabled = false
 	
-	if wall_ray_cast.is_colliding():
-		animation_player.play("on_wall")
-		if Input.is_action_just_pressed("jump"):
-			wall_bouncing()
-	elif not wall_ray_cast.is_colliding():
-		#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		animation_player.play("on_wall2")
 	if Input.is_action_just_pressed("down"):
-		#state = IDLE
+		$ClimbCollision.disabled = true
+		state = IDLE
 		animation_player.play("out_wall")
 		face_direction = -face_direction
 		direction = face_direction
 		set_direction()
 		await get_tree().create_timer(0.01).timeout
 		state = FALL
-	elif Input.is_action_just_pressed("up") or time_to_climb_up > 0.3:
+	elif Input.is_action_just_pressed("up") or time_to_climb_up > 0.2:
 		state = IDLE
 		if not wall_ray_cast.is_colliding():
 			animation_player.play("climb2")
@@ -661,6 +656,12 @@ func climb_ledge_state(delta):
 		$ClimbCollision.disabled = true
 		time_to_climb_up = 0
 		state = MOVE
+	elif wall_ray_cast.is_colliding():
+		animation_player.play("on_wall")
+		if Input.is_action_just_pressed("jump"):
+			wall_bouncing()
+	elif not wall_ray_cast.is_colliding():
+		animation_player.play("on_wall2")
 	
 	if direction == face_direction:
 		time_to_climb_up += 1 * delta
@@ -741,9 +742,6 @@ func attack_jump_state():
 func attack_process_state():
 	if is_on_floor():
 		full_stop()
-		if fall_counter >= critical_fall_lenght:
-			state = FALL
-			fall_hit_state()
 
 
 func attack_end_state():
@@ -808,7 +806,7 @@ func combo_state():
 
 func attack_cooldown():
 	is_in_attack_cooldown = true
-	await get_tree().create_timer(0.15).timeout
+	await get_tree().create_timer(attack_cooldown_time).timeout
 	is_in_attack_cooldown = false
 
 func full_stop():
