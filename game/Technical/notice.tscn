@@ -11,9 +11,10 @@ radius = 205.292
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1621v"]
 shader = ExtResource("2_sreh2")
 shader_parameter/glow_color = Color(1, 1, 1, 1)
-shader_parameter/glow_power = 3.0
-shader_parameter/glow_shift = 0.9
+shader_parameter/glow_power = 2.0
+shader_parameter/glow_shift = 1.0
 shader_parameter/glow_radius = 1.0
+shader_parameter/glow_enabled = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2vfx0"]
 shader = ExtResource("2_h7qjo")

@@ -1178,6 +1178,7 @@ shader_parameter/glow_color = Color(1, 1, 1, 1)
 shader_parameter/glow_power = 1.5
 shader_parameter/glow_shift = 1.0
 shader_parameter/glow_radius = 1.0
+shader_parameter/glow_enabled = true
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_0wrte"]
 animations = [{
@@ -2935,32 +2936,26 @@ disabled = true
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
-[node name="EdgeDetection" type="RayCast2D" parent="."]
+[node name="RayCasts" type="Node2D" parent="."]
+
+[node name="EdgeDetection" type="RayCast2D" parent="RayCasts"]
 position = Vector2(30, 0)
 target_position = Vector2(0, 120)
 
-[node name="EdgeDetection2" type="RayCast2D" parent="."]
+[node name="EdgeDetection2" type="RayCast2D" parent="RayCasts"]
 position = Vector2(-30, 0)
 target_position = Vector2(0, 120)
 
-[node name="UpRayCast" type="RayCast2D" parent="."]
-visible = false
-position = Vector2(55, -106)
-target_position = Vector2(10, 0)
-
-[node name="WallRayCast" type="RayCast2D" parent="."]
+[node name="WallRayCast" type="RayCast2D" parent="RayCasts"]
 target_position = Vector2(60, 0)
 
-[node name="ClimbRayCast" type="RayCast2D" parent="."]
+[node name="ClimbRayCast" type="RayCast2D" parent="RayCasts"]
 position = Vector2(0, -80)
 target_position = Vector2(60, 0)
 
-[node name="ClimbRayCast2" type="RayCast2D" parent="."]
+[node name="ClimbRayCast2" type="RayCast2D" parent="RayCasts"]
 position = Vector2(0, -105)
 target_position = Vector2(60, 0)
-
-[node name="CeilingRayCast" type="RayCast2D" parent="."]
-target_position = Vector2(0, -115)
 
 [node name="ClimbCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -105)

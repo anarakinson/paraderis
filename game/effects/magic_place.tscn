@@ -8,6 +8,7 @@ shader_parameter/glow_color = Color(1, 1, 1, 1)
 shader_parameter/glow_power = 2.5
 shader_parameter/glow_shift = 1.0
 shader_parameter/glow_radius = 1.0
+shader_parameter/glow_enabled = true
 
 [sub_resource type="Gradient" id="Gradient_m3asf"]
 offsets = PackedFloat32Array(0, 0.28169, 1)
