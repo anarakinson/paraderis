@@ -115,7 +115,7 @@ scale = Vector2(0.5, 0.5)
 [node name="Environment" type="Node2D" parent="."]
 
 [node name="DungeonPlatform_2" parent="Environment" instance=ExtResource("4_78d67")]
-position = Vector2(605.25, 492)
+position = Vector2(605.25, 496)
 scale = Vector2(0.5, 0.5)
 
 [node name="DungeonPlatform_3" parent="Environment" instance=ExtResource("4_78d67")]
@@ -131,11 +131,11 @@ position = Vector2(946, -150)
 scale = Vector2(0.5, 0.5)
 
 [node name="DungeonPlatform_4" parent="Environment" instance=ExtResource("4_78d67")]
-position = Vector2(84.25, 376)
+position = Vector2(84.25, 380)
 scale = Vector2(0.5, 0.5)
 
 [node name="DungeonPlatform_5" parent="Environment" instance=ExtResource("4_78d67")]
-position = Vector2(385.25, 332)
+position = Vector2(385.25, 336)
 scale = Vector2(0.5, 0.5)
 
 [node name="DungeonPlatform_8" parent="Environment" instance=ExtResource("4_78d67")]

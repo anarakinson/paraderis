@@ -140,10 +140,10 @@ var collider_shape : Dictionary = {
 }
 
 func set_collision_shape(shape):
-	basic_collision_shape_2d.shape.radius = move_toward(basic_collision_shape_2d.shape.radius, shape[0], 200)
-	basic_collision_shape_2d.shape.height = move_toward(basic_collision_shape_2d.shape.height, shape[1], 200)
-	basic_collision_shape_2d.rotation_degrees = move_toward(basic_collision_shape_2d.rotation_degrees, shape[2], 200)
-	basic_collision_shape_2d.position.y = move_toward(basic_collision_shape_2d.position.y, shape[3], 200)
+	basic_collision_shape_2d.shape.radius = move_toward(basic_collision_shape_2d.shape.radius, shape[0], 100)
+	basic_collision_shape_2d.shape.height = move_toward(basic_collision_shape_2d.shape.height, shape[1], 100)
+	basic_collision_shape_2d.rotation_degrees = move_toward(basic_collision_shape_2d.rotation_degrees, shape[2], 100)
+	basic_collision_shape_2d.position.y = move_toward(basic_collision_shape_2d.position.y, shape[3], 100)
 
 
 func set_direction(coeff = 1):
@@ -181,7 +181,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta):
-	#print(state, " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
+	print(state_dict[state], " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
 	$Label.text = state_dict[state]
 	match state:
 		IDLE:
@@ -427,8 +427,8 @@ func koyotee_jump_start():
 
 
 func fall_hit_state():
-	state = IDLE
 	full_stop()
+	state = IDLE
 	fall_counter = 0
 	set_collision_shape(collider_shape["lying"])
 	animation_player.play("fall_hit")
@@ -442,8 +442,8 @@ func fall_state():
 	time_to_turn = false
 	if velocity.y == 0 and is_on_floor():
 		if fall_counter < critical_fall_lenght:
-			state = IDLE
 			full_stop()
+			state = IDLE
 			animation_player.play("landing")
 			await animation_player.animation_finished
 			state = SIT
@@ -553,8 +553,8 @@ func sit_state():
 	#if Input.is_action_just_pressed("y_button"):
 		#pass
 	if Input.is_action_just_pressed("attack"):
-		stand_up()
-		await animation_player.animation_finished
+		#stand_up()
+		#await animation_player.animation_finished
 		state = ATTACK
 	if Input.is_action_just_pressed("trick"):
 		stand_up()
@@ -649,7 +649,6 @@ func climb_ledge_state(delta):
 	
 	if direction == face_direction:
 		time_to_climb_up += 1 * delta
-		print(time_to_climb_up)
 	elif direction != face_direction:
 		time_to_climb_up = 0
 
