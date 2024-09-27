@@ -644,10 +644,9 @@ func climb_ledge_state(delta):
 		position.y = move_toward(position.y, new_position_y, speed*2)
 		animation_player.play("climb_finish")
 		await animation_player.animation_finished 
-		stand_up()
-		await animation_player.animation_finished
 		$ClimbCollision.disabled = true
-		state = MOVE
+		state = SIT
+		#stand_up()
 	elif wall_ray_cast.is_colliding():
 		animation_player.play("on_wall")
 		if Input.is_action_just_pressed("jump"):
@@ -664,6 +663,7 @@ func climb_ledge_state(delta):
 
 
 func wall_bouncing():
+	fall_counter = 0
 	state = IDLE
 	velocity.x = 0
 	velocity.y = 0
