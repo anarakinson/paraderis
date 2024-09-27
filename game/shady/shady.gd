@@ -63,13 +63,13 @@ enum {
 	WALL_BOUNCING,
 	ATTACK_PROCESS,
 	ATTACK,
-	ATTACK_JUMP,
 	ATTACK_WALL,
-	ATTACK_UP,
-	ATTACK_DOWN,
 	ATTACK_END,
 }
 
+enum attack_variants {
+	FLOOR, JUMP, UP, DOWN
+}
 
 var state_dict = {
 	IDLE : "IDLE",
@@ -97,10 +97,7 @@ var state_dict = {
 	WALL_BOUNCING : "WALL_BOUNCING",
 	ATTACK_PROCESS : "ATTACK_PROCESS",
 	ATTACK : "ATTACK",
-	ATTACK_JUMP : "ATTACK_JUMP",
 	ATTACK_WALL : "ATTACK_WALL",
-	ATTACK_UP : "ATTACK_UP",
-	ATTACK_DOWN : "ATTACK_DOWN",
 	ATTACK_END : "ATTACK_END",
 }
 
@@ -244,15 +241,9 @@ func _physics_process(delta):
 		ATTACK:
 			set_collision_shape(collider_shape["run"])
 			attack_state()
-		ATTACK_JUMP:
-			set_collision_shape(collider_shape["jump"])
-			attack_jump_state()
 		ATTACK_WALL:
+			set_collision_shape(collider_shape["on_wall"])
 			attack_wall_state()
-		ATTACK_UP:
-			attack_up_state()
-		ATTACK_DOWN:
-			attack_down_state()
 		ATTACK_PROCESS:
 			attack_process_state()
 		ATTACK_END:
@@ -271,7 +262,7 @@ func _physics_process(delta):
 			state = FALL
 		fall_counter += 1 * delta
 	elif velocity.y == 0:
-		if fall_counter > critical_fall_lenght:
+		if fall_counter >= critical_fall_lenght:
 			fall_hit_state()
 		fall_counter = 0
 	
@@ -320,23 +311,11 @@ func _physics_process(delta):
 	elif Input.is_action_just_pressed("attack"):
 		if (state == MOVE or state == BORED or
 			state == LOOK_DOWN or state == LOOK_UP or
-			state == SIT):
-			if Input.is_action_pressed("up"):
-				state = ATTACK_UP
-			else:
-				state = ATTACK
-
-		elif state == FALL or state == JUMP:
-			if Input.is_action_pressed("down"):
-				state = ATTACK_DOWN
-			elif Input.is_action_pressed("up"):
-				state = ATTACK_UP
-			else:
-				state = ATTACK_JUMP
+			state == FALL or state == JUMP):
+			state = ATTACK
 		
 		elif state == WALL_CLIMB:
 			state = ATTACK_WALL
-	
 	
 	# wall bouncing
 	if (not is_on_floor() and 
@@ -428,7 +407,6 @@ func jump_state():
 	set_direction()
 	if not Input.is_action_pressed("jump"):
 		velocity.y = move_toward(velocity.y, 0, -jump_velocity / 2)
-		#velocity.y = -jump_velocity / 2
 		state = FALL
 
 func jump_start():
@@ -574,6 +552,10 @@ func sit_state():
 		velocity.x = move_toward(velocity.x, 0, speed)
 	#if Input.is_action_just_pressed("y_button"):
 		#pass
+	if Input.is_action_just_pressed("attack"):
+		stand_up()
+		await animation_player.animation_finished
+		state = ATTACK
 	if Input.is_action_just_pressed("trick"):
 		stand_up()
 		await animation_player.animation_finished
@@ -703,43 +685,52 @@ func attack_state():
 		state = MOVE
 		return
 	state = ATTACK_PROCESS 
-	full_stop()
-	position.x = move_toward(position.x, position.x + face_direction * speed / 20, speed)
+	if is_on_floor():
+		full_stop()
+		position.x = move_toward(position.x, position.x + face_direction * speed / 20, speed)
 	slash_sprite_2d.flip_h = animated_sprite_2d.flip_h
 	slash_sprite_2d.visible = true
-	if combo_counter == 0:
-		slash_sprite_2d.play("attack1")
-		animation_player.play("attack1")
-		combo_counter = 1
-	elif combo_counter == 1:
-		slash_sprite_2d.play("attack2")
-		animation_player.play("attack2")
-		combo_counter = 0
+	
+	if Input.is_action_pressed("up"):
+		attack_animation(attack_variants.UP)
+	elif Input.is_action_pressed("down") and not is_on_floor():
+		attack_animation(attack_variants.DOWN)
+	else:
+		if is_on_floor():
+			attack_animation(attack_variants.FLOOR)
+		else:
+			attack_animation(attack_variants.JUMP)
 	await animation_player.animation_finished
 	slash_sprite_2d.visible = false
 	attack_cooldown()
 	state = MOVE
 
-
-func attack_jump_state():
-	if is_in_attack_cooldown:
-		attack_cooldown_check()
-		return
-	state = ATTACK_PROCESS
-	slash_sprite_2d.flip_h = animated_sprite_2d.flip_h
-	slash_sprite_2d.visible = true
-	if combo_counter == 0:
-		slash_sprite_2d.play("attack1")
-		animation_player.play("attack_jump1")
-		combo_counter = 1
-	elif combo_counter == 1:
-		slash_sprite_2d.play("attack2")
-		animation_player.play("attack_jump2")
-		combo_counter = 0
-	await animation_player.animation_finished
-	slash_sprite_2d.visible = false
-	attack_cooldown()
-	state = MOVE
+func attack_animation(attack_variant):
+	match attack_variant:
+		attack_variants.FLOOR:
+			if combo_counter == 0:
+				slash_sprite_2d.play("attack1")
+				animation_player.play("attack1")
+				combo_counter = 1
+			elif combo_counter == 1:
+				slash_sprite_2d.play("attack2")
+				animation_player.play("attack2")
+				combo_counter = 0
+		attack_variants.JUMP:
+			if combo_counter == 0:
+				slash_sprite_2d.play("attack1")
+				animation_player.play("attack_jump1")
+				combo_counter = 1
+			elif combo_counter == 1:
+				slash_sprite_2d.play("attack2")
+				animation_player.play("attack_jump2")
+				combo_counter = 0
+		attack_variants.UP:
+			slash_sprite_2d.play("attack_up")
+			animation_player.play("attack_up")
+		attack_variants.DOWN:
+			slash_sprite_2d.play("attack_down")
+			animation_player.play("attack_down")
 
 func attack_process_state():
 	if is_on_floor():
@@ -771,46 +762,10 @@ func attack_wall_state():
 	state = WALL_CLIMB
 
 
-func attack_up_state():
-	if is_in_attack_cooldown:
-		attack_cooldown_check()
-		return
-	state = ATTACK_PROCESS
-	slash_sprite_2d.flip_h = animated_sprite_2d.flip_h
-	slash_sprite_2d.visible = true
-	slash_sprite_2d.play("attack_up")
-	animation_player.play("attack_up")
-	await animation_player.animation_finished
-	slash_sprite_2d.visible = false
-	attack_cooldown()
-	state = MOVE
-
-	
-func attack_down_state():
-	if is_in_attack_cooldown:
-		attack_cooldown_check()
-		return
-	state = ATTACK_PROCESS
-	slash_sprite_2d.flip_h = animated_sprite_2d.flip_h
-	slash_sprite_2d.visible = true
-	slash_sprite_2d.play("attack_down")
-	animation_player.play("attack_down")
-	await animation_player.animation_finished
-	slash_sprite_2d.visible = false
-	attack_cooldown()
-	state = MOVE
-
-
 func attack_cooldown():
 	is_in_attack_cooldown = true
 	await get_tree().create_timer(attack_cooldown_time).timeout
 	is_in_attack_cooldown = false
-	
-func attack_cooldown_check():
-	#if velocity.y > 0:
-		#state = FALL
-	#elif is_on_floor():
-		state = MOVE
 
 func full_stop():
 	velocity.x = 0 
