@@ -2947,7 +2947,6 @@ position = Vector2(0, 100)
 shape = SubResource("RectangleShape2D_tc37f")
 
 [node name="RayCasts" type="Node2D" parent="."]
-z_index = 5
 
 [node name="EdgeDetection" type="RayCast2D" parent="RayCasts"]
 position = Vector2(30, 0)
@@ -2961,7 +2960,7 @@ target_position = Vector2(0, 120)
 target_position = Vector2(60, 0)
 
 [node name="ClimbRayCast" type="RayCast2D" parent="RayCasts"]
-position = Vector2(0, -90)
+position = Vector2(0, -80)
 target_position = Vector2(60, 0)
 
 [node name="ClimbRayCast2" type="RayCast2D" parent="RayCasts"]

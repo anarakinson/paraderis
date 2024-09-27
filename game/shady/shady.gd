@@ -14,6 +14,7 @@ class_name Shady
 @onready var wall_ray_cast: RayCast2D = $RayCasts/WallRayCast
 @onready var climb_ray_cast: RayCast2D = $RayCasts/ClimbRayCast
 @onready var climb_ray_cast_2: RayCast2D = $RayCasts/ClimbRayCast2
+@onready var ceiling_raycast: RayCast2D = $RayCasts/CeilingRaycast
 
 @onready var wall_ray_cast_lenght = wall_ray_cast.target_position.x
 
@@ -25,7 +26,7 @@ class_name Shady
 @export_category("Personal metrics")
 @export_range(1, 10) var is_bored_timer = 2.5
 @export var speed = 500.0
-@export var jump_velocity = -750.0
+@export var jump_velocity = -775.0
 @export var speed_blink = 150.0
 @export var koyotee_time = 0.1
 
@@ -135,8 +136,8 @@ var collider_shape : Dictionary = {
 	"run" : [35, 214, 0, 0],
 	"lying" : [21, 224, 90, 86],
 	"sit" : [61, 122, 0, 46],
-	"jump" : [47, 152, 0, 0],
-	"on_wall" : [35, 200, 0, 0],
+	"jump" : [40, 152, 0, 30],
+	"on_wall" : [35, 214, 0, 0],
 }
 
 func set_collision_shape(shape):
@@ -182,6 +183,8 @@ func _ready() -> void:
 
 func _physics_process(delta):
 	print(state_dict[state], " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
+	if $RayCasts/ClimbRayCast.is_colliding():
+		print("COLLIDING!!!!!!!!!!!!!!!!!!!")
 	$Label.text = state_dict[state]
 	match state:
 		IDLE:
@@ -308,7 +311,7 @@ func _physics_process(delta):
 			koyotee_jump_start()
 	
 	# handle attack
-	elif Input.is_action_just_pressed("attack"):
+	if Input.is_action_just_pressed("attack"):
 		if (state == MOVE or state == BORED or
 			state == LOOK_DOWN or state == LOOK_UP or
 			state == FALL or state == JUMP):
@@ -327,17 +330,19 @@ func _physics_process(delta):
 		wall_bouncing()
 	
 	# ledge climb
-	elif ((state == FALL or state == JUMP or state == WALL_CLIMB) and
-		climb_ray_cast.is_colliding() and not climb_ray_cast_2.is_colliding()):
+	if (
+		#(state == FALL or state == JUMP or state == WALL_CLIMB) and
+		climb_ray_cast.is_colliding() and 
+		not climb_ray_cast_2.is_colliding() and 
+		not ceiling_raycast.is_colliding()
+	):
 		velocity.x = 100 * face_direction
 		velocity.y = -jump_velocity
 		state = WALL_CLIMB
 	
-	
 	if state == WALL_CLIMB:
 		$ClimbCollision.disabled = false
-	elif state == FALL:
-	#else:
+	else:
 		$ClimbCollision.disabled = true
 	
 	
@@ -450,7 +455,6 @@ func fall_state():
 		else:
 			fall_hit_state()
 	elif velocity.y > 0:
-		#print(fall_counter)
 		set_direction()
 		animation_player.play("fall")
 
@@ -538,7 +542,7 @@ func sit_down():
 	state = SIT
 
 func sit_state():
-	if not Input.is_action_pressed("down"):
+	if not Input.is_action_pressed("down") and not ceiling_raycast.is_colliding():
 		stand_up()
 		await animation_player.animation_finished
 		state = MOVE
@@ -546,6 +550,7 @@ func sit_state():
 	if direction:
 		full_idle = false
 		animation_player.play("sit_walk")
+		time_to_turn = false
 		set_direction(0.5)
 	else:
 		animation_player.play("sit_state")
