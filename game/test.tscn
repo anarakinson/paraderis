@@ -143,19 +143,19 @@ position = Vector2(5803, 553)
 scale = Vector2(0.5, 0.5)
 
 [node name="DungeonPlatform_9" parent="Environment" instance=ExtResource("4_78d67")]
-position = Vector2(5993, 323)
+position = Vector2(6024, 323)
 scale = Vector2(0.5, 0.5)
 
 [node name="DungeonPlatform_10" parent="Environment" instance=ExtResource("4_78d67")]
-position = Vector2(6401, 227)
+position = Vector2(6432, 227)
 scale = Vector2(0.5, 0.5)
 
 [node name="DungeonPlatform_11" parent="Environment" instance=ExtResource("4_78d67")]
-position = Vector2(6678, 467)
+position = Vector2(6709, 467)
 scale = Vector2(0.5, 0.5)
 
 [node name="DungeonPlatform_12" parent="Environment" instance=ExtResource("4_78d67")]
-position = Vector2(6533, -33)
+position = Vector2(6564, -33)
 scale = Vector2(0.5, 0.5)
 
 [node name="DungeonPlatform_16" parent="Environment" instance=ExtResource("4_78d67")]
@@ -168,14 +168,6 @@ scale = Vector2(0.5, 0.5)
 
 [node name="DungeonPlatform_18" parent="Environment" instance=ExtResource("4_78d67")]
 position = Vector2(4628.25, -1121)
-scale = Vector2(0.5, 0.5)
-
-[node name="DungeonPlatform_21" parent="Environment" instance=ExtResource("4_78d67")]
-position = Vector2(1194.25, 450)
-scale = Vector2(0.5, 0.5)
-
-[node name="DungeonPlatform_22" parent="Environment" instance=ExtResource("4_78d67")]
-position = Vector2(1830.5, 442)
 scale = Vector2(0.5, 0.5)
 
 [node name="DungeonPlatform_19" parent="Environment" instance=ExtResource("4_78d67")]
@@ -191,11 +183,11 @@ position = Vector2(5047, 168)
 scale = Vector2(0.5, 0.5)
 
 [node name="DungeonPlatform_15" parent="Environment" instance=ExtResource("4_78d67")]
-position = Vector2(5536, 37)
+position = Vector2(5560, 37)
 scale = Vector2(0.5, 0.5)
 
 [node name="DungeonPlatform_14" parent="Environment" instance=ExtResource("4_78d67")]
-position = Vector2(6016, -145)
+position = Vector2(6047, -145)
 scale = Vector2(0.5, 0.5)
 
 [node name="BasicTilemap" parent="." instance=ExtResource("6_nayw8")]

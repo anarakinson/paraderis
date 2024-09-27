@@ -342,7 +342,8 @@ func _physics_process(delta):
 	
 	if state == WALL_CLIMB:
 		$ClimbCollision.disabled = false
-	else:
+	elif state == FALL:
+	#else:
 		$ClimbCollision.disabled = true
 	
 	
@@ -627,13 +628,16 @@ func climb_ledge_state(delta):
 		set_direction()
 		await get_tree().create_timer(0.01).timeout
 		state = FALL
-	elif Input.is_action_just_pressed("up") or time_to_climb_up > 0.2:
+	elif time_to_climb_up > 0.2:
+		time_to_climb_up = 0
+		full_stop()
 		state = IDLE
 		if not wall_ray_cast.is_colliding():
 			animation_player.play("climb2")
 		elif wall_ray_cast.is_colliding():
 			animation_player.play("climb")
 		await animation_player.animation_finished 
+		set_collision_shape(collider_shape["sit"])
 		var new_position_x = position.x + 98 * face_direction * scale.x
 		var new_position_y = position.y - 198 * scale.y
 		position.x = move_toward(position.x, new_position_x, speed*2)
@@ -643,7 +647,6 @@ func climb_ledge_state(delta):
 		stand_up()
 		await animation_player.animation_finished
 		$ClimbCollision.disabled = true
-		time_to_climb_up = 0
 		state = MOVE
 	elif wall_ray_cast.is_colliding():
 		animation_player.play("on_wall")
@@ -654,6 +657,8 @@ func climb_ledge_state(delta):
 	
 	if direction == face_direction:
 		time_to_climb_up += 1 * delta
+	if Input.is_action_pressed("up"):
+		time_to_climb_up += 5 * delta 
 	elif direction != face_direction:
 		time_to_climb_up = 0
 
