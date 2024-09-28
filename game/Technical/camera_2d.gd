@@ -1,6 +1,9 @@
 extends Camera2D
 
-#@onready var player = $"../Deserter"
+
+@onready var blur_rect: ColorRect = $Blur
+@onready var vignette_rect: TextureRect = $Vignette
+
 @export_category("Follow character")
 @export var player : CharacterBody2D
 
@@ -13,7 +16,16 @@ extends Camera2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	global_position = player.global_position
+	blur_rect.scale = Vector2(1/zoom.x, 1/zoom.y)
+	vignette_rect.scale = Vector2(1/zoom.x, 1/zoom.y)
+	blur_rect.position *= blur_rect.scale
+	vignette_rect.position *= vignette_rect.scale
+
+	if player != null:
+		global_position = player.global_position
+		print(zoom, vignette_rect.scale, vignette_rect.position)
+	else:
+		vignette_rect.visible = false
 	pass # Replace with function body.
 
 

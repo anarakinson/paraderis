@@ -6,6 +6,7 @@ class_name Shady
 @onready var slash_sprite_2d: AnimatedSprite2D = $SlashSprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var basic_collision_shape_2d = $BasicCollisionShape2D
+@onready var point_light_2d: PointLight2D = $PointLight2D
 
 @onready var timer: Timer = $Timer
 
@@ -145,6 +146,7 @@ func set_collision_shape(shape):
 	basic_collision_shape_2d.shape.height = move_toward(basic_collision_shape_2d.shape.height, shape[1], 100)
 	basic_collision_shape_2d.rotation_degrees = move_toward(basic_collision_shape_2d.rotation_degrees, shape[2], 100)
 	basic_collision_shape_2d.position.y = move_toward(basic_collision_shape_2d.position.y, shape[3], 100)
+	point_light_2d.global_position = basic_collision_shape_2d.global_position
 
 
 func set_direction(coeff = 1):
@@ -177,15 +179,15 @@ func set_direction(coeff = 1):
 		face_direction = 1
 
 func _ready() -> void:
-	$PointLight2D.visible = true
+	point_light_2d.visible = true
 	slash_sprite_2d.material.set_shader_parameter("glow_power", slash_glowing)
 
 
 func _physics_process(delta):
-	print(state_dict[state], " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
-	if $RayCasts/ClimbRayCast.is_colliding():
-		print("COLLIDING!!!!!!!!!!!!!!!!!!!")
-	$Label.text = state_dict[state]
+	#print(state_dict[state], " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
+	#if $RayCasts/ClimbRayCast.is_colliding():
+		#print("COLLIDING!!!!!!!!!!!!!!!!!!!")
+	#$Label.text = state_dict[state]
 	match state:
 		IDLE:
 			idle_state()
@@ -301,7 +303,7 @@ func _physics_process(delta):
 	# Handle jump.
 	if Input.is_action_just_pressed("jump"):
 		if is_on_floor() and (state == MOVE or 
-			state == SIT or state == STAND_UP or state == BORED or
+			state == STAND_UP or state == BORED or
 			state == LOOK_DOWN or state == LOOK_UP):
 			state = JUMP_START
 			jump_start()
@@ -433,12 +435,14 @@ func koyotee_jump_start():
 
 
 func fall_hit_state():
-	full_stop()
 	state = IDLE
+	velocity.y = 0
+	full_stop()
 	fall_counter = 0
-	set_collision_shape(collider_shape["lying"])
+	set_collision_shape(collider_shape["sit"])
 	animation_player.play("fall_hit")
 	await animation_player.animation_finished
+	set_collision_shape(collider_shape["lying"])
 	state = IDLE
 	await get_tree().create_timer(1).timeout
 	state = LYING
@@ -556,21 +560,25 @@ func sit_state():
 	else:
 		animation_player.play("sit_state")
 		velocity.x = move_toward(velocity.x, 0, speed)
-	#if Input.is_action_just_pressed("y_button"):
-		#pass
-	if Input.is_action_just_pressed("attack"):
-		#stand_up()
-		#await animation_player.animation_finished
-		state = ATTACK
-	if Input.is_action_just_pressed("trick"):
-		stand_up()
-		await animation_player.animation_finished
-		conjure_state()
-		state = CONJURE
-	if Input.is_action_just_pressed("l2_button"):
-		stand_up()
-		await animation_player.animation_finished
-		disappear()
+	if not ceiling_raycast.is_colliding():
+		if Input.is_action_just_pressed("jump"):
+			state = JUMP_START
+			jump_start()
+		#if Input.is_action_just_pressed("y_button"):
+			#pass
+		if Input.is_action_just_pressed("attack"):
+			#stand_up()
+			#await animation_player.animation_finished
+			state = ATTACK
+		if Input.is_action_just_pressed("trick"):
+			stand_up()
+			await animation_player.animation_finished
+			conjure_state()
+			state = CONJURE
+		if Input.is_action_just_pressed("l2_button"):
+			stand_up()
+			await animation_player.animation_finished
+			disappear()
 
 
 func stand_up():
@@ -696,7 +704,6 @@ func attack_state():
 	state = ATTACK_PROCESS 
 	if is_on_floor():
 		full_stop()
-		position.x = move_toward(position.x, position.x + face_direction * speed / 20, speed)
 	slash_sprite_2d.flip_h = animated_sprite_2d.flip_h
 	slash_sprite_2d.visible = true
 	
@@ -706,6 +713,7 @@ func attack_state():
 		attack_animation(attack_variants.DOWN)
 	else:
 		if is_on_floor():
+			position.x = move_toward(position.x, position.x + face_direction * speed / 15, speed)
 			attack_animation(attack_variants.FLOOR)
 		else:
 			attack_animation(attack_variants.JUMP)

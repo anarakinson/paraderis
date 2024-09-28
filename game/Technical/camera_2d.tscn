@@ -39,19 +39,20 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 1)
 
 [node name="SmartCamera2D" type="Camera2D"]
-zoom = Vector2(0.8, 0.8)
 position_smoothing_speed = 3.0
 script = ExtResource("1_b434i")
 
 [node name="Blur" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_ho1kk")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -826.0
-offset_top = -460.0
-offset_right = 793.0
-offset_bottom = 506.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -825.5
+offset_top = -504.5
+offset_right = 825.5
+offset_bottom = 504.5
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -61,10 +62,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -810.0
-offset_top = -473.0
-offset_right = 802.0
-offset_bottom = 481.0
+offset_left = -646.0
+offset_top = -395.0
+offset_right = 649.0
+offset_bottom = 395.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_bhdqc")

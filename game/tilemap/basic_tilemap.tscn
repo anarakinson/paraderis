@@ -1,11 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://ces6d02e2bqyy"]
+[gd_scene load_steps=5 format=3 uid="uid://ces6d02e2bqyy"]
 
 [ext_resource type="Texture2D" uid="uid://44cffq3uurpr" path="res://game/tilemap/block_32x32.png" id="1_51m7k"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_jauyv"]
+polygon = PackedVector2Array(-10, -9.5, 10.25, -9.5, 10.5, 10.25, -10, 10.5)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4v6eh"]
 texture = ExtResource("1_51m7k")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
+0:0/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_jauyv")
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 1:0/0 = 0
 0:1/0 = 0
@@ -13,6 +17,7 @@ texture_region_size = Vector2i(32, 32)
 
 [sub_resource type="TileSet" id="TileSet_1amfs"]
 tile_size = Vector2i(32, 32)
+occlusion_layer_0/light_mask = 1
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_4v6eh")
 

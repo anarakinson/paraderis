@@ -2998,9 +2998,10 @@ autowrap_mode = 3
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 visible = false
-scale = Vector2(45, 30)
-energy = 0.9
-shadow_color = Color(0, 0, 0, 1)
+position = Vector2(0, -56)
+scale = Vector2(40, 35)
+energy = 0.7
+shadow_enabled = true
 texture = SubResource("GradientTexture2D_151gm")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
