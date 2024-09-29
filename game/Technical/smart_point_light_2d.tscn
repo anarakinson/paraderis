@@ -16,6 +16,5 @@ fill_to = Vector2(1, 0.504587)
 visible = false
 scale = Vector2(40, 25)
 energy = 0.8
-shadow_color = Color(0, 0, 0, 1)
 texture = SubResource("GradientTexture2D_53mif")
 script = ExtResource("1_ngd44")

@@ -354,6 +354,11 @@ func _physics_process(delta):
 		is_bored = false
 		bored_counter = 0
 	
+	
+	if (state == IDLE and 
+		edge_detection.is_colliding() != edge_detection_2.is_colliding()):
+		velocity.x += speed * face_direction
+	
 	move_and_slide()
 
 
@@ -398,8 +403,6 @@ func move_state(delta):
 
 
 func idle_state():
-	if (edge_detection.is_colliding() != edge_detection_2.is_colliding()):
-		velocity.x += speed * face_direction
 	pass
 
 func bored_state():

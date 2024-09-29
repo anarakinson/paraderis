@@ -2,14 +2,14 @@
 
 [ext_resource type="Texture2D" uid="uid://44cffq3uurpr" path="res://game/tilemap/block_32x32.png" id="1_51m7k"]
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_jauyv"]
-polygon = PackedVector2Array(-10, -9.5, 10.25, -9.5, 10.5, 10.25, -10, 10.5)
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_datyk"]
+polygon = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4v6eh"]
 texture = ExtResource("1_51m7k")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
-0:0/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_jauyv")
+0:0/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_datyk")
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 1:0/0 = 0
 0:1/0 = 0

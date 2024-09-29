@@ -2994,7 +2994,6 @@ vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-visible = false
 position = Vector2(0, -56)
 scale = Vector2(30, 30)
 occluder = SubResource("OccluderPolygon2D_rrx7w")
