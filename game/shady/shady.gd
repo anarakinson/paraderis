@@ -6,7 +6,6 @@ class_name Shady
 @onready var slash_sprite_2d: AnimatedSprite2D = $SlashSprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var basic_collision_shape_2d = $BasicCollisionShape2D
-@onready var point_light_2d: PointLight2D = $PointLight2D
 
 @onready var timer: Timer = $Timer
 
@@ -15,6 +14,7 @@ class_name Shady
 @onready var wall_ray_cast: RayCast2D = $RayCasts/WallRayCast
 @onready var climb_ray_cast: RayCast2D = $RayCasts/ClimbRayCast
 @onready var climb_ray_cast_2: RayCast2D = $RayCasts/ClimbRayCast2
+@onready var climb_shape_cast: ShapeCast2D = $RayCasts/ClimbShapeCast
 @onready var ceiling_raycast: RayCast2D = $RayCasts/CeilingRaycast
 
 @onready var wall_ray_cast_lenght = wall_ray_cast.target_position.x
@@ -136,7 +136,7 @@ var collider_shape : Dictionary = {
 	"basic" : [21, 214, 0, 0],
 	"run" : [35, 214, 0, 0],
 	"lying" : [21, 224, 90, 86],
-	"sit" : [61, 122, 0, 46],
+	"sit" : [60, 122, 0, 46],
 	"jump" : [40, 152, 0, 30],
 	"on_wall" : [35, 214, 0, 0],
 }
@@ -146,7 +146,8 @@ func set_collision_shape(shape):
 	basic_collision_shape_2d.shape.height = move_toward(basic_collision_shape_2d.shape.height, shape[1], 100)
 	basic_collision_shape_2d.rotation_degrees = move_toward(basic_collision_shape_2d.rotation_degrees, shape[2], 100)
 	basic_collision_shape_2d.position.y = move_toward(basic_collision_shape_2d.position.y, shape[3], 100)
-	point_light_2d.global_position = basic_collision_shape_2d.global_position
+	#point_light_2d.global_position = basic_collision_shape_2d.global_position
+	#point_light_2d.position.y = move_toward(point_light_2d.position.y, position.y, 5)
 
 
 func set_direction(coeff = 1):
@@ -167,11 +168,13 @@ func set_direction(coeff = 1):
 		wall_ray_cast.target_position.x = -wall_ray_cast_lenght
 		climb_ray_cast.target_position.x = -wall_ray_cast_lenght
 		climb_ray_cast_2.target_position.x = -wall_ray_cast_lenght
+		climb_shape_cast.position.x = -100
 	elif face_direction == 1:
 		animated_sprite_2d.flip_h = false 
 		wall_ray_cast.target_position.x = wall_ray_cast_lenght
 		climb_ray_cast.target_position.x = wall_ray_cast_lenght
 		climb_ray_cast_2.target_position.x = wall_ray_cast_lenght
+		climb_shape_cast.position.x = 100
 	
 	if direction < 0:
 		face_direction = -1
@@ -179,15 +182,12 @@ func set_direction(coeff = 1):
 		face_direction = 1
 
 func _ready() -> void:
-	point_light_2d.visible = true
 	slash_sprite_2d.material.set_shader_parameter("glow_power", slash_glowing)
 
 
 func _physics_process(delta):
-	#print(state_dict[state], " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
-	#if $RayCasts/ClimbRayCast.is_colliding():
-		#print("COLLIDING!!!!!!!!!!!!!!!!!!!")
-	#$Label.text = state_dict[state]
+	print(state_dict[state], " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
+	$Label.text = state_dict[state]
 	match state:
 		IDLE:
 			idle_state()
@@ -333,6 +333,7 @@ func _physics_process(delta):
 	
 	# ledge climb
 	if (
+		not is_on_floor() and 
 		#(state == FALL or state == JUMP or state == WALL_CLIMB) and
 		climb_ray_cast.is_colliding() and 
 		not climb_ray_cast_2.is_colliding() and 
@@ -352,7 +353,6 @@ func _physics_process(delta):
 	if Input.is_anything_pressed():
 		is_bored = false
 		bored_counter = 0
-	
 	
 	move_and_slide()
 
@@ -398,9 +398,12 @@ func move_state(delta):
 
 
 func idle_state():
+	if (edge_detection.is_colliding() != edge_detection_2.is_colliding()):
+		velocity.x += speed * face_direction
 	pass
 
 func bored_state():
+	full_stop()
 	if Input.is_anything_pressed():
 		state = MOVE
 	if is_bored:
@@ -441,9 +444,11 @@ func fall_hit_state():
 	fall_counter = 0
 	set_collision_shape(collider_shape["sit"])
 	animation_player.play("fall_hit")
+	if wall_ray_cast.is_colliding():
+		position.x += speed/14 * -face_direction
 	await animation_player.animation_finished
-	set_collision_shape(collider_shape["lying"])
 	state = IDLE
+	set_collision_shape(collider_shape["lying"])
 	await get_tree().create_timer(1).timeout
 	state = LYING
 
@@ -451,6 +456,8 @@ func fall_hit_state():
 func fall_state():
 	time_to_turn = false
 	if velocity.y == 0 and is_on_floor():
+		if edge_detection.is_colliding() != edge_detection_2.is_colliding():
+			velocity.x += speed * face_direction
 		if fall_counter < critical_fall_lenght:
 			full_stop()
 			state = IDLE
@@ -616,6 +623,8 @@ func fading_state():
 	state = IDLE 
 	full_stop()
 	animation_player.play("fading")
+	if wall_ray_cast.is_colliding():
+		position.x += speed/14 * -face_direction
 	await animation_player.animation_finished
 	set_collision_shape(collider_shape["lying"])
 	await get_tree().create_timer(2).timeout
@@ -636,7 +645,7 @@ func climb_ledge_state(delta):
 		set_direction()
 		await get_tree().create_timer(0.01).timeout
 		state = FALL
-	elif time_to_climb_up > 0.2:
+	elif time_to_climb_up > 0.2 and not climb_shape_cast.is_colliding():
 		time_to_climb_up = 0
 		full_stop()
 		state = IDLE
