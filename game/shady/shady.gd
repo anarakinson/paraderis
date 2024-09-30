@@ -12,13 +12,16 @@ class_name Shady
 @onready var edge_detection: RayCast2D = $RayCasts/EdgeDetection
 @onready var edge_detection_2: RayCast2D = $RayCasts/EdgeDetection2
 @onready var wall_ray_cast: RayCast2D = $RayCasts/WallRayCast
+@onready var wall_ray_cast_2: RayCast2D = $RayCasts/WallRayCast2
 @onready var climb_ray_cast: RayCast2D = $RayCasts/ClimbRayCast
 @onready var climb_ray_cast_2: RayCast2D = $RayCasts/ClimbRayCast2
 @onready var climb_shape_cast: ShapeCast2D = $RayCasts/ClimbShapeCast
 @onready var ceiling_raycast: RayCast2D = $RayCasts/CeilingRaycast
+@onready var lyingl_ray_cast: RayCast2D = $RayCasts/LyinglRayCast
+@onready var lyingl_ray_cast_2: RayCast2D = $RayCasts/LyinglRayCast2
 
 @onready var wall_ray_cast_lenght = wall_ray_cast.target_position.x
-
+@onready var camera_position = $CameraPosition
 
 @export_category("Global metrics")
 @export_range(1, 10) var gravity_coeff = 1.75
@@ -30,6 +33,7 @@ class_name Shady
 @export var jump_velocity = -775.0
 @export var speed_blink = 150.0
 @export var koyotee_time = 0.1
+@export var camera_position_point = 600
 
 @export_category("Effects")
 @export_range(0., 2., 0.1) var slash_glowing: float = 0.3
@@ -65,6 +69,7 @@ enum {
 	WALL_BOUNCING,
 	ATTACK_PROCESS,
 	ATTACK,
+	ATTACK_SIT,
 	ATTACK_WALL,
 	ATTACK_END,
 }
@@ -99,6 +104,7 @@ var state_dict = {
 	WALL_BOUNCING : "WALL_BOUNCING",
 	ATTACK_PROCESS : "ATTACK_PROCESS",
 	ATTACK : "ATTACK",
+	ATTACK_SIT : "ATTACK_SIT",
 	ATTACK_WALL : "ATTACK_WALL",
 	ATTACK_END : "ATTACK_END",
 }
@@ -111,6 +117,7 @@ var face_direction = 1
 var direction = 0
 var time_to_turn = false
 var time_to_climb_up = 0
+var fallback_speed = speed / 15
 
 # conditions
 var is_in_attack_cooldown = false
@@ -135,7 +142,7 @@ var collider_shape : Dictionary = {
 # radius, height, rotation, position_y
 	"basic" : [21, 214, 0, 0],
 	"run" : [35, 214, 0, 0],
-	"lying" : [21, 224, 90, 86],
+	"lying" : [15, 135, 90, 92],
 	"sit" : [60, 122, 0, 46],
 	"jump" : [40, 152, 0, 30],
 	"on_wall" : [35, 214, 0, 0],
@@ -175,19 +182,21 @@ func set_direction(coeff = 1):
 		climb_ray_cast.target_position.x = wall_ray_cast_lenght
 		climb_ray_cast_2.target_position.x = wall_ray_cast_lenght
 		climb_shape_cast.position.x = 100
-	
+
 	if direction < 0:
 		face_direction = -1
 	elif direction > 0:
 		face_direction = 1
+	
+	camera_position.position.x = camera_position_point * face_direction
 
 func _ready() -> void:
 	slash_sprite_2d.material.set_shader_parameter("glow_power", slash_glowing)
 
 
 func _physics_process(delta):
-	print(state_dict[state], " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
-	$Label.text = state_dict[state]
+	#print(state_dict[state], " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
+	#$Label.text = state_dict[state]
 	match state:
 		IDLE:
 			idle_state()
@@ -447,8 +456,6 @@ func fall_hit_state():
 	fall_counter = 0
 	set_collision_shape(collider_shape["sit"])
 	animation_player.play("fall_hit")
-	if wall_ray_cast.is_colliding():
-		position.x += speed/14 * -face_direction
 	await animation_player.animation_finished
 	state = IDLE
 	set_collision_shape(collider_shape["lying"])
@@ -520,18 +527,29 @@ func interaction_state():
 	##########################
 	state = IDLE
 	full_stop()
-	animation_player.play("rest_start")
+	if ceiling_raycast.is_colliding():
+		animation_player.play("sit_rest_transition")
+	else:
+		animation_player.play("rest_start")
 	await animation_player.animation_finished 
 	state = REST 
-	
+
+
+
 func rest_state():
 	animation_player.play("rest")
 	
 	if Input.is_anything_pressed():
 		state = IDLE
-		animation_player.play("rest_awake")
-		await animation_player.animation_finished
-		state = MOVE
+
+		if ceiling_raycast.is_colliding():
+			animation_player.play("rest_sit_transition")
+			await animation_player.animation_finished
+			state = SIT 
+		else:
+			animation_player.play("rest_awake")
+			await animation_player.animation_finished
+			state = MOVE
 
 
 func look_up_state():
@@ -580,7 +598,7 @@ func sit_state():
 			#stand_up()
 			#await animation_player.animation_finished
 			state = ATTACK
-		if Input.is_action_just_pressed("trick"):
+		if Input.is_action_pressed("trick"):
 			stand_up()
 			await animation_player.animation_finished
 			conjure_state()
@@ -589,6 +607,20 @@ func sit_state():
 			stand_up()
 			await animation_player.animation_finished
 			disappear()
+		if Input.is_action_just_pressed("y_button"):
+			stand_up()
+			await animation_player.animation_finished
+			interaction_state()
+
+	elif ceiling_raycast.is_colliding():
+		if Input.is_action_just_pressed("attack"):
+			#stand_up()
+			#await animation_player.animation_finished
+			state = ATTACK_SIT
+		if Input.is_action_just_pressed("y_button"):
+			interaction_state()
+
+
 
 
 func stand_up():
@@ -626,8 +658,6 @@ func fading_state():
 	state = IDLE 
 	full_stop()
 	animation_player.play("fading")
-	if wall_ray_cast.is_colliding():
-		position.x += speed/14 * -face_direction
 	await animation_player.animation_finished
 	set_collision_shape(collider_shape["lying"])
 	await get_tree().create_timer(2).timeout

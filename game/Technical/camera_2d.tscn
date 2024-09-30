@@ -40,32 +40,36 @@ fill_to = Vector2(1, 1)
 
 [node name="SmartCamera2D" type="Camera2D"]
 position_smoothing_speed = 3.0
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
 script = ExtResource("1_b434i")
 
-[node name="Blur" type="ColorRect" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="Blur" type="ColorRect" parent="CanvasLayer"]
+visible = false
 material = SubResource("ShaderMaterial_ho1kk")
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -825.5
-offset_top = -504.5
-offset_right = 825.5
-offset_bottom = 504.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -583.0
+offset_top = -309.0
+offset_right = 617.0
+offset_bottom = 293.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Vignette" type="TextureRect" parent="."]
+[node name="Vignette" type="TextureRect" parent="CanvasLayer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -646.0
-offset_top = -395.0
-offset_right = 649.0
-offset_bottom = 395.0
+offset_left = -650.0
+offset_top = -385.0
+offset_right = 645.0
+offset_bottom = 405.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_bhdqc")

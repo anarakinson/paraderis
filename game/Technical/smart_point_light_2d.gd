@@ -2,7 +2,7 @@ extends PointLight2D
 
 @export_category("Follow character")
 @export var player : CharacterBody2D
-var smoothing_distance : float = 25
+var smoothing_distance : float = 22.5
 
 
 # Called when the node enters the scene tree for the first time.

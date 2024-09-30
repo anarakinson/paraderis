@@ -942,6 +942,20 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("153_cnr8y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("154_0olo0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("179_x57rh")
+}],
+"loop": false,
+"name": &"rest_sit_transition",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("156_0msod")
 }],
 "loop": true,
@@ -1037,6 +1051,17 @@ animations = [{
 }],
 "loop": false,
 "name": &"sit_end",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("179_x57rh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("159_g2kho")
+}],
+"loop": false,
+"name": &"sit_rest_transition",
 "speed": 10.0
 }, {
 "frames": [{
@@ -2344,7 +2369,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_73sa0"]
-length = 0.1
+length = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -2352,10 +2377,10 @@ tracks/0/path = NodePath("AnimatedSprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0, 1]
+"values": [0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -2451,6 +2476,33 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": ["rest_awake"]
+}
+
+[sub_resource type="Animation" id="Animation_txr3r"]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["rest_sit_transition"]
 }
 
 [sub_resource type="Animation" id="Animation_a3t3u"]
@@ -2615,6 +2667,33 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": ["sit_end"]
+}
+
+[sub_resource type="Animation" id="Animation_h8bhb"]
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["sit_rest_transition"]
 }
 
 [sub_resource type="Animation" id="Animation_nm30q"]
@@ -2852,12 +2931,14 @@ _data = {
 "pickup": SubResource("Animation_lxjd3"),
 "rest": SubResource("Animation_scfar"),
 "rest_awake": SubResource("Animation_7r20g"),
+"rest_sit_transition": SubResource("Animation_txr3r"),
 "rest_sleep": SubResource("Animation_a3t3u"),
 "rest_start": SubResource("Animation_okcpm"),
 "run": SubResource("Animation_p1xl5"),
 "run_stop": SubResource("Animation_g02px"),
 "run_turn": SubResource("Animation_jfryt"),
 "sit_end": SubResource("Animation_06pl7"),
+"sit_rest_transition": SubResource("Animation_h8bhb"),
 "sit_start": SubResource("Animation_nm30q"),
 "sit_state": SubResource("Animation_idwhd"),
 "sit_walk": SubResource("Animation_3poja"),
@@ -2871,17 +2952,9 @@ _data = {
 radius = 21.0
 height = 214.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lf7dv"]
-radius = 40.0
-height = 152.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_c6a6f"]
-radius = 35.0
-height = 214.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qv33h"]
-radius = 55.0
-height = 122.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vc5v2"]
+radius = 15.0
+height = 135.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tc37f"]
 size = Vector2(35, 0)
@@ -2920,24 +2993,17 @@ libraries = {
 [node name="BasicCollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_d5uql")
 
-[node name="JumpCollisionShape2D2" type="CollisionShape2D" parent="."]
+[node name="LyingCollisionShape2D5" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2(0, 30)
-shape = SubResource("CapsuleShape2D_lf7dv")
-disabled = true
-
-[node name="OnWallCollisionShape2D3" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource("CapsuleShape2D_c6a6f")
-disabled = true
-
-[node name="SitCollisionShape2D4" type="CollisionShape2D" parent="."]
-position = Vector2(0, 46)
-shape = SubResource("CapsuleShape2D_qv33h")
+position = Vector2(0, 92)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_vc5v2")
 disabled = true
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
+
+[node name="CameraPosition" type="Node2D" parent="."]
 
 [node name="LowerPointArea" type="Area2D" parent="."]
 
@@ -2982,6 +3048,7 @@ shape = SubResource("RectangleShape2D_bpqpf")
 disabled = true
 
 [node name="Label" type="Label" parent="."]
+visible = false
 z_index = 3
 offset_left = -205.0
 offset_top = -330.0
