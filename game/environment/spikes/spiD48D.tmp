@@ -3,20 +3,18 @@
 [ext_resource type="Script" path="res://game/environment/spikes/spikes.gd" id="1_0xo84"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xgn2q"]
-size = Vector2(0, 0)
+size = Vector2(90, 20)
 
 [node name="Spikes" type="ColorRect"]
-anchors_preset = -1
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = -45.0
+offset_top = -10.0
+offset_right = 45.0
+offset_bottom = 10.0
 color = Color(1, 0, 0, 0.427451)
 script = ExtResource("1_0xo84")
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(45, 10)
 shape = SubResource("RectangleShape2D_xgn2q")
-
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

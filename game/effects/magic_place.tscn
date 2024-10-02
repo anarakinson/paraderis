@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dstmf1qriwhwk"]
+[gd_scene load_steps=7 format=3 uid="uid://dstmf1qriwhwk"]
 
 [ext_resource type="Shader" path="res://game/shaders/glowing.gdshader" id="1_0x8pj"]
+[ext_resource type="PackedScene" uid="uid://cnv38iiucgso1" path="res://game/environment/checkpoint.tscn" id="2_dbxow"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_328sg"]
 shader = ExtResource("1_0x8pj")
@@ -44,3 +45,6 @@ damping_min = 10.0
 damping_max = 15.0
 scale_amount_max = 1.75
 color_ramp = SubResource("Gradient_qr3ed")
+
+[node name="Checkpoint" parent="." instance=ExtResource("2_dbxow")]
+position = Vector2(0, -137)

@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=3 uid="uid://ca5d47lixhsj0"]
+
+[ext_resource type="Texture2D" uid="uid://ckhcqwij6o03t" path="res://game/effects/flies/flies.png" id="1_0oew4"]
+[ext_resource type="Script" path="res://game/effects/flies/flies.gd" id="2_xo5s2"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_yw6v6"]
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="Curve" id="Curve_u676x"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.207865, 0.406593), 1.04788, 1.04788, 0, 0, Vector2(0.831461, 0.362637), -1.19536, -1.19536, 0, 0, Vector2(1, 0), -3.22172, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mj5t7"]
+radius = 28.0713
+
+[node name="Flies" type="CPUParticles2D"]
+material = SubResource("CanvasItemMaterial_yw6v6")
+amount = 6
+lifetime = 4.0
+randomness = 0.3
+lifetime_randomness = 0.1
+texture = ExtResource("1_0oew4")
+emission_shape = 1
+emission_sphere_radius = 20.0
+direction = Vector2(0, -1)
+spread = 90.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 30.0
+angular_velocity_min = 10.0
+angular_velocity_max = 30.0
+orbit_velocity_min = -0.5
+orbit_velocity_max = 0.5
+linear_accel_min = 1.0
+linear_accel_max = 5.0
+radial_accel_min = -10.0
+radial_accel_max = 10.0
+damping_min = 1.0
+damping_max = 1.0
+angle_min = -45.0
+angle_max = 45.0
+scale_amount_curve = SubResource("Curve_u676x")
+color = Color(1, 1, 1, 0.741176)
+anim_speed_min = 10.0
+anim_speed_max = 25.0
+script = ExtResource("2_xo5s2")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_mj5t7")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

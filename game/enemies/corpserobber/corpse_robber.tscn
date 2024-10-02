@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://q83fln75fdb2"]
+
+[ext_resource type="Script" path="res://game/enemies/corpserobber/corpse_robber.gd" id="1_2h0tv"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4akq2"]
+radius = 22.0
+height = 74.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f0s5r"]
+
+[node name="CorpseRobber" type="CharacterBody2D"]
+script = ExtResource("1_2h0tv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_4akq2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_f0s5r")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

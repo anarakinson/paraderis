@@ -6,6 +6,7 @@ class_name Shady
 @onready var slash_sprite_2d: AnimatedSprite2D = $SlashSprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var basic_collision_shape_2d = $BasicCollisionShape2D
+@onready var hitpoints: Node2D = $Hitpoints
 
 @onready var timer: Timer = $Timer
 
@@ -33,13 +34,12 @@ class_name Shady
 @export var jump_velocity = -775.0
 @export var speed_blink = 150.0
 @export var koyotee_time = 0.1
-@export var camera_position_point = 600
+@export var camera_position_point = 250
 
 @export_category("Effects")
-@export_range(0., 2., 0.1) var slash_glowing: float = 0.3
+@export_range(0., 2., 0.1) var slash_glowing: float = 1.
 
 @export_category("Parameters")
-@export_range(1, 30, 1) var health: int = 5
 @export_range(0., 60., 0.01) var attack_cooldown_time: float = 0.15
 
 
@@ -198,6 +198,9 @@ func _physics_process(delta):
 	#print(state_dict[state], " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
 	#$Label.text = state_dict[state]
 	match state:
+		DEATH:
+			death_state()
+			return
 		IDLE:
 			idle_state()
 			return
@@ -279,11 +282,6 @@ func _physics_process(delta):
 		if fall_counter >= critical_fall_lenght:
 			fall_hit_state()
 		fall_counter = 0
-	
-	if health <= 0:
-		animation_player.play("collapse_start")
-		health = 0
-		state = DEATH
 	
 
 	# DISABLE INPUT
@@ -833,3 +831,29 @@ func full_stop():
 	is_koyotee_awailable = true
 	
 	
+func return_to_checkpoint():
+	print("return to checkpoint")
+	if state == DEATH:
+		return
+	state = IDLE
+	animation_player.play("collapse_start")
+	await animation_player.animation_finished
+	if GlobalParams.last_checkpoint.global_position != null:
+		global_position = GlobalParams.last_checkpoint.global_position
+	animation_player.play("collapse_end")
+	await animation_player.animation_finished
+	state = MOVE
+	
+
+func _on_hitpoints_hitted() -> void:
+	print("HIT!")
+
+func _on_hitpoints_time_to_die() -> void:
+	print("DIE!")
+	state = DEATH
+	animation_player.play("collapse_start")
+	await animation_player.animation_finished
+	visible = false
+	
+func death_state():
+	pass

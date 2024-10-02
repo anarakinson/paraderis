@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7fshaipt5icl"]
+
+[ext_resource type="Script" path="res://game/global_params.gd" id="1_t4lap"]
+
+[node name="GlobalParams" type="Node2D"]
+script = ExtResource("1_t4lap")

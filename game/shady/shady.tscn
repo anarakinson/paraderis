@@ -1,4 +1,4 @@
-[gd_scene load_steps=293 format=3 uid="uid://clc02tsxv7afg"]
+[gd_scene load_steps=294 format=3 uid="uid://clc02tsxv7afg"]
 
 [ext_resource type="Script" path="res://game/shady/shady.gd" id="1_rfscw"]
 [ext_resource type="Texture2D" uid="uid://dd2lxnwiskudh" path="res://assets/shady/frames/attack/frame0001.png" id="2_tmwfq"]
@@ -225,6 +225,7 @@
 [ext_resource type="Texture2D" uid="uid://cf25ptrn5mh61" path="res://assets/shady/frames/attack_slash_wall/frame0001.png" id="219_1j3c8"]
 [ext_resource type="Texture2D" uid="uid://cesb0f4sqsb42" path="res://assets/shady/frames/attack_slash_wall/frame0002.png" id="220_tqx24"]
 [ext_resource type="Texture2D" uid="uid://cnw03hv3h7nf" path="res://assets/shady/frames/attack_slash_wall/frame0003.png" id="221_s8bbi"]
+[ext_resource type="PackedScene" uid="uid://dfo76dtuybq5s" path="res://game/shady/hitpoints.tscn" id="226_mtdaa"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_flbuy"]
 animations = [{
@@ -3005,6 +3006,11 @@ one_shot = true
 
 [node name="CameraPosition" type="Node2D" parent="."]
 
+[node name="ColorRect" type="ColorRect" parent="CameraPosition"]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 0.270588, 1, 0.411765)
+
 [node name="LowerPointArea" type="Area2D" parent="."]
 
 [node name="Collision2D" type="CollisionShape2D" parent="LowerPointArea"]
@@ -3064,3 +3070,8 @@ autowrap_mode = 3
 position = Vector2(0, -56)
 scale = Vector2(30, 30)
 occluder = SubResource("OccluderPolygon2D_rrx7w")
+
+[node name="Hitpoints" parent="." instance=ExtResource("226_mtdaa")]
+
+[connection signal="hitted" from="Hitpoints" to="." method="_on_hitpoints_hitted"]
+[connection signal="time_to_die" from="Hitpoints" to="." method="_on_hitpoints_time_to_die"]
