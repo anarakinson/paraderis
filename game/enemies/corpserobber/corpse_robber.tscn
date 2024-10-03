@@ -1,20 +1,48 @@
-[gd_scene load_steps=4 format=3 uid="uid://q83fln75fdb2"]
+[gd_scene load_steps=6 format=3 uid="uid://q83fln75fdb2"]
 
 [ext_resource type="Script" path="res://game/enemies/corpserobber/corpse_robber.gd" id="1_2h0tv"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4akq2"]
-radius = 22.0
-height = 74.0
+[ext_resource type="Texture2D" uid="uid://btbadadomkepd" path="res://assets/enemies/corpserobber/corpserobber.png" id="2_mgwu1"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_f0s5r"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_mgwu1")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4akq2"]
+radius = 34.0
+height = 166.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ypr7n"]
+radius = 255.0
+height = 2072.0
 
 [node name="CorpseRobber" type="CharacterBody2D"]
+collision_layer = 4
 script = ExtResource("1_2h0tv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -47)
+sprite_frames = SubResource("SpriteFrames_f0s5r")
+animation = &"idle"
+autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_4akq2")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_f0s5r")
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="SightArea2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SightArea2D"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_ypr7n")
+
+[connection signal="body_entered" from="SightArea2D" to="." method="_on_sight_area_2d_body_entered"]

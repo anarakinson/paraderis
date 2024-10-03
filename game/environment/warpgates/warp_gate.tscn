@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://bfym2768mi2sg"]
+
+[ext_resource type="Texture2D" uid="uid://csgnvx2l720ns" path="res://assets/environment/warpgates/frame0000.png" id="1_yg46m"]
+[ext_resource type="Texture2D" uid="uid://cp5anhxwy5cdb" path="res://assets/environment/warpgates/frame0002.png" id="2_4pnkf"]
+[ext_resource type="Texture2D" uid="uid://dqo0pnfh6l0sg" path="res://assets/environment/warpgates/frame0004.png" id="3_q8rdt"]
+[ext_resource type="Texture2D" uid="uid://d2ph25jnxch0g" path="res://assets/environment/warpgates/frame0006.png" id="4_qmhao"]
+[ext_resource type="Texture2D" uid="uid://cbbcknj4kkwhh" path="res://assets/environment/warpgates/frame0008.png" id="5_wgr20"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u8dit"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_yg46m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_4pnkf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_q8rdt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_qmhao")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_wgr20")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="WarpGate" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_u8dit")
+autoplay = "default"
+frame_progress = 0.0333981

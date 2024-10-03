@@ -2970,6 +2970,7 @@ size = Vector2(120, 0)
 polygon = PackedVector2Array(-1, 5.3, 1, 5.3, 1.1, 5.5, -1.1, 5.5)
 
 [node name="Shady" type="CharacterBody2D"]
+collision_layer = 2
 floor_max_angle = 0.174533
 script = ExtResource("1_rfscw")
 
@@ -3007,6 +3008,7 @@ one_shot = true
 [node name="CameraPosition" type="Node2D" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="CameraPosition"]
+visible = false
 offset_right = 40.0
 offset_bottom = 40.0
 color = Color(1, 0.270588, 1, 0.411765)
