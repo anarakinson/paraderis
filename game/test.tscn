@@ -1,18 +1,19 @@
-[gd_scene load_steps=17 format=4 uid="uid://ml43ca51jhhi"]
+[gd_scene load_steps=18 format=4 uid="uid://ml43ca51jhhi"]
 
 [ext_resource type="PackedScene" uid="uid://ds1euiiacrf38" path="res://game/environment/spruces.tscn" id="1_jfhs3"]
 [ext_resource type="Texture2D" uid="uid://c8pruu2l6ws21" path="res://assets/environment_altar1.png" id="1_oharo"]
-[ext_resource type="PackedScene" uid="uid://7qqerdt571s7" path="res://game/Technical/camera_2d.tscn" id="3_50vj7"]
+[ext_resource type="PackedScene" uid="uid://7qqerdt571s7" path="res://game/technical/camera_2d.tscn" id="3_50vj7"]
 [ext_resource type="PackedScene" uid="uid://clc02tsxv7afg" path="res://game/shady/shady.tscn" id="3_81eks"]
 [ext_resource type="PackedScene" uid="uid://dstmf1qriwhwk" path="res://game/effects/magic_place.tscn" id="3_mbotl"]
 [ext_resource type="PackedScene" uid="uid://bmciyed3n1pf8" path="res://game/environment/dungeon_platform_2.tscn" id="4_78d67"]
-[ext_resource type="PackedScene" uid="uid://bqeid55f53bl2" path="res://game/Technical/smart_point_light_2d.tscn" id="5_hde3q"]
+[ext_resource type="PackedScene" uid="uid://bqeid55f53bl2" path="res://game/technical/smart_point_light_2d.tscn" id="5_hde3q"]
 [ext_resource type="PackedScene" uid="uid://ca5d47lixhsj0" path="res://game/effects/flies/flies.tscn" id="6_binwi"]
 [ext_resource type="PackedScene" uid="uid://ces6d02e2bqyy" path="res://game/tilemap/basic_tilemap.tscn" id="6_nayw8"]
 [ext_resource type="Texture2D" uid="uid://ck71piigf1bjb" path="res://game/effects/flies/shit.png" id="7_t6pvf"]
-[ext_resource type="PackedScene" uid="uid://doaheh44n1n2" path="res://game/Technical/notice.tscn" id="8_0ejdq"]
+[ext_resource type="PackedScene" uid="uid://doaheh44n1n2" path="res://game/technical/notice.tscn" id="8_0ejdq"]
 [ext_resource type="PackedScene" uid="uid://q83fln75fdb2" path="res://game/enemies/corpserobber/corpse_robber.tscn" id="8_jmfiw"]
 [ext_resource type="PackedScene" uid="uid://bfym2768mi2sg" path="res://game/environment/warpgates/warp_gate.tscn" id="10_31ytv"]
+[ext_resource type="PackedScene" uid="uid://b3orl1o8o2xbh" path="res://game/enemies/trampcorpse/trampcorpse.tscn" id="10_crd85"]
 [ext_resource type="PackedScene" uid="uid://bu6upjrdo1w1f" path="res://game/environment/spikes/spikes.tscn" id="10_fxod0"]
 [ext_resource type="PackedScene" uid="uid://cnv38iiucgso1" path="res://game/environment/checkpoint.tscn" id="11_2i2uv"]
 
@@ -102,14 +103,12 @@ flip_h = true
 position = Vector2(1495, 561)
 
 [node name="Spikes" parent="Spikes" instance=ExtResource("10_fxod0")]
-anchors_preset = 0
 offset_left = 1414.0
 offset_top = 158.0
 offset_right = 1740.0
 offset_bottom = 178.0
 
 [node name="Spikes2" parent="Spikes" instance=ExtResource("10_fxod0")]
-anchors_preset = 0
 offset_left = 1430.0
 offset_top = -1343.0
 offset_right = 2373.0
@@ -161,6 +160,7 @@ flip_h = true
 [node name="Flies" parent="Decor" instance=ExtResource("6_binwi")]
 position = Vector2(-3528, 1164)
 scale = Vector2(2, 2)
+is_expandable = true
 
 [node name="Shit" type="Sprite2D" parent="Decor"]
 position = Vector2(-3508, 1164)
@@ -177,11 +177,20 @@ player = NodePath("../Shady")
 position = Vector2(394, 507)
 scale = Vector2(0.5, 0.5)
 
+[node name="Trampcorpse" parent="Enemies" instance=ExtResource("10_crd85")]
+position = Vector2(-630, 150)
+
+[node name="Trampcorpse2" parent="Enemies" instance=ExtResource("10_crd85")]
+position = Vector2(424, -222)
+
+[node name="Trampcorpse3" parent="Enemies" instance=ExtResource("10_crd85")]
+position = Vector2(5246, -130)
+
 [node name="CorpseRobber" parent="Enemies" instance=ExtResource("8_jmfiw")]
-position = Vector2(-788, -1014)
+position = Vector2(3900, 58)
 
 [node name="Shady" parent="." instance=ExtResource("3_81eks")]
-position = Vector2(1508, 587)
+position = Vector2(1508, 589)
 scale = Vector2(0.5, 0.5)
 
 [node name="Camera2D" type="Camera2D" parent="Shady"]

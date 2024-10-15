@@ -49,6 +49,7 @@ anim_speed_max = 25.0
 script = ExtResource("2_xo5s2")
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_mj5t7")

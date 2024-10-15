@@ -31,6 +31,11 @@ enabled=PackedStringArray("res://addons/AS2P/plugin.cfg")
 
 import/blender/enabled=false
 
+[global_group]
+
+enemies="basic enemies"
+env_hazards="environmental hazards, spikes, traps, acid, etc"
+
 [gui]
 
 common/default_scroll_deadzone=-1000
@@ -138,6 +143,8 @@ camera_change={
 2d_physics/layer_1="world"
 2d_physics/layer_2="player"
 2d_physics/layer_3="enemies"
+2d_physics/layer_5="player_hitbox"
+2d_physics/layer_6="enemy_hitbox"
 
 [rendering]
 

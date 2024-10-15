@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://7qqerdt571s7"]
 
-[ext_resource type="Script" path="res://game/Technical/camera_2d.gd" id="1_b434i"]
+[ext_resource type="Script" path="res://game/technical/camera_2d.gd" id="1_b434i"]
 
 [sub_resource type="Shader" id="Shader_3wdtf"]
 code = "shader_type canvas_item;

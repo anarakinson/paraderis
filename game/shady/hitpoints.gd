@@ -2,6 +2,8 @@ extends Node2D
 
 signal time_to_die
 signal hitted
+signal invincibility_start
+signal invincibility_stop
 
 #@onready var player = get_parent()
 

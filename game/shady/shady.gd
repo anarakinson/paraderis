@@ -6,7 +6,9 @@ class_name Shady
 @onready var slash_sprite_2d: AnimatedSprite2D = $SlashSprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var basic_collision_shape_2d = $BasicCollisionShape2D
+
 @onready var hitpoints: Node2D = $Hitpoints
+@onready var damage: Node2D = $Damage
 
 @onready var timer: Timer = $Timer
 
@@ -153,6 +155,7 @@ func set_collision_shape(shape):
 	basic_collision_shape_2d.shape.height = move_toward(basic_collision_shape_2d.shape.height, shape[1], 100)
 	basic_collision_shape_2d.rotation_degrees = move_toward(basic_collision_shape_2d.rotation_degrees, shape[2], 100)
 	basic_collision_shape_2d.position.y = move_toward(basic_collision_shape_2d.position.y, shape[3], 100)
+	damage.set_hurtbox_shape(shape)
 	#point_light_2d.global_position = basic_collision_shape_2d.global_position
 	#point_light_2d.position.y = move_toward(point_light_2d.position.y, position.y, 5)
 
@@ -258,10 +261,14 @@ func _physics_process(delta):
 		ATTACK:
 			set_collision_shape(collider_shape["run"])
 			attack_state()
+		ATTACK_SIT:
+			set_collision_shape(collider_shape["sit"])
+			attack_sit_state()
 		ATTACK_WALL:
 			set_collision_shape(collider_shape["on_wall"])
 			attack_wall_state()
 		ATTACK_PROCESS:
+			climb_ray_cast.target_position.x = 0
 			attack_process_state()
 		ATTACK_END:
 			set_collision_shape(collider_shape["basic"])
@@ -328,6 +335,8 @@ func _physics_process(delta):
 		
 		elif state == WALL_CLIMB:
 			state = ATTACK_WALL
+		elif state == SIT:
+			state = ATTACK_SIT
 	
 	# wall bouncing
 	if (not is_on_floor() and 
@@ -586,16 +595,18 @@ func sit_state():
 	else:
 		animation_player.play("sit_state")
 		velocity.x = move_toward(velocity.x, 0, speed)
+
+	if Input.is_action_just_pressed("attack"):
+		#stand_up()
+		#await animation_player.animation_finished
+		state = ATTACK_SIT
+
 	if not ceiling_raycast.is_colliding():
 		if Input.is_action_just_pressed("jump"):
 			state = JUMP_START
 			jump_start()
 		#if Input.is_action_just_pressed("y_button"):
 			#pass
-		if Input.is_action_just_pressed("attack"):
-			#stand_up()
-			#await animation_player.animation_finished
-			state = ATTACK
 		if Input.is_action_pressed("trick"):
 			stand_up()
 			await animation_player.animation_finished
@@ -611,10 +622,6 @@ func sit_state():
 			interaction_state()
 
 	elif ceiling_raycast.is_colliding():
-		if Input.is_action_just_pressed("attack"):
-			#stand_up()
-			#await animation_player.animation_finished
-			state = ATTACK_SIT
 		if Input.is_action_just_pressed("y_button"):
 			interaction_state()
 
@@ -749,16 +756,20 @@ func attack_state():
 	
 	if Input.is_action_pressed("up"):
 		attack_animation(attack_variants.UP)
+		damage.attack_start("up", face_direction)
 	elif Input.is_action_pressed("down") and not is_on_floor():
 		attack_animation(attack_variants.DOWN)
+		damage.attack_start("down", face_direction)
 	else:
 		if is_on_floor():
 			position.x = move_toward(position.x, position.x + face_direction * speed / 15, speed)
 			attack_animation(attack_variants.FLOOR)
 		else:
 			attack_animation(attack_variants.JUMP)
+		damage.attack_start("basic", face_direction)
 	await animation_player.animation_finished
 	slash_sprite_2d.visible = false
+	damage.attack_end()
 	attack_cooldown()
 	state = MOVE
 
@@ -813,11 +824,26 @@ func attack_wall_state():
 	slash_sprite_2d.visible = true
 	slash_sprite_2d.play("attack_wall")
 	animation_player.play("attack_wall")
+	damage.attack_start("basic", face_direction)
 	await animation_player.animation_finished
 	slash_sprite_2d.visible = false
+	damage.attack_stop()
 	attack_cooldown()
 	state = WALL_CLIMB
 
+func attack_sit_state():
+	if is_in_attack_cooldown:
+		state = SIT
+		return
+	state = ATTACK_PROCESS
+	slash_sprite_2d.flip_h = animated_sprite_2d.flip_h
+	slash_sprite_2d.visible = true
+	slash_sprite_2d.play("attack1")
+	animation_player.play("attack1")
+	await animation_player.animation_finished
+	slash_sprite_2d.visible = false
+	attack_cooldown()
+	state = SIT
 
 func attack_cooldown():
 	is_in_attack_cooldown = true
@@ -857,3 +883,11 @@ func _on_hitpoints_time_to_die() -> void:
 	
 func death_state():
 	pass
+
+
+func _on_hitpoints_invincibility_start() -> void:
+	pass # Replace with function body.
+
+
+func _on_hitpoints_invincibility_stop() -> void:
+	pass # Replace with function body.

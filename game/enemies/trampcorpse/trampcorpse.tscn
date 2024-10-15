@@ -1,20 +1,76 @@
-[gd_scene load_steps=4 format=3 uid="uid://b3orl1o8o2xbh"]
+[gd_scene load_steps=7 format=3 uid="uid://b3orl1o8o2xbh"]
 
 [ext_resource type="Script" path="res://game/enemies/trampcorpse/trampcorpse.gd" id="1_uf2bf"]
+[ext_resource type="Texture2D" uid="uid://docf73585xqk4" path="res://assets/enemies/trampcorpse/trampcorpse.png" id="2_tmsqk"]
+[ext_resource type="PackedScene" uid="uid://chlijv5hltxrj" path="res://game/technical/enemy_damage.tscn" id="3_dscf6"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dt5se"]
-radius = 22.0
-height = 74.0
+[sub_resource type="SpriteFrames" id="SpriteFrames_ku3s7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_tmsqk")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_85bye"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g7p8w"]
+radius = 34.0
+height = 220.0
 
-[node name="Trampcorpse" type="CharacterBody2D"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n60pr"]
+radius = 255.0
+height = 2072.0
+
+[node name="Trampcorpse" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 4
 script = ExtResource("1_uf2bf")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_dt5se")
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_85bye")
+position = Vector2(0, -21)
+sprite_frames = SubResource("SpriteFrames_ku3s7")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_g7p8w")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="SightArea2D" type="Area2D" parent="."]
+visible = false
+collision_layer = 4
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SightArea2D"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_n60pr")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="Label" type="Label" parent="."]
+offset_left = -110.0
+offset_top = -207.0
+offset_right = 109.0
+offset_bottom = -164.0
+theme_override_font_sizes/font_size = 25
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="EdgeDetection" type="RayCast2D" parent="."]
+position = Vector2(50, 0)
+target_position = Vector2(0, 125)
+
+[node name="EnemyDamage" parent="." groups=["enemies"] instance=ExtResource("3_dscf6")]
+
+[connection signal="body_entered" from="SightArea2D" to="." method="_on_sight_area_2d_body_entered"]
+[connection signal="body_exited" from="SightArea2D" to="." method="_on_sight_area_2d_body_exited"]
+[connection signal="death" from="EnemyDamage" to="." method="_on_enemy_damage_death"]
+[connection signal="hitted" from="EnemyDamage" to="." method="_on_enemy_damage_hitted"]
+[connection signal="target_detected" from="EnemyDamage" to="." method="_on_enemy_damage_target_detected"]
+
+[editable path="EnemyDamage"]

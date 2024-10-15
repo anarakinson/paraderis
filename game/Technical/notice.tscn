@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://doaheh44n1n2"]
 
-[ext_resource type="Script" path="res://game/Technical/notice.gd" id="1_npjly"]
+[ext_resource type="Script" path="res://game/technical/notice.gd" id="1_npjly"]
 [ext_resource type="Shader" path="res://game/shaders/gaussian_blur.gdshader" id="2_h7qjo"]
 [ext_resource type="Shader" path="res://game/shaders/glowing.gdshader" id="2_sreh2"]
 [ext_resource type="Texture2D" uid="uid://c8pruu2l6ws21" path="res://assets/environment_altar1.png" id="3_n23a5"]

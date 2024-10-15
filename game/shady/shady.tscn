@@ -1,4 +1,4 @@
-[gd_scene load_steps=294 format=3 uid="uid://clc02tsxv7afg"]
+[gd_scene load_steps=295 format=3 uid="uid://clc02tsxv7afg"]
 
 [ext_resource type="Script" path="res://game/shady/shady.gd" id="1_rfscw"]
 [ext_resource type="Texture2D" uid="uid://dd2lxnwiskudh" path="res://assets/shady/frames/attack/frame0001.png" id="2_tmwfq"]
@@ -226,6 +226,7 @@
 [ext_resource type="Texture2D" uid="uid://cesb0f4sqsb42" path="res://assets/shady/frames/attack_slash_wall/frame0002.png" id="220_tqx24"]
 [ext_resource type="Texture2D" uid="uid://cnw03hv3h7nf" path="res://assets/shady/frames/attack_slash_wall/frame0003.png" id="221_s8bbi"]
 [ext_resource type="PackedScene" uid="uid://dfo76dtuybq5s" path="res://game/shady/hitpoints.tscn" id="226_mtdaa"]
+[ext_resource type="PackedScene" uid="uid://dgtlhvj2shwu6" path="res://game/shady/damage.tscn" id="227_aoeof"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_flbuy"]
 animations = [{
@@ -2986,6 +2987,7 @@ material = SubResource("ShaderMaterial_qobwd")
 position = Vector2(0, -21)
 sprite_frames = SubResource("SpriteFrames_0wrte")
 animation = &"attack2"
+frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -3075,5 +3077,15 @@ occluder = SubResource("OccluderPolygon2D_rrx7w")
 
 [node name="Hitpoints" parent="." instance=ExtResource("226_mtdaa")]
 
+[node name="Damage" parent="." instance=ExtResource("227_aoeof")]
+
+[node name="CollisionShape2D" parent="Damage/Hitbox" index="0"]
+position = Vector2(64, -35)
+rotation = 1.5708
+
 [connection signal="hitted" from="Hitpoints" to="." method="_on_hitpoints_hitted"]
+[connection signal="invincibility_start" from="Hitpoints" to="." method="_on_hitpoints_invincibility_start"]
+[connection signal="invincibility_stop" from="Hitpoints" to="." method="_on_hitpoints_invincibility_stop"]
 [connection signal="time_to_die" from="Hitpoints" to="." method="_on_hitpoints_time_to_die"]
+
+[editable path="Damage"]
