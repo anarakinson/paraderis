@@ -7,6 +7,7 @@ extends CharacterBody2D
 @onready var timer: Timer = $Timer
 @onready var label: Label = $Label
 @onready var edge_detection: RayCast2D = $EdgeDetection
+@onready var wall_detection: ShapeCast2D = $WallDetection
 @onready var enemy_damage: Node2D = $EnemyDamage
 
 @onready var hurtbox_collision: CollisionShape2D = $EnemyDamage/Hurtbox/CollisionShape2D
@@ -98,10 +99,11 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	
-	if not edge_detection.is_colliding() and state != HIT:
+	if (not edge_detection.is_colliding() or wall_detection.is_colliding()) and state != HIT:
 		full_stop()
-	elif is_walking and edge_detection.is_colliding():
+	elif is_walking and edge_detection.is_colliding() and not wall_detection.is_colliding():
 		make_move(delta)
+	
 	
 	#if tracked_character != null:
 		#tracked_character_position = tracked_character.global_position
@@ -118,6 +120,7 @@ func make_move(delta):
 
 
 func set_collision_direction():
+		wall_detection.target_position.x = 80 * direction
 		edge_detection.position.x = 50 * direction
 		attack_collision.position.x = 100 * direction
 		hitbox_collision.position.x = 100 * direction
@@ -154,7 +157,7 @@ func chase_state():
 	set_collision_direction()
 
 func patrol_state():
-	if not edge_detection.is_colliding() and not is_awaiting:
+	if (not edge_detection.is_colliding() or wall_detection.is_colliding()) and not is_awaiting:
 		full_stop()
 		is_awaiting = true
 		timer.start(1)
@@ -237,10 +240,9 @@ func _on_enemy_damage_hitted() -> void:
 	state = HIT
 	full_stop()
 	animation_player.play("hit")
-	velocity = (GlobalParams.shady_params.knockback_force * 
-				GlobalParams.shady_params.attack_direction * 
-				Vector2(1, 0.25))
 	direction = GlobalParams.shady_params.attack_direction.x
+	velocity = (GlobalParams.shady_params.knockback_force * 
+				direction * Vector2(1, 0.25))
 	await animation_player.animation_finished
 	if enemy_damage.hitpoints > 0:
 		full_stop()
@@ -259,9 +261,9 @@ func died():
 	corpse_sprite.position = position
 	corpse_sprite.animated_sprite_2d.flip_h = animated_sprite_2d.flip_h
 	corpse_sprite.visible = true
+	direction = GlobalParams.shady_params.attack_direction.x
 	corpse_sprite.velocity = (GlobalParams.shady_params.knockback_force * 
-				GlobalParams.shady_params.attack_direction * 
-				Vector2(1, 0.25))
+				direction * Vector2(1, 0.25))
 	corpse_sprite.die()
 	queue_free()
 

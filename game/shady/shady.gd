@@ -868,6 +868,7 @@ func return_to_checkpoint():
 	if state == DEATH:
 		return
 	state = IDLE
+	fall_counter = 0
 	animation_player.play("collapse_start")
 	await animation_player.animation_finished
 	if GlobalParams.last_checkpoint.global_position != null:
