@@ -1,27 +1,264 @@
-[gd_scene load_steps=7 format=3 uid="uid://b3orl1o8o2xbh"]
+[gd_scene load_steps=37 format=3 uid="uid://b3orl1o8o2xbh"]
 
 [ext_resource type="Script" path="res://game/enemies/trampcorpse/trampcorpse.gd" id="1_uf2bf"]
-[ext_resource type="Texture2D" uid="uid://docf73585xqk4" path="res://assets/enemies/trampcorpse/trampcorpse.png" id="2_tmsqk"]
+[ext_resource type="Texture2D" uid="uid://wwclh2upfjdr" path="res://assets/enemies/trampcorpse/death/frame0001.png" id="2_q2uw1"]
 [ext_resource type="PackedScene" uid="uid://chlijv5hltxrj" path="res://game/technical/enemy_damage.tscn" id="3_dscf6"]
+[ext_resource type="Texture2D" uid="uid://c1bu8tnce1dfe" path="res://assets/enemies/trampcorpse/death/frame0002.png" id="3_kk8xd"]
+[ext_resource type="Texture2D" uid="uid://dacmscrop3wr1" path="res://assets/enemies/trampcorpse/death/frame0003.png" id="4_7mvts"]
+[ext_resource type="Texture2D" uid="uid://djj2pn1ghcyq5" path="res://assets/enemies/trampcorpse/death/frame0004.png" id="5_sov52"]
+[ext_resource type="Texture2D" uid="uid://df8c2h5d8hcau" path="res://assets/enemies/trampcorpse/death/frame0000.png" id="6_prvpp"]
+[ext_resource type="Texture2D" uid="uid://b4alrub53u2n5" path="res://assets/enemies/trampcorpse/idle/frame0000.png" id="7_ihkcx"]
+[ext_resource type="Texture2D" uid="uid://dg82cjat5gt74" path="res://assets/enemies/trampcorpse/idle/frame0001.png" id="8_h4thk"]
+[ext_resource type="Texture2D" uid="uid://l8k5dqhahbfj" path="res://assets/enemies/trampcorpse/idle/frame0002.png" id="9_jw4qu"]
+[ext_resource type="Texture2D" uid="uid://cptdn65nj3748" path="res://assets/enemies/trampcorpse/idle/frame0003.png" id="10_pyebp"]
+[ext_resource type="Texture2D" uid="uid://b55sn65plwnjb" path="res://assets/enemies/trampcorpse/idle/frame0004.png" id="11_av2sj"]
+[ext_resource type="Texture2D" uid="uid://dcsoe1rvqeks1" path="res://assets/enemies/trampcorpse/idle/frame0005.png" id="12_t0wjo"]
+[ext_resource type="Texture2D" uid="uid://6w6bbhvnrjh" path="res://assets/enemies/trampcorpse/idle/frame0006.png" id="13_go0ee"]
+[ext_resource type="Texture2D" uid="uid://beq75f4l34q7a" path="res://assets/enemies/trampcorpse/idle/frame0007.png" id="14_75eht"]
+[ext_resource type="Texture2D" uid="uid://bi2aovglrpd3j" path="res://assets/enemies/trampcorpse/walk/frame0001.png" id="15_0pjp5"]
+[ext_resource type="Texture2D" uid="uid://c2p30xbexwqod" path="res://assets/enemies/trampcorpse/walk/frame0002.png" id="16_6dxkw"]
+[ext_resource type="Texture2D" uid="uid://s0u5sk3vytbj" path="res://assets/enemies/trampcorpse/walk/frame0003.png" id="17_upodr"]
+[ext_resource type="Texture2D" uid="uid://d0sylmvwj4dma" path="res://assets/enemies/trampcorpse/walk/frame0004.png" id="18_xyw6x"]
+[ext_resource type="Texture2D" uid="uid://1gcqug8eit5d" path="res://assets/enemies/trampcorpse/walk/frame0005.png" id="19_d88pj"]
+[ext_resource type="Texture2D" uid="uid://uharae033rdi" path="res://assets/enemies/trampcorpse/walk/frame0006.png" id="20_xr56l"]
+[ext_resource type="Texture2D" uid="uid://d6nxqesknp38" path="res://assets/enemies/trampcorpse/walk/frame0007.png" id="21_c3vnp"]
+[ext_resource type="Texture2D" uid="uid://btt10e0cp4mam" path="res://assets/enemies/trampcorpse/walk/frame0008.png" id="22_rfefu"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ku3s7"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_tmsqk")
+"texture": ExtResource("2_q2uw1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_kk8xd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_7mvts")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_sov52")
+}],
+"loop": false,
+"name": &"die",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_q2uw1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_prvpp")
+}],
+"loop": false,
+"name": &"hit",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_ihkcx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_h4thk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_jw4qu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_pyebp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_av2sj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_t0wjo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_go0ee")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_75eht")
 }],
 "loop": true,
 "name": &"idle",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("15_0pjp5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_6dxkw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_upodr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_xyw6x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_d88pj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_xr56l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_c3vnp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_rfefu")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 6.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g7p8w"]
 radius = 34.0
-height = 220.0
+height = 216.0
+
+[sub_resource type="Animation" id="Animation_dfalh"]
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["die"]
+}
+
+[sub_resource type="Animation" id="Animation_qn6ku"]
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["hit"]
+}
+
+[sub_resource type="Animation" id="Animation_5thq2"]
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["idle"]
+}
+
+[sub_resource type="Animation" id="Animation_h5k1x"]
+length = 1.33333
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.166667, 0.333333, 0.5, 0.666667, 0.833333, 1, 1.16667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["walk"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2jweo"]
+_data = {
+"die": SubResource("Animation_dfalh"),
+"hit": SubResource("Animation_qn6ku"),
+"idle": SubResource("Animation_5thq2"),
+"walk": SubResource("Animation_h5k1x")
+}
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n60pr"]
 radius = 255.0
 height = 2072.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0r3va"]
+radius = 33.0
+height = 216.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f6w02"]
+radius = 76.0
+height = 152.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a3771"]
+radius = 76.0
+height = 152.0
+
+[sub_resource type="Gradient" id="Gradient_1p56q"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cb1jb"]
+gradient = SubResource("Gradient_1p56q")
+fill = 1
+fill_from = Vector2(0.527523, 0.536697)
+fill_to = Vector2(1, 0.53211)
 
 [node name="Trampcorpse" type="CharacterBody2D" groups=["enemies"]]
 collision_layer = 4
@@ -30,13 +267,16 @@ script = ExtResource("1_uf2bf")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -21)
 sprite_frames = SubResource("SpriteFrames_ku3s7")
-animation = &"idle"
+animation = &"hit"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_g7p8w")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_2jweo")
+}
 
 [node name="SightArea2D" type="Area2D" parent="."]
 visible = false
@@ -66,6 +306,25 @@ position = Vector2(50, 0)
 target_position = Vector2(0, 125)
 
 [node name="EnemyDamage" parent="." groups=["enemies"] instance=ExtResource("3_dscf6")]
+
+[node name="CollisionShape2D" parent="EnemyDamage/Hurtbox" index="0"]
+shape = SubResource("CapsuleShape2D_0r3va")
+
+[node name="CollisionShape2D" parent="EnemyDamage/Hitbox" index="0"]
+shape = SubResource("CapsuleShape2D_f6w02")
+
+[node name="CollisionShape2D" parent="EnemyDamage/AttackArea" index="0"]
+shape = SubResource("CapsuleShape2D_a3771")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(1, -131)
+energy = 0.2
+texture = SubResource("GradientTexture2D_cb1jb")
+
+[node name="PointLight2D2" type="PointLight2D" parent="."]
+position = Vector2(-44, -45)
+energy = 0.2
+texture = SubResource("GradientTexture2D_cb1jb")
 
 [connection signal="body_entered" from="SightArea2D" to="." method="_on_sight_area_2d_body_entered"]
 [connection signal="body_exited" from="SightArea2D" to="." method="_on_sight_area_2d_body_exited"]

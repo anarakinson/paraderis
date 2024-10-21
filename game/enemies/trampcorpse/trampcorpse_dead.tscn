@@ -1,0 +1,114 @@
+[gd_scene load_steps=10 format=3 uid="uid://ce8jh7vio7ny5"]
+
+[ext_resource type="Texture2D" uid="uid://wwclh2upfjdr" path="res://assets/enemies/trampcorpse/death/frame0001.png" id="2_ptu6l"]
+[ext_resource type="Texture2D" uid="uid://c1bu8tnce1dfe" path="res://assets/enemies/trampcorpse/death/frame0002.png" id="3_tof43"]
+[ext_resource type="Texture2D" uid="uid://dacmscrop3wr1" path="res://assets/enemies/trampcorpse/death/frame0003.png" id="4_dp3pn"]
+[ext_resource type="Texture2D" uid="uid://djj2pn1ghcyq5" path="res://assets/enemies/trampcorpse/death/frame0004.png" id="5_lnomu"]
+
+[sub_resource type="GDScript" id="GDScript_qf8ic"]
+script/source = "extends CharacterBody2D
+
+
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
+
+@export_category(\"Personal metrics\")
+@export var speed = 2000.0
+@export var jump_velocity = -775.0
+@export var hit_inertion = 1000
+# Get the gravity from the project settings to be synced with RigidBody nodes.
+var gravity = ProjectSettings.get_setting(\"physics/2d/default_gravity\") * GlobalParams.gravity_coeff
+
+var direction = 0
+var is_animation_finished = false
+
+func _ready() -> void:
+	#visible = false
+	pass
+
+func _physics_process(delta: float) -> void:
+
+	velocity.x = move_toward(velocity.x, 0, hit_inertion * delta)
+	# Add the gravity.
+	if not is_on_floor():
+		velocity.y += gravity * delta
+	
+	if is_animation_finished:
+		if velocity.y == 0:
+			animated_sprite_2d.play(\"dead\")
+		else:
+			animated_sprite_2d.play(\"fall\")
+
+	move_and_slide()
+
+func die():
+	animated_sprite_2d.play(\"die\")
+	await animated_sprite_2d.animation_finished
+	is_animation_finished = true
+"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ku3s7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_lnomu")
+}],
+"loop": false,
+"name": &"dead",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ptu6l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_tof43")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_dp3pn")
+}],
+"loop": false,
+"name": &"die",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_dp3pn")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g7p8w"]
+radius = 34.0
+height = 216.0
+
+[sub_resource type="Gradient" id="Gradient_1p56q"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cb1jb"]
+gradient = SubResource("Gradient_1p56q")
+fill = 1
+fill_from = Vector2(0.527523, 0.536697)
+fill_to = Vector2(1, 0.53211)
+
+[node name="TrampcorpseCorpse" type="CharacterBody2D"]
+collision_layer = 4
+floor_max_angle = 0.0
+floor_snap_length = 6.5
+script = SubResource("GDScript_qf8ic")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -21)
+sprite_frames = SubResource("SpriteFrames_ku3s7")
+animation = &"fall"
+autoplay = "dead"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_g7p8w")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(-119, 90)
+energy = 0.2
+texture = SubResource("GradientTexture2D_cb1jb")

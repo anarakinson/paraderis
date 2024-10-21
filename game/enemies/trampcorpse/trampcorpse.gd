@@ -21,18 +21,23 @@ extends CharacterBody2D
 @export_category("Personal metrics")
 @export var speed = 2000.0
 @export var jump_velocity = -775.0
+@export var hit_inertion = 1500
+@export var idle_stand : bool = false 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * GlobalParams.gravity_coeff
 
-var direction = 0
+var direction = 1
 var is_walking = false
 var tracked_character : CharacterBody2D = null
 var tracked_character_position : Vector2 = Vector2(0, 0)
 
 var is_awaiting = false
+#var is_knocked_back = false 
+
 
 enum {
 	IDLE,
+	STAND,
 	PATROL,
 	CHASE,
 	ATTACK,
@@ -44,6 +49,8 @@ var state : int = IDLE:
 	set(value):
 		state = value
 		match state:
+			DEATH:
+				died()
 			IDLE:
 				pass
 			PATROL:
@@ -54,29 +61,44 @@ var state : int = IDLE:
 				pass
 			HIT:
 				pass
-			DEATH:
+			STAND:
 				pass
 
 
 func _ready() -> void:
-	state = PATROL
 	enemy_damage.hitpoints = hitpoints
 	enemy_damage.damage = damage
-
+	animation_player.play("idle")
+	state = PATROL
+	if idle_stand:
+		state = STAND
 
 func _physics_process(delta: float) -> void:
+	#print(state)
 	
-	if state == CHASE:
+	if state == DEATH:
+		return
+	elif state == CHASE:
 		chase_state()
 	elif state == PATROL:
 		patrol_state()
-
-
+	elif state == HIT:
+		velocity.x = move_toward(velocity.x, 0, hit_inertion * delta)
+		#velocity.y = move_toward(velocity.y, 0, hit_inertion * delta)
+	if state == HIT:
+		modulate.g = 0
+		modulate.b = 0
+		$EnemyDamage/Hurtbox/CollisionShape2D.disabled = true
+	else:
+		modulate.g = 1
+		modulate.b = 1
+		$EnemyDamage/Hurtbox/CollisionShape2D.disabled = false
+	
 	# Add the gravity.
 	if not is_on_floor():
-		velocity += get_gravity() * delta
+		velocity.y += gravity * delta
 	
-	if not edge_detection.is_colliding():
+	if not edge_detection.is_colliding() and state != HIT:
 		full_stop()
 	elif is_walking and edge_detection.is_colliding():
 		make_move(delta)
@@ -123,6 +145,12 @@ func chase_state():
 			direction = 1
 		else:
 			direction = 0
+
+	if velocity.x == 0:
+		animation_player.play("idle")
+	elif velocity.x != 0:
+		animation_player.play("walk")
+
 	set_collision_direction()
 
 func patrol_state():
@@ -149,9 +177,19 @@ func patrol_state():
 			var time = randf_range(1, 4)
 			timer.start(time)
 
+	if is_walking:
+		animation_player.play("walk")
+	elif not is_walking:
+		animation_player.play("idle")
+	#if velocity.x == 0:
+		#animation_player.play("idle")
+	#elif velocity.x != 0:
+		#animation_player.play("walk")
+
 
 func awared():
 	state = IDLE
+	animation_player.play("idle")
 	label.text = "see ya!"
 	full_stop()
 	timer.stop()
@@ -162,6 +200,7 @@ func awared():
 
 func distracted():
 	state = IDLE
+	animation_player.play("idle")
 	label.text = "wtf..."
 	full_stop()
 	timer.stop()
@@ -172,11 +211,15 @@ func distracted():
 
 
 func _on_sight_area_2d_body_entered(body: Node2D) -> void:
+	if state == DEATH:
+		return
 	if body.name == "Shady":
 		awared()
 		tracked_character = body
 
 func _on_sight_area_2d_body_exited(body: Node2D) -> void:
+	if state == DEATH:
+		return
 	if body.name == "Shady":
 		distracted()
 		tracked_character = null
@@ -188,17 +231,49 @@ func full_stop():
 
 
 func _on_enemy_damage_hitted() -> void:
+	if state == DEATH:
+		return
 	print("AAAA")
+	state = HIT
+	full_stop()
+	animation_player.play("hit")
+	velocity = (GlobalParams.shady_params.knockback_force * 
+				GlobalParams.shady_params.attack_direction * 
+				Vector2(1, 0.25))
+	direction = GlobalParams.shady_params.attack_direction.x
+	await animation_player.animation_finished
+	if enemy_damage.hitpoints > 0:
+		full_stop()
+		state = PATROL
+		if tracked_character != null:
+			state = CHASE
 
 
 func died():
+	full_stop()
 	print("NOOOOOOOO")
-	state = DEATH
+	#animation_player.play("die")
+	var corpse_sprite = preload("res://game/enemies/trampcorpse/trampcorpse_dead.tscn").instantiate()
+	get_parent().add_child(corpse_sprite)
+	#await animation_player.animation_finished
+	corpse_sprite.position = position
+	corpse_sprite.animated_sprite_2d.flip_h = animated_sprite_2d.flip_h
+	corpse_sprite.visible = true
+	corpse_sprite.velocity = (GlobalParams.shady_params.knockback_force * 
+				GlobalParams.shady_params.attack_direction * 
+				Vector2(1, 0.25))
+	corpse_sprite.die()
 	queue_free()
 
 
 func _on_enemy_damage_death() -> void:
-	died()
+	state = DEATH
+	#pass
+
 
 func _on_enemy_damage_target_detected() -> void:
 	print("attack")
+
+
+func instant_death():
+	state = DEATH

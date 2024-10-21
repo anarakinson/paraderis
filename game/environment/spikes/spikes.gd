@@ -20,7 +20,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		body.hitpoints.decrease(1)
 		body.return_to_checkpoint()
 	elif body.is_in_group("enemies"):
-		body.died()
+		body.instant_death()
 
 #func _on_area_2d_area_entered(area: Area2D) -> void:
 	#if body.name == "Hurtbox":

@@ -259,6 +259,7 @@ func _physics_process(delta):
 			set_collision_shape(collider_shape["on_wall"])
 			wall_bouncing_state()
 		ATTACK:
+			climb_ray_cast.target_position.x = 0
 			set_collision_shape(collider_shape["run"])
 			attack_state()
 		ATTACK_SIT:
@@ -784,6 +785,7 @@ func attack_animation(attack_variant):
 				slash_sprite_2d.play("attack2")
 				animation_player.play("attack2")
 				combo_counter = 0
+			GlobalParams.shady_params.attack_direction = Vector2(face_direction, 0)
 		attack_variants.JUMP:
 			if combo_counter == 0:
 				slash_sprite_2d.play("attack1")
@@ -793,12 +795,16 @@ func attack_animation(attack_variant):
 				slash_sprite_2d.play("attack2")
 				animation_player.play("attack_jump2")
 				combo_counter = 0
+			GlobalParams.shady_params.attack_direction = Vector2(face_direction, 0)
 		attack_variants.UP:
 			slash_sprite_2d.play("attack_up")
 			animation_player.play("attack_up")
+			GlobalParams.shady_params.attack_direction = Vector2(0, -1)
 		attack_variants.DOWN:
 			slash_sprite_2d.play("attack_down")
 			animation_player.play("attack_down")
+			GlobalParams.shady_params.attack_direction = Vector2(0, 1)
+
 
 func attack_process_state():
 	if is_on_floor():

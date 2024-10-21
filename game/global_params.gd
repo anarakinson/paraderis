@@ -14,6 +14,9 @@ class ShadyParams:
 	
 	var current_state : int = Shady.MOVE
 	var transition_state : int = Shady.MOVE
+	
+	var knockback_force = 400
+	var attack_direction = Vector2(0, 0)
 
 var shady_params : ShadyParams
 
