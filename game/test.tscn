@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://ml43ca51jhhi"]
+[gd_scene load_steps=19 format=4 uid="uid://ml43ca51jhhi"]
 
 [ext_resource type="PackedScene" uid="uid://ds1euiiacrf38" path="res://game/environment/spruces.tscn" id="1_jfhs3"]
 [ext_resource type="Texture2D" uid="uid://c8pruu2l6ws21" path="res://assets/environment_altar1.png" id="1_oharo"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://b3orl1o8o2xbh" path="res://game/enemies/trampcorpse/trampcorpse.tscn" id="10_crd85"]
 [ext_resource type="PackedScene" uid="uid://bu6upjrdo1w1f" path="res://game/environment/spikes/spikes.tscn" id="10_fxod0"]
 [ext_resource type="PackedScene" uid="uid://cnv38iiucgso1" path="res://game/environment/checkpoint.tscn" id="11_2i2uv"]
+[ext_resource type="PackedScene" uid="uid://draf4jcw4rp4e" path="res://game/UI/ingame_interface.tscn" id="16_n1v4j"]
 
 [sub_resource type="GDScript" id="GDScript_m6ajv"]
 script/source = "extends Node2D
@@ -56,12 +57,11 @@ position = Vector2(2050, 982)
 script = SubResource("GDScript_m6ajv")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 offset_left = -3101.0
 offset_top = -2678.0
 offset_right = 9592.0
 offset_bottom = 2368.0
-color = Color(0, 0, 0, 1)
+color = Color(0.585062, 0.585062, 0.585062, 1)
 
 [node name="Background" type="Node2D" parent="."]
 visible = false
@@ -143,12 +143,12 @@ texture = ExtResource("1_oharo")
 flip_h = true
 
 [node name="Flies" parent="Decor" instance=ExtResource("6_binwi")]
-position = Vector2(-3528, 1164)
+position = Vector2(-4706, 1740)
 scale = Vector2(2, 2)
 is_expandable = true
 
 [node name="Shit" type="Sprite2D" parent="Decor"]
-position = Vector2(-3508, 1164)
+position = Vector2(-4703, 1740)
 texture = ExtResource("7_t6pvf")
 
 [node name="WarpGate" parent="Decor" instance=ExtResource("10_31ytv")]
@@ -168,8 +168,23 @@ position = Vector2(424, -222)
 [node name="Trampcorpse3" parent="Enemies" instance=ExtResource("10_crd85")]
 position = Vector2(-396, 158)
 
+[node name="Trampcorpse6" parent="Enemies" instance=ExtResource("10_crd85")]
+position = Vector2(2326, -1598)
+
+[node name="Trampcorpse7" parent="Enemies" instance=ExtResource("10_crd85")]
+position = Vector2(3602, -1576)
+
+[node name="Trampcorpse8" parent="Enemies" instance=ExtResource("10_crd85")]
+position = Vector2(3898, -1584)
+
+[node name="Trampcorpse9" parent="Enemies" instance=ExtResource("10_crd85")]
+position = Vector2(4656, -1592)
+
+[node name="Trampcorpse10" parent="Enemies" instance=ExtResource("10_crd85")]
+position = Vector2(4998, -1578)
+
 [node name="Trampcorpse5" parent="Enemies" instance=ExtResource("10_crd85")]
-position = Vector2(2182, 716)
+position = Vector2(2256, 732)
 hitpoints = 1
 
 [node name="Trampcorpse4" parent="Enemies" instance=ExtResource("10_crd85")]
@@ -387,6 +402,7 @@ notice = "you are so close"
 
 [node name="SmartCamera2D" parent="." node_paths=PackedStringArray("player") instance=ExtResource("3_50vj7")]
 visible = false
+zoom = Vector2(0.6, 0.6)
 limit_left = -375
 limit_top = -600
 limit_right = 10850
@@ -404,6 +420,10 @@ visible = false
 position = Vector2(1495, 561)
 energy = 0.95
 blend_mode = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="IngameInterface" parent="CanvasLayer" instance=ExtResource("16_n1v4j")]
 
 [node name="Checkpoints" type="Node2D" parent="."]
 position = Vector2(1495, 561)

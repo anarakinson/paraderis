@@ -240,7 +240,7 @@ radius = 255.0
 height = 2072.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4buw0"]
-height = 200.0
+height = 190.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0r3va"]
 radius = 33.0
@@ -265,6 +265,7 @@ fill_to = Vector2(1, 0.53211)
 
 [node name="Trampcorpse" type="CharacterBody2D" groups=["enemies"]]
 collision_layer = 4
+floor_max_angle = 0.436332
 script = ExtResource("1_uf2bf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -305,6 +306,7 @@ vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="WallDetection" type="ShapeCast2D" parent="."]
+position = Vector2(0, -10)
 shape = SubResource("CapsuleShape2D_4buw0")
 target_position = Vector2(80, 0)
 
@@ -324,13 +326,15 @@ shape = SubResource("CapsuleShape2D_f6w02")
 shape = SubResource("CapsuleShape2D_a3771")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(1, -131)
-energy = 0.2
+position = Vector2(-1, -115)
+scale = Vector2(1.59375, 1.59375)
+energy = 0.1
 texture = SubResource("GradientTexture2D_cb1jb")
 
 [node name="PointLight2D2" type="PointLight2D" parent="."]
-position = Vector2(-44, -45)
-energy = 0.2
+position = Vector2(-45, -45)
+scale = Vector2(1.54688, 1.54688)
+energy = 0.1
 texture = SubResource("GradientTexture2D_cb1jb")
 
 [connection signal="body_entered" from="SightArea2D" to="." method="_on_sight_area_2d_body_entered"]

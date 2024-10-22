@@ -4,10 +4,11 @@ signal time_to_die
 signal hitted
 signal invincibility_start
 signal invincibility_stop
+signal hitpoints_update
 
 #@onready var player = get_parent()
 
-@export var hitpoints = 5
+@onready var hitpoints = GlobalParams.shady_params.hitpoints
 @export var invincibility_time = 0.5
 
 var is_invincible : bool = false
@@ -25,13 +26,23 @@ func decrease(value : int = 1):
 	if is_invincible:
 		return
 	hitpoints -= value
+	hitpoints_update.emit()
 	if hitpoints <= 0:
 		hitpoints = 0
 		time_to_die.emit()
 		return
 	invincibility()
 	hitted.emit()
-	
+
+func instant_decrease(value : int = 1):
+	hitpoints -= value
+	hitpoints_update.emit()
+	if hitpoints <= 0:
+		hitpoints = 0
+		time_to_die.emit()
+		return
+	invincibility()
+
 func increase(value : int = 1):
 	hitpoints += value
 	
@@ -43,3 +54,8 @@ func invincibility():
 	await get_tree().create_timer(invincibility_time).timeout
 	is_invincible = false
 	invincibility_stop.emit()
+
+
+func _on_hitpoints_update() -> void:
+	GlobalParams.shady_params.hitpoints = hitpoints
+	GlobalParams.ui_update.emit()

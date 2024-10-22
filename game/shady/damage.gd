@@ -13,10 +13,11 @@ signal invincibility_false
 #################
 ## r, h, rot, pos_x, pos_y
 var attack_shapes : Dictionary = {
-	"basic" : [170, 340, 90, 70, -35],
-	"up" : [170, 340, 0, -5, -75],
-	"down" : [170, 340, 0, 20, 15],
-	"wall" : [170, 340, 0, -75, -75],
+	"basic" : [150, 320, 0, 70, -35],
+	"sit" : [85, 170, 0, 115, 50],
+	"up" : [150, 320, 0, -5, -75],
+	"down" : [150, 320, 0, 20, 15],
+	"wall" : [150, 320, 0, -75, -75],
 }
 
 # Called when the node enters the scene tree for the first time.

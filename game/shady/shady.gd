@@ -47,7 +47,6 @@ class_name Shady
 
 enum {
 	IDLE,
-	HIT,
 	BORED,
 	MOVE,
 	JUMP,
@@ -78,12 +77,11 @@ enum {
 }
 
 enum attack_variants {
-	FLOOR, JUMP, UP, DOWN
+	FLOOR, JUMP, UP, DOWN, WALL, SIT
 }
 
 var state_dict = {
 	IDLE : "IDLE",
-	HIT : "HIT",
 	BORED : "BORED",
 	MOVE : "MOVE",
 	JUMP : "JUMP",
@@ -146,7 +144,7 @@ var collider_shape : Dictionary = {
 # radius, height, rotation, position_y
 	"basic" : [21, 214, 0, 0],
 	"run" : [35, 214, 0, 0],
-	"lying" : [15, 135, 90, 92],
+	"lying" : [15, 175, 90, 92],
 	"sit" : [60, 122, 0, 46],
 	"jump" : [40, 152, 0, 30],
 	"on_wall" : [35, 214, 0, 0],
@@ -174,7 +172,17 @@ func set_direction(coeff = 1):
 		#time_to_turn = false
 		velocity.x = direction * speed * coeff
 	
+	set_face_direction()
+
+	if direction < 0:
+		face_direction = -1
+	elif direction > 0:
+		face_direction = 1
 	
+	camera_position.position.x = camera_position_point * face_direction
+
+
+func set_face_direction():
 	if face_direction == -1:
 		animated_sprite_2d.flip_h = true 
 		wall_ray_cast.target_position.x = -wall_ray_cast_lenght
@@ -187,13 +195,6 @@ func set_direction(coeff = 1):
 		climb_ray_cast.target_position.x = wall_ray_cast_lenght
 		climb_ray_cast_2.target_position.x = wall_ray_cast_lenght
 		climb_shape_cast.position.x = 100
-
-	if direction < 0:
-		face_direction = -1
-	elif direction > 0:
-		face_direction = 1
-	
-	camera_position.position.x = camera_position_point * face_direction
 
 
 func apply_gravity(delta):
@@ -764,9 +765,7 @@ func attack_state():
 	state = ATTACK_PROCESS 
 	if is_on_floor():
 		full_stop()
-	slash_sprite_2d.flip_h = animated_sprite_2d.flip_h
-	slash_sprite_2d.visible = true
-	
+
 	if Input.is_action_pressed("up"):
 		attack_animation(attack_variants.UP)
 		damage.attack_start("up", face_direction)
@@ -784,12 +783,11 @@ func attack_state():
 			attack_animation(attack_variants.JUMP)
 		damage.attack_start("basic", face_direction)
 	await animation_player.animation_finished
-	slash_sprite_2d.visible = false
-	damage.attack_end()
-	attack_cooldown()
 	state = MOVE
 
 func attack_animation(attack_variant):
+	slash_sprite_2d.flip_h = animated_sprite_2d.flip_h
+	slash_sprite_2d.visible = true
 	match attack_variant:
 		attack_variants.FLOOR:
 			if combo_counter == 0:
@@ -819,7 +817,18 @@ func attack_animation(attack_variant):
 			slash_sprite_2d.play("attack_down")
 			animation_player.play("attack_down")
 			GlobalParams.shady_params.attack_direction = Vector2(0, 1)
-
+		attack_variants.WALL:
+			slash_sprite_2d.play("attack_wall")
+			animation_player.play("attack_wall")
+			GlobalParams.shady_params.attack_direction = Vector2(face_direction, 0)
+		attack_variants.SIT:
+			slash_sprite_2d.play("attack2")
+			animation_player.play("attack2")
+			GlobalParams.shady_params.attack_direction = Vector2(face_direction, 0)
+	await slash_sprite_2d.animation_finished
+	damage.attack_end()
+	attack_cooldown()
+	slash_sprite_2d.visible = false
 
 func attack_process_state():
 	if is_on_floor():
@@ -841,15 +850,9 @@ func attack_wall_state():
 		state = WALL_CLIMB
 		return
 	state = ATTACK_PROCESS
-	slash_sprite_2d.flip_h = animated_sprite_2d.flip_h
-	slash_sprite_2d.visible = true
-	slash_sprite_2d.play("attack_wall")
-	animation_player.play("attack_wall")
-	damage.attack_start("basic", face_direction)
+	attack_animation(attack_variants.WALL)
+	damage.attack_start("basic", -face_direction)
 	await animation_player.animation_finished
-	slash_sprite_2d.visible = false
-	damage.attack_stop()
-	attack_cooldown()
 	state = WALL_CLIMB
 
 func attack_sit_state():
@@ -857,13 +860,9 @@ func attack_sit_state():
 		state = SIT
 		return
 	state = ATTACK_PROCESS
-	slash_sprite_2d.flip_h = animated_sprite_2d.flip_h
-	slash_sprite_2d.visible = true
-	slash_sprite_2d.play("attack1")
-	animation_player.play("attack1")
+	attack_animation(attack_variants.SIT)
+	damage.attack_start("sit", face_direction)
 	await animation_player.animation_finished
-	slash_sprite_2d.visible = false
-	attack_cooldown()
 	state = SIT
 
 func attack_cooldown():
@@ -890,6 +889,7 @@ func return_to_checkpoint():
 	if state == DEATH:
 		return
 	state = IDLE
+	full_stop()
 	fall_counter = 0
 	animation_player.play("collapse_start")
 	await animation_player.animation_finished
@@ -909,7 +909,7 @@ func _on_hitpoints_hitted() -> void:
 	animation_player.play("hit")
 	if GlobalParams.shady_params.hazard_direction != 0:
 		face_direction = GlobalParams.shady_params.hazard_direction
-	set_direction()
+	set_face_direction()
 	velocity = Vector2(-face_direction * speed * 1.25, -speed * 0.5)
 	await get_tree().create_timer(0.25).timeout
 	state = MOVE

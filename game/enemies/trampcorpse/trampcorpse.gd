@@ -124,7 +124,8 @@ func set_collision_direction():
 		edge_detection.position.x = 50 * direction
 		attack_collision.position.x = 100 * direction
 		hitbox_collision.position.x = 100 * direction
-
+		$PointLight2D.position.x = -1 * direction
+		$PointLight2D2.position.x = -45 * direction
 
 func change_direction():
 	#print("change direction")

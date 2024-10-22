@@ -1,5 +1,6 @@
 extends Node2D
 
+signal ui_update
 
 var last_checkpoint : Node2D = null
 var last_savekpoint : Node2D = null

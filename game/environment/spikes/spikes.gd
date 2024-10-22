@@ -17,7 +17,7 @@ func _process(delta: float) -> void:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	#print("HIT!")
 	if body.name == "Shady":
-		body.hitpoints.decrease(1)
+		body.hitpoints.instant_decrease(1)
 		body.return_to_checkpoint()
 	elif body.is_in_group("enemies"):
 		GlobalParams.shady_params.knockback_force = 350
