@@ -23,12 +23,22 @@ func _process(delta: float) -> void:
 
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:
+	var owner = area.get_parent().get_parent()
 	if area.name == "Hitbox":
 		hitpoints -= GlobalParams.shady_params.damage
 		if hitpoints <= 0:
 			death.emit()
 		else:
 			hitted.emit()
+		if owner.name == "Shady":
+			owner.attack_recoil()
+	if area.name == "Hurtbox":
+		if owner.name == "Shady":
+			owner.hitpoints.decrease(1)
+			if owner.global_position.x > global_position.x:
+				GlobalParams.shady_params.hazard_direction = -1
+			elif owner.global_position.x < global_position.x:
+				GlobalParams.shady_params.hazard_direction = 1
 
 
 #func _on_hitbox_body_entered(body: Node2D) -> void:

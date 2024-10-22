@@ -17,6 +17,8 @@ class ShadyParams:
 	
 	var knockback_force = 400
 	var attack_direction = Vector2(0, 0)
+	var recoil_force = Vector2(-250, -500)
+	var hazard_direction = 0
 
 var shady_params : ShadyParams
 

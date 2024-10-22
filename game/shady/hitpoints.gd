@@ -8,7 +8,7 @@ signal invincibility_stop
 #@onready var player = get_parent()
 
 @export var hitpoints = 5
-@export var invincibility_time = 0.4
+@export var invincibility_time = 0.5
 
 var is_invincible : bool = false
 
@@ -38,5 +38,8 @@ func increase(value : int = 1):
 	
 func invincibility():
 	is_invincible = true
+	invincibility_start.emit()
+	print("INVINCIBLE")
 	await get_tree().create_timer(invincibility_time).timeout
 	is_invincible = false
+	invincibility_stop.emit()

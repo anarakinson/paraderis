@@ -47,6 +47,7 @@ class_name Shady
 
 enum {
 	IDLE,
+	HIT,
 	BORED,
 	MOVE,
 	JUMP,
@@ -82,6 +83,7 @@ enum attack_variants {
 
 var state_dict = {
 	IDLE : "IDLE",
+	HIT : "HIT",
 	BORED : "BORED",
 	MOVE : "MOVE",
 	JUMP : "JUMP",
@@ -193,19 +195,31 @@ func set_direction(coeff = 1):
 	
 	camera_position.position.x = camera_position_point * face_direction
 
+
+func apply_gravity(delta):
+	# Add the gravity.
+	if (not is_on_floor() and not is_floating):
+		velocity.y += gravity * delta
+		if state == WALL_BOUNCING:
+			velocity.y = 0
+			velocity.x = 0
+
+
 func _ready() -> void:
 	slash_sprite_2d.material.set_shader_parameter("glow_power", slash_glowing)
 
 
 func _physics_process(delta):
 	#print(state_dict[state], " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
-	#$Label.text = state_dict[state]
+	$Label.text = state_dict[state] + " " + str(velocity) + " " + str(is_on_floor())
 	match state:
 		DEATH:
 			death_state()
 			return
 		IDLE:
 			idle_state()
+			apply_gravity(delta)
+			move_and_slide()
 			return
 		FALL:
 			set_collision_shape(collider_shape["jump"])
@@ -275,12 +289,8 @@ func _physics_process(delta):
 			set_collision_shape(collider_shape["basic"])
 			attack_end_state()
 	
-	# Add the gravity.
-	if (not is_on_floor() and not is_floating):
-		velocity.y += gravity * delta
-		if state == WALL_BOUNCING:
-			velocity.y = 0
-			velocity.x = 0
+	# Apply gravity
+	apply_gravity(delta)
 	
 	if velocity.y > 0: 
 		if state != ATTACK_PROCESS:
@@ -309,7 +319,7 @@ func _physics_process(delta):
 		# Conjuring 
 		if Input.is_action_pressed("trick"):
 			state = CONJURE
-		if Input.is_action_pressed("down"):
+		if Input.is_action_pressed("down") and is_on_floor():
 			sit_down()
 		if Input.is_action_pressed("fading"):
 			state = FADING
@@ -374,7 +384,7 @@ func _physics_process(delta):
 	
 	if (state == IDLE and 
 		edge_detection.is_colliding() != edge_detection_2.is_colliding()):
-		velocity.x += speed * face_direction
+		velocity.x += speed * delta * face_direction
 	
 	move_and_slide()
 
@@ -476,12 +486,14 @@ func fall_state():
 	if velocity.y == 0 and is_on_floor():
 		if edge_detection.is_colliding() != edge_detection_2.is_colliding():
 			velocity.x += speed * face_direction
-		if fall_counter < critical_fall_lenght:
+		if fall_counter < critical_fall_lenght and fall_counter > 0.25:
 			full_stop()
 			state = IDLE
 			animation_player.play("landing")
 			await animation_player.animation_finished
 			state = SIT
+		elif fall_counter < 0.25:
+			state = MOVE
 		else:
 			fall_hit_state()
 	elif velocity.y > 0:
@@ -763,7 +775,10 @@ func attack_state():
 		damage.attack_start("down", face_direction)
 	else:
 		if is_on_floor():
-			position.x = move_toward(position.x, position.x + face_direction * speed / 15, speed)
+			#position.x = move_toward(position.x, position.x + face_direction * speed / 15, speed)
+			var velocity_addition = GlobalParams.shady_params.attack_direction.x * speed * 2
+			velocity.x = velocity_addition
+			print(velocity_addition)
 			attack_animation(attack_variants.FLOOR)
 		else:
 			attack_animation(attack_variants.JUMP)
@@ -856,10 +871,17 @@ func attack_cooldown():
 	await get_tree().create_timer(attack_cooldown_time).timeout
 	is_in_attack_cooldown = false
 
+func attack_recoil():
+	fall_counter = 0
+	#velocity = Vector2(0,0)
+	velocity.y = 0
+	velocity += GlobalParams.shady_params.recoil_force * GlobalParams.shady_params.attack_direction
+
 func full_stop():
 	velocity.x = 0 
 	full_idle = true
 	run_counter = 0
+	bored_counter = 0
 	is_koyotee_awailable = true
 	
 	
@@ -880,6 +902,17 @@ func return_to_checkpoint():
 
 func _on_hitpoints_hitted() -> void:
 	print("HIT!")
+	state = IDLE
+	full_stop()
+	fall_counter = 0
+	velocity = Vector2(0,0)
+	animation_player.play("hit")
+	if GlobalParams.shady_params.hazard_direction != 0:
+		face_direction = GlobalParams.shady_params.hazard_direction
+	set_direction()
+	velocity = Vector2(-face_direction * speed * 1.25, -speed * 0.5)
+	await get_tree().create_timer(0.25).timeout
+	state = MOVE
 
 func _on_hitpoints_time_to_die() -> void:
 	print("DIE!")
@@ -893,8 +926,7 @@ func death_state():
 
 
 func _on_hitpoints_invincibility_start() -> void:
-	pass # Replace with function body.
-
+	damage.hurtbox_deactivate()
 
 func _on_hitpoints_invincibility_stop() -> void:
-	pass # Replace with function body.
+	damage.hurtbox_activate()

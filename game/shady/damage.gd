@@ -1,11 +1,14 @@
 extends Node2D
 
 signal hitted
+signal invincibility_false 
+
 
 @onready var hitbox: Area2D = $Hitbox
 @onready var hitbox_collision: CollisionShape2D = $Hitbox/CollisionShape2D
 @onready var hurtbox: Area2D = $Hurtbox
 @onready var hurtbox_collision: CollisionShape2D = $Hurtbox/CollisionShape2D
+
 
 #################
 ## r, h, rot, pos_x, pos_y
@@ -38,9 +41,11 @@ func attack_end():
 	hitbox_collision.disabled = true
 
 func hurtbox_activate():
+	hurtbox.monitorable = true
 	hurtbox_collision.disabled = false
 
 func hurtbox_deactivate():
+	hurtbox.monitorable = false
 	hurtbox_collision.disabled = true
 
 func set_hurtbox_shape(params):

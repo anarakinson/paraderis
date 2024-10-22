@@ -31,4 +31,5 @@ collision_mask = 32
 shape = SubResource("CapsuleShape2D_nnyx1")
 debug_color = Color(0, 1, 0, 0.419608)
 
+[connection signal="invincibility_false" from="." to="." method="_on_invincibility_false"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

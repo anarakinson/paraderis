@@ -387,7 +387,6 @@ notice = "you are so close"
 
 [node name="SmartCamera2D" parent="." node_paths=PackedStringArray("player") instance=ExtResource("3_50vj7")]
 visible = false
-zoom = Vector2(0.6, 0.6)
 limit_left = -375
 limit_top = -600
 limit_right = 10850
