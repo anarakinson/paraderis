@@ -42,7 +42,7 @@ class_name Shady
 @export_range(0., 2., 0.1) var slash_glowing: float = 1.
 
 @export_category("Parameters")
-@export_range(0., 60., 0.01) var attack_cooldown_time: float = 0.15
+@export_range(0., 60., 0.01) var attack_cooldown_time: float = 0.25
 
 
 enum {
@@ -160,7 +160,7 @@ func set_collision_shape(shape):
 	#point_light_2d.position.y = move_toward(point_light_2d.position.y, position.y, 5)
 
 
-func set_direction(coeff = 1):
+func set_direction(coeff = 1, with_sprite=true):
 	#print(direction)
 	# Get the input direction and handle the movement/deceleration.
 	if ((direction > 0 and face_direction == -1) or
@@ -172,7 +172,7 @@ func set_direction(coeff = 1):
 		#time_to_turn = false
 		velocity.x = direction * speed * coeff
 	
-	set_face_direction()
+	set_face_direction(with_sprite)
 
 	if direction < 0:
 		face_direction = -1
@@ -182,15 +182,17 @@ func set_direction(coeff = 1):
 	camera_position.position.x = camera_position_point * face_direction
 
 
-func set_face_direction():
+func set_face_direction(with_sprite=true):
 	if face_direction == -1:
-		animated_sprite_2d.flip_h = true 
+		if with_sprite:
+			animated_sprite_2d.flip_h = true 
 		wall_ray_cast.target_position.x = -wall_ray_cast_lenght
 		climb_ray_cast.target_position.x = -wall_ray_cast_lenght
 		climb_ray_cast_2.target_position.x = -wall_ray_cast_lenght
 		climb_shape_cast.position.x = -100
 	elif face_direction == 1:
-		animated_sprite_2d.flip_h = false 
+		if with_sprite:
+			animated_sprite_2d.flip_h = false 
 		wall_ray_cast.target_position.x = wall_ray_cast_lenght
 		climb_ray_cast.target_position.x = wall_ray_cast_lenght
 		climb_ray_cast_2.target_position.x = wall_ray_cast_lenght
@@ -212,7 +214,7 @@ func _ready() -> void:
 
 func _physics_process(delta):
 	#print(state_dict[state], " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
-	$Label.text = state_dict[state] + " " + str(velocity) + " " + str(is_on_floor())
+	$Label.text = state_dict[state] + " " + str(velocity) + " " + str(face_direction) + " " + str(direction) + " " + str(GlobalParams.shady_params.hazard_direction)
 	match state:
 		DEATH:
 			death_state()
@@ -707,8 +709,8 @@ func climb_ledge_state(delta):
 			animation_player.play("climb")
 		await animation_player.animation_finished 
 		set_collision_shape(collider_shape["sit"])
-		var new_position_x = position.x + 98 * face_direction * scale.x
-		var new_position_y = position.y - 198 * scale.y
+		var new_position_x = position.x + (80 * face_direction * scale.x)
+		var new_position_y = position.y - 180 * scale.y * 1.2
 		position.x = move_toward(position.x, new_position_x, speed*2)
 		position.y = move_toward(position.y, new_position_y, speed*2)
 		animation_player.play("climb_finish")
@@ -833,7 +835,9 @@ func attack_animation(attack_variant):
 func attack_process_state():
 	if is_on_floor():
 		full_stop()
-
+	else:
+		set_direction(0.5, false)
+		
 
 func attack_end_state():
 	#state = IDLE
@@ -883,7 +887,6 @@ func full_stop():
 	bored_counter = 0
 	is_koyotee_awailable = true
 	
-	
 func return_to_checkpoint():
 	print("return to checkpoint")
 	if state == DEATH:
@@ -903,14 +906,14 @@ func return_to_checkpoint():
 func _on_hitpoints_hitted() -> void:
 	print("HIT!")
 	state = IDLE
-	full_stop()
 	fall_counter = 0
+	full_stop()
 	velocity = Vector2(0,0)
-	animation_player.play("hit")
 	if GlobalParams.shady_params.hazard_direction != 0:
 		face_direction = GlobalParams.shady_params.hazard_direction
+	velocity = Vector2(-face_direction * speed * 1., -speed * 0.5)
 	set_face_direction()
-	velocity = Vector2(-face_direction * speed * 1.25, -speed * 0.5)
+	animation_player.play("hit")
 	await get_tree().create_timer(0.25).timeout
 	state = MOVE
 

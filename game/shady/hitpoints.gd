@@ -26,6 +26,7 @@ func decrease(value : int = 1):
 	if is_invincible:
 		return
 	hitpoints -= value
+	GlobalParams.hitted.emit()
 	hitpoints_update.emit()
 	if hitpoints <= 0:
 		hitpoints = 0
@@ -36,6 +37,7 @@ func decrease(value : int = 1):
 
 func instant_decrease(value : int = 1):
 	hitpoints -= value
+	GlobalParams.hitted.emit()
 	hitpoints_update.emit()
 	if hitpoints <= 0:
 		hitpoints = 0

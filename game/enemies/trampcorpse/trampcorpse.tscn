@@ -236,7 +236,7 @@ _data = {
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n60pr"]
-radius = 255.0
+radius = 144.0
 height = 2072.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4buw0"]
@@ -311,7 +311,7 @@ shape = SubResource("CapsuleShape2D_4buw0")
 target_position = Vector2(80, 0)
 
 [node name="EdgeDetection" type="RayCast2D" parent="."]
-position = Vector2(50, 0)
+position = Vector2(55, 0)
 target_position = Vector2(0, 125)
 
 [node name="EnemyDamage" parent="." groups=["enemies"] instance=ExtResource("3_dscf6")]

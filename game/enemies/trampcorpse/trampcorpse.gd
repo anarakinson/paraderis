@@ -121,7 +121,7 @@ func make_move(delta):
 
 func set_collision_direction():
 		wall_detection.target_position.x = 80 * direction
-		edge_detection.position.x = 50 * direction
+		edge_detection.position.x = 55 * direction
 		attack_collision.position.x = 100 * direction
 		hitbox_collision.position.x = 100 * direction
 		$PointLight2D.position.x = -1 * direction

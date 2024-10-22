@@ -3,6 +3,7 @@ extends Camera2D
 
 @onready var blur_rect: ColorRect = $CanvasLayer/Blur
 @onready var vignette_rect: TextureRect = $CanvasLayer/Vignette
+@onready var vignette_hitted: TextureRect = $CanvasLayer/VignetteHitted
 
 @export_category("Follow character")
 @export var player : CharacterBody2D
@@ -13,6 +14,8 @@ extends Camera2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	GlobalParams.connect("hitted", _on_hitted)
+	vignette_hitted.visible = false
 
 	#drag_bottom_margin = 0.2 * (1 / zoom.y)
 	#drag_top_margin = 0.2 * (1 / zoom.y)
@@ -38,4 +41,18 @@ func _physics_process(delta):
 	#print(speed_coeff)
 	camera_pos = lerp(global_position, player.camera_position.global_position, weight * delta * speed_coeff)
 	global_position = camera_pos.floor()
+	
+func _on_hitted():
+	vignette_hitted.modulate.a = 1
+	vignette_hitted.visible = true
+	var tween = get_tree().create_tween()
+	tween.tween_property(vignette_hitted, "modulate:a", 0., 0.15)
+	#await get_tree().create_timer(0.07).timeout
+	##vignette_hitted.visible = false
+	#await get_tree().create_timer(0.01).timeout
+	##vignette_hitted.visible = true
+	await get_tree().create_timer(0.15).timeout
+	vignette_hitted.visible = false
+	vignette_hitted.modulate.a = 1
+	
 	

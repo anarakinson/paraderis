@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://7qqerdt571s7"]
+[gd_scene load_steps=8 format=3 uid="uid://7qqerdt571s7"]
 
 [ext_resource type="Script" path="res://game/technical/camera_2d.gd" id="1_b434i"]
 
@@ -27,6 +27,15 @@ void fragment() {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ho1kk"]
 shader = SubResource("Shader_3wdtf")
 shader_parameter/amount = 0.3
+
+[sub_resource type="Gradient" id="Gradient_2optk"]
+colors = PackedColorArray(0, 0, 0, 0, 0.458824, 0, 0, 0.627451)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3sro1"]
+gradient = SubResource("Gradient_2optk")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
 
 [sub_resource type="Gradient" id="Gradient_7ha71"]
 offsets = PackedFloat32Array(0, 0.525974, 1)
@@ -63,6 +72,13 @@ offset_right = 617.0
 offset_bottom = 293.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="VignetteHitted" type="TextureRect" parent="CanvasLayer"]
+offset_left = -66.0
+offset_top = -49.0
+offset_right = 1208.0
+offset_bottom = 718.0
+texture = SubResource("GradientTexture2D_3sro1")
 
 [node name="Vignette" type="TextureRect" parent="CanvasLayer"]
 anchors_preset = 8

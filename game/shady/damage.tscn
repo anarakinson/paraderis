@@ -2,9 +2,8 @@
 
 [ext_resource type="Script" path="res://game/shady/damage.gd" id="1_yqj8n"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wp0me"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_obxwo"]
 radius = 75.0
-height = 150.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nnyx1"]
 radius = 21.0
@@ -19,7 +18,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(70, 0)
-shape = SubResource("CapsuleShape2D_wp0me")
+shape = SubResource("CircleShape2D_obxwo")
 disabled = true
 debug_color = Color(1, 0, 0, 0.419608)
 
