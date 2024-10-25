@@ -9,9 +9,9 @@ signal hitpoints_update
 #@onready var player = get_parent()
 
 @onready var hitpoints = GlobalParams.shady_params.hitpoints
-@export var invincibility_time = 0.5
+@onready var invincibility_time = GlobalParams.shady_params.invincibility_time
 
-var is_invincible : bool = false
+var is_invincible : int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -23,26 +23,26 @@ func _process(delta: float) -> void:
 	pass
 
 func decrease(value : int = 1):
-	if is_invincible:
-		return
+	#if is_invincible:
+		#return
 	hitpoints -= value
-	GlobalParams.hitted.emit()
-	hitpoints_update.emit()
 	if hitpoints <= 0:
 		hitpoints = 0
 		time_to_die.emit()
 		return
+	GlobalParams.hitted.emit()
+	hitpoints_update.emit()
 	invincibility()
 	hitted.emit()
 
 func instant_decrease(value : int = 1):
 	hitpoints -= value
-	GlobalParams.hitted.emit()
-	hitpoints_update.emit()
 	if hitpoints <= 0:
 		hitpoints = 0
 		time_to_die.emit()
 		return
+	GlobalParams.hitted.emit()
+	hitpoints_update.emit()
 	invincibility()
 
 func increase(value : int = 1):
@@ -50,14 +50,21 @@ func increase(value : int = 1):
 	
 	
 func invincibility():
-	is_invincible = true
+	is_invincible += 1
 	invincibility_start.emit()
-	print("INVINCIBLE")
 	await get_tree().create_timer(invincibility_time).timeout
-	is_invincible = false
+	is_invincible -= 1
+	if is_invincible < 0:
+		is_invincible = 0
 	invincibility_stop.emit()
 
 
 func _on_hitpoints_update() -> void:
 	GlobalParams.shady_params.hitpoints = hitpoints
 	GlobalParams.ui_update.emit()
+
+
+func _on_time_to_die() -> void:
+	GlobalParams.shady_params.hitpoints = hitpoints
+	GlobalParams.ui_update.emit()
+	GlobalParams.death.emit()

@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://7qqerdt571s7"]
+[gd_scene load_steps=9 format=3 uid="uid://7qqerdt571s7"]
 
 [ext_resource type="Script" path="res://game/technical/camera_2d.gd" id="1_b434i"]
+[ext_resource type="Texture2D" uid="uid://tngmwfuj1sdv" path="res://assets/9oq74slw3dc01.jpg" id="2_8x6hn"]
 
-[sub_resource type="Shader" id="Shader_3wdtf"]
+[sub_resource type="Shader" id="Shader_atgca"]
 code = "shader_type canvas_item;
 
 uniform sampler2D screen_texture: hint_screen_texture, filter_linear_mipmap;
@@ -25,8 +26,8 @@ void fragment() {
 "
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ho1kk"]
-shader = SubResource("Shader_3wdtf")
-shader_parameter/amount = 0.3
+shader = SubResource("Shader_atgca")
+shader_parameter/amount = 0.0
 
 [sub_resource type="Gradient" id="Gradient_2optk"]
 colors = PackedColorArray(0, 0, 0, 0, 0.458824, 0, 0, 0.627451)
@@ -59,6 +60,11 @@ script = ExtResource("1_b434i")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 0
+
+[node name="9Oq74Slw3Dc01" type="Sprite2D" parent="CanvasLayer"]
+visible = false
+position = Vector2(481, 467)
+texture = ExtResource("2_8x6hn")
 
 [node name="Blur" type="ColorRect" parent="CanvasLayer"]
 visible = false

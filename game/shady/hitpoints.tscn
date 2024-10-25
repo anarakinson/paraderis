@@ -7,3 +7,4 @@ script = ExtResource("1_bn6qm")
 
 [connection signal="hitpoints_update" from="." to="." method="_on_hitpoints_update"]
 [connection signal="hitted" from="." to="." method="_on_hitted"]
+[connection signal="time_to_die" from="." to="." method="_on_time_to_die"]

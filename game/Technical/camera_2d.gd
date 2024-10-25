@@ -55,4 +55,3 @@ func _on_hitted():
 	vignette_hitted.visible = false
 	vignette_hitted.modulate.a = 1
 	
-	

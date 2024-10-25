@@ -2,6 +2,7 @@ extends Node2D
 
 signal ui_update
 signal hitted
+signal death
 
 var last_checkpoint : Node2D = null
 var last_savekpoint : Node2D = null
@@ -13,13 +14,15 @@ class ShadyParams:
 	var hitpoints : int = 5
 	var damage : int = 1
 	var max_hitpoints : int = 5
+	var invincibility_time = 1.6
+	var attack_cooldown_time = 0.25
 	
 	var current_state : int = Shady.MOVE
 	var transition_state : int = Shady.MOVE
 	
 	var knockback_force = 400
 	var attack_direction = Vector2(0, 0)
-	var recoil_force = Vector2(-250, -500)
+	var recoil_force = Vector2(-300, -420)
 	var hazard_direction = 0
 
 var shady_params : ShadyParams

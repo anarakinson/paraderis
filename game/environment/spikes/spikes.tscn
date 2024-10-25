@@ -2,7 +2,8 @@
 
 [ext_resource type="Script" path="res://game/environment/spikes/spikes.gd" id="1_0xo84"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xgn2q"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_skb3p"]
+resource_local_to_scene = true
 size = Vector2(0, 0)
 
 [node name="Spikes" type="ColorRect"]
@@ -17,7 +18,7 @@ script = ExtResource("1_0xo84")
 collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_xgn2q")
+shape = SubResource("RectangleShape2D_skb3p")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

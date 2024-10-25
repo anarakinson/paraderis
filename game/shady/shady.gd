@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 class_name Shady
 
+
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var slash_sprite_2d: AnimatedSprite2D = $SlashSprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -28,7 +29,7 @@ class_name Shady
 
 @export_category("Global metrics")
 @export_range(1, 10) var gravity_coeff = 1.75
-@export_range(0, 5) var critical_fall_lenght = 0.8
+@export_range(0, 5) var critical_fall_lenght = 0.99
 
 @export_category("Personal metrics")
 @export_range(1, 10) var is_bored_timer = 2.5
@@ -42,7 +43,7 @@ class_name Shady
 @export_range(0., 2., 0.1) var slash_glowing: float = 1.
 
 @export_category("Parameters")
-@export_range(0., 60., 0.01) var attack_cooldown_time: float = 0.25
+@onready var attack_cooldown_time: float = GlobalParams.shady_params.attack_cooldown_time
 
 
 enum {
@@ -128,7 +129,10 @@ var is_floating = false
 var is_bored = false
 var is_in_combo = false
 var is_koyotee_awailable = false
+var is_flickering = false
 var full_idle = true
+var is_invincible = false
+var is_fall_hitted = false
 
 # stater counters
 var bored_counter = 0
@@ -211,10 +215,9 @@ func apply_gravity(delta):
 func _ready() -> void:
 	slash_sprite_2d.material.set_shader_parameter("glow_power", slash_glowing)
 
-
 func _physics_process(delta):
 	#print(state_dict[state], " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
-	$Label.text = state_dict[state] + " " + str(velocity) + " " + str(face_direction) + " " + str(direction) + " " + str(GlobalParams.shady_params.hazard_direction)
+	$Label.text = state_dict[state] + " " + str(velocity) + " " + str(hitpoints.is_invincible)
 	match state:
 		DEATH:
 			death_state()
@@ -389,6 +392,7 @@ func _physics_process(delta):
 		edge_detection.is_colliding() != edge_detection_2.is_colliding()):
 		velocity.x += speed * delta * face_direction
 	
+	
 	move_and_slide()
 
 
@@ -427,6 +431,7 @@ func move_state(delta):
 
 	if direction == 0 and Input.is_action_pressed("look_up"):
 		state = LOOK_UP
+		flickering()
 	elif direction == 0 and Input.is_action_pressed("look_down"):
 		state = LOOK_DOWN
 		
@@ -474,6 +479,8 @@ func fall_hit_state():
 	state = IDLE
 	velocity.y = 0
 	full_stop()
+	is_fall_hitted = true
+	hitpoints.decrease(1)
 	fall_counter = 0
 	set_collision_shape(collider_shape["sit"])
 	animation_player.play("fall_hit")
@@ -481,6 +488,7 @@ func fall_hit_state():
 	state = IDLE
 	set_collision_shape(collider_shape["lying"])
 	await get_tree().create_timer(1).timeout
+	is_fall_hitted = false
 	state = LYING
 
 
@@ -709,11 +717,11 @@ func climb_ledge_state(delta):
 			animation_player.play("climb")
 		await animation_player.animation_finished 
 		set_collision_shape(collider_shape["sit"])
+		animation_player.play("climb_finish")
 		var new_position_x = position.x + (80 * face_direction * scale.x)
-		var new_position_y = position.y - 180 * scale.y * 1.2
+		var new_position_y = position.y - 160 * scale.y * 1.2
 		position.x = move_toward(position.x, new_position_x, speed*2)
 		position.y = move_toward(position.y, new_position_y, speed*2)
-		animation_player.play("climb_finish")
 		await animation_player.animation_finished 
 		$ClimbCollision.disabled = true
 		state = SIT
@@ -889,22 +897,27 @@ func full_stop():
 	
 func return_to_checkpoint():
 	print("return to checkpoint")
+	is_floating = true
+	velocity.y = 0
+	full_stop()
+	fall_counter = 0
 	if state == DEATH:
 		return
 	state = IDLE
-	full_stop()
-	fall_counter = 0
 	animation_player.play("collapse_start")
 	await animation_player.animation_finished
 	if GlobalParams.last_checkpoint.global_position != null:
 		global_position = GlobalParams.last_checkpoint.global_position
 	animation_player.play("collapse_end")
 	await animation_player.animation_finished
+	is_floating = false
 	state = MOVE
 	
 
 func _on_hitpoints_hitted() -> void:
 	print("HIT!")
+	if is_fall_hitted:
+		return
 	state = IDLE
 	fall_counter = 0
 	full_stop()
@@ -930,6 +943,19 @@ func death_state():
 
 func _on_hitpoints_invincibility_start() -> void:
 	damage.hurtbox_deactivate()
+	is_invincible = true
+	is_flickering = true
+	flickering()
 
 func _on_hitpoints_invincibility_stop() -> void:
 	damage.hurtbox_activate()
+	is_invincible = false
+	is_flickering = false
+
+func flickering():
+	while is_flickering:
+		await get_tree().create_timer(0.2).timeout
+		animated_sprite_2d.material.set("shader_parameter/quantity", 0.5);
+		await get_tree().create_timer(0.2).timeout
+		animated_sprite_2d.material.set("shader_parameter/quantity", 0.);
+	

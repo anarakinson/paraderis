@@ -9,7 +9,7 @@ signal target_detected
 @export_group("parameters")
 @export var damage = 1
 @export var hitpoints = 5
-@export var invincibility_time = 0.3
+@onready var invincibility_time = GlobalParams.shady_params.attack_cooldown_time
 var is_invincible = false
 
 # Called when the node enters the scene tree for the first time.

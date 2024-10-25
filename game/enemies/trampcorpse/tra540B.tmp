@@ -298,11 +298,14 @@ rotation = 1.5708
 shape = SubResource("CapsuleShape2D_4fal8")
 
 [node name="Vision" type="Node2D" parent="."]
-visible = false
-modulate = Color(1, 1, 1, 0.32549)
 
 [node name="ForwardVisionRay" type="ShapeCast2D" parent="Vision"]
 shape = SubResource("CircleShape2D_58fdh")
+target_position = Vector2(1024, 0)
+collision_mask = 2
+
+[node name="DownVisionRay" type="RayCast2D" parent="Vision"]
+position = Vector2(0, 82)
 target_position = Vector2(1024, 0)
 collision_mask = 2
 
@@ -316,7 +319,6 @@ wait_time = 0.5
 one_shot = true
 
 [node name="Label" type="Label" parent="."]
-visible = false
 offset_left = -110.0
 offset_top = -207.0
 offset_right = 109.0
