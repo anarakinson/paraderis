@@ -1,0 +1,97 @@
+[gd_scene load_steps=8 format=3 uid="uid://dfubt4v77owcf"]
+
+[ext_resource type="Script" path="res://game/environment/moving_platform/moving_platform.gd" id="1_rk3pq"]
+[ext_resource type="Texture2D" uid="uid://cbpihqg5n2nps" path="res://assets/environment/platforms_2.png" id="2_hfa42"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tfndn"]
+size = Vector2(127, 36)
+
+[sub_resource type="Animation" id="Animation_1eume"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_6m3t2"]
+resource_name = "move"
+length = 10.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 9.96667),
+"transitions": PackedFloat32Array(-1.5, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_tsf43"]
+resource_name = "move_loop"
+length = 10.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7d3mc"]
+_data = {
+"RESET": SubResource("Animation_1eume"),
+"move": SubResource("Animation_6m3t2"),
+"move_loop": SubResource("Animation_tsf43")
+}
+
+[node name="MovingPlatform" type="Path2D"]
+script = ExtResource("1_rk3pq")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+rotates = false
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="PathFollow2D"]
+remote_path = NodePath("../../AnimatableBody2D")
+
+[node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
+collision_mask = 7
+
+[node name="Platforms2" type="Sprite2D" parent="AnimatableBody2D"]
+position = Vector2(-0.37753, -0.125006)
+scale = Vector2(0.498311, 0.498311)
+texture = ExtResource("2_hfa42")
+
+[node name="ColorRect" type="ColorRect" parent="AnimatableBody2D"]
+visible = false
+offset_left = -64.0
+offset_top = -20.0
+offset_right = 64.0
+offset_bottom = 20.0
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
+shape = SubResource("RectangleShape2D_tfndn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7d3mc")
+}
+playback_auto_capture_transition_type = 1

@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 GlobalParams="*res://game/global_params.tscn"
+SceneTransition="*res://game/technical/scene_transition/scene_transition.tscn"
 
 [display]
 
@@ -151,6 +152,12 @@ invincibility={
 2d_physics/layer_5="player_hitbox"
 2d_physics/layer_6="enemy_hitbox"
 
+[physics]
+
+common/physics_ticks_per_second=120
+common/max_physics_steps_per_frame=16
+
 [rendering]
 
 renderer/rendering_method="mobile"
+global_illumination/sdfgi/frames_to_update_lights=3

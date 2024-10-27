@@ -25,6 +25,7 @@ class_name Shady
 @onready var lyingl_ray_cast_2: RayCast2D = $RayCasts/LyinglRayCast2
 
 @onready var wall_ray_cast_lenght = wall_ray_cast.target_position.x
+@onready var climb_shape_cast_x = climb_shape_cast.position.x
 @onready var camera_position = $CameraPosition
 
 @export_category("Global metrics")
@@ -61,6 +62,7 @@ enum {
 	DISAPPEAR,
 	APPEAR,
 	SIT,
+	DO_NOTHIG,
 	STAND_UP,
 	REST,
 	LYING,
@@ -69,6 +71,7 @@ enum {
 	LOOK_UP,
 	LOOK_DOWN,
 	WALL_CLIMB,
+	WALL_CLIMB_PROCESS,
 	WALL_BOUNCING,
 	ATTACK_PROCESS,
 	ATTACK,
@@ -96,6 +99,7 @@ var state_dict = {
 	DISAPPEAR : "DISAPPEAR",
 	APPEAR : "APPEAR",
 	SIT : "SIT",
+	DO_NOTHIG : "DO_NOTHIG",
 	STAND_UP : "STAND_UP",
 	REST : "REST",
 	LYING : "LYING",
@@ -104,6 +108,7 @@ var state_dict = {
 	LOOK_UP : "LOOK_UP",
 	LOOK_DOWN : "LOOK_DOWN",
 	WALL_CLIMB : "WALL_CLIMB",
+	WALL_CLIMB_PROCESS : "WALL_CLIMB_PROCESS",
 	WALL_BOUNCING : "WALL_BOUNCING",
 	ATTACK_PROCESS : "ATTACK_PROCESS",
 	ATTACK : "ATTACK",
@@ -149,7 +154,7 @@ var collider_shape : Dictionary = {
 	"basic" : [21, 214, 0, 0],
 	"run" : [35, 214, 0, 0],
 	"lying" : [15, 175, 90, 92],
-	"sit" : [60, 122, 0, 46],
+	"sit" : [60, 120, 0, 47],
 	"jump" : [40, 152, 0, 30],
 	"on_wall" : [35, 214, 0, 0],
 }
@@ -193,14 +198,14 @@ func set_face_direction(with_sprite=true):
 		wall_ray_cast.target_position.x = -wall_ray_cast_lenght
 		climb_ray_cast.target_position.x = -wall_ray_cast_lenght
 		climb_ray_cast_2.target_position.x = -wall_ray_cast_lenght
-		climb_shape_cast.position.x = -100
+		climb_shape_cast.position.x = -climb_shape_cast_x
 	elif face_direction == 1:
 		if with_sprite:
 			animated_sprite_2d.flip_h = false 
 		wall_ray_cast.target_position.x = wall_ray_cast_lenght
 		climb_ray_cast.target_position.x = wall_ray_cast_lenght
 		climb_ray_cast_2.target_position.x = wall_ray_cast_lenght
-		climb_shape_cast.position.x = 100
+		climb_shape_cast.position.x = climb_shape_cast_x
 
 
 func apply_gravity(delta):
@@ -226,7 +231,7 @@ func _physics_process(delta):
 			idle_state()
 			apply_gravity(delta)
 			move_and_slide()
-			return
+			#return
 		FALL:
 			set_collision_shape(collider_shape["jump"])
 			fall_state()
@@ -275,6 +280,9 @@ func _physics_process(delta):
 		WALL_CLIMB:
 			set_collision_shape(collider_shape["on_wall"])
 			climb_ledge_state(delta)
+		WALL_CLIMB_PROCESS:
+			set_collision_shape(collider_shape["on_wall"])
+			climb_ledge_process(delta)
 		WALL_BOUNCING:
 			set_collision_shape(collider_shape["on_wall"])
 			wall_bouncing_state()
@@ -311,6 +319,13 @@ func _physics_process(delta):
 	# DISABLE INPUT
 	if state != IDLE:
 		direction = Input.get_axis("left", "right")
+	
+	if is_on_floor() and ceiling_raycast.is_colliding() and state != ATTACK_PROCESS:
+		if (state == IDLE or state == MOVE or state == BORED or
+			state == LOOK_DOWN or state == LOOK_UP):
+			sit_down()
+		else:
+			state = SIT
 	
 	##########################
 	### Handle actions
@@ -476,7 +491,7 @@ func koyotee_jump_start():
 
 
 func fall_hit_state():
-	state = IDLE
+	state = DO_NOTHIG
 	velocity.y = 0
 	full_stop()
 	is_fall_hitted = true
@@ -485,7 +500,7 @@ func fall_hit_state():
 	set_collision_shape(collider_shape["sit"])
 	animation_player.play("fall_hit")
 	await animation_player.animation_finished
-	state = IDLE
+	state = DO_NOTHIG
 	set_collision_shape(collider_shape["lying"])
 	await get_tree().create_timer(1).timeout
 	is_fall_hitted = false
@@ -499,7 +514,7 @@ func fall_state():
 			velocity.x += speed * face_direction
 		if fall_counter < critical_fall_lenght and fall_counter > 0.25:
 			full_stop()
-			state = IDLE
+			state = DO_NOTHIG
 			animation_player.play("landing")
 			await animation_player.animation_finished
 			state = SIT
@@ -556,7 +571,7 @@ func interaction_state():
 	##########################
 	# !!!if restplace near!!!
 	##########################
-	state = IDLE
+	state = DO_NOTHIG
 	full_stop()
 	if ceiling_raycast.is_colliding():
 		animation_player.play("sit_rest_transition")
@@ -571,7 +586,7 @@ func rest_state():
 	animation_player.play("rest")
 	
 	if Input.is_anything_pressed():
-		state = IDLE
+		state = DO_NOTHIG
 
 		if ceiling_raycast.is_colliding():
 			animation_player.play("rest_sit_transition")
@@ -598,7 +613,7 @@ func look_down_state():
 		state = MOVE
 
 func sit_down():
-	state = IDLE
+	state = DO_NOTHIG
 	full_stop()
 	set_collision_shape(collider_shape["sit"])
 	animation_player.play("sit_start")
@@ -670,7 +685,7 @@ func is_any_button_pressed():
 
 
 func wake_up_state():
-	state = IDLE 
+	state = DO_NOTHIG 
 	full_stop()
 	animation_player.play("wake_up")
 	await animation_player.animation_finished
@@ -684,7 +699,7 @@ func lying_state():
 		
 
 func fading_state():
-	state = IDLE 
+	state = DO_NOTHIG 
 	full_stop()
 	animation_player.play("fading")
 	await animation_player.animation_finished
@@ -710,22 +725,18 @@ func climb_ledge_state(delta):
 	elif time_to_climb_up > 0.2 and not climb_shape_cast.is_colliding():
 		time_to_climb_up = 0
 		full_stop()
-		state = IDLE
+		state = WALL_CLIMB_PROCESS
 		if not wall_ray_cast.is_colliding():
 			animation_player.play("climb2")
 		elif wall_ray_cast.is_colliding():
 			animation_player.play("climb")
 		await animation_player.animation_finished 
 		set_collision_shape(collider_shape["sit"])
-		animation_player.play("climb_finish")
-		var new_position_x = position.x + (80 * face_direction * scale.x)
-		var new_position_y = position.y - 160 * scale.y * 1.2
-		position.x = move_toward(position.x, new_position_x, speed*2)
-		position.y = move_toward(position.y, new_position_y, speed*2)
-		await animation_player.animation_finished 
 		$ClimbCollision.disabled = true
+		position.x += climb_shape_cast.position.x * scale.x
+		position.y += climb_shape_cast.position.y * scale.y
 		state = SIT
-		#stand_up()
+		
 	elif wall_ray_cast.is_colliding():
 		animation_player.play("on_wall")
 		if Input.is_action_just_pressed("jump"):
@@ -739,6 +750,12 @@ func climb_ledge_state(delta):
 		time_to_climb_up += 5 * delta 
 	elif direction != face_direction:
 		time_to_climb_up = 0
+
+
+func climb_ledge_process(delta):
+		#$ClimbCollision.disabled = true
+		climb_ray_cast.target_position.x = 0
+		climb_ray_cast_2.target_position.x = 0
 
 
 func wall_bouncing():
@@ -915,10 +932,10 @@ func return_to_checkpoint():
 	
 
 func _on_hitpoints_hitted() -> void:
-	print("HIT!")
+	#print("HIT!")
 	if is_fall_hitted:
 		return
-	state = IDLE
+	state = DO_NOTHIG
 	fall_counter = 0
 	full_stop()
 	velocity = Vector2(0,0)
@@ -936,7 +953,8 @@ func _on_hitpoints_time_to_die() -> void:
 	animation_player.play("collapse_start")
 	await animation_player.animation_finished
 	visible = false
-	
+	queue_free()
+
 func death_state():
 	pass
 

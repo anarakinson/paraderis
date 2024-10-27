@@ -47,7 +47,7 @@ var counter : float = 0
 
 enum {
 	IDLE,
-	LOAF,
+	DO_NOTHING,
 	PATROL,
 	CHASE,
 	ATTACK,
@@ -71,7 +71,7 @@ var state : int = IDLE:
 				pass
 			HIT:
 				hitted_state()
-			LOAF:
+			DO_NOTHING:
 				back_vision_ray.target_position.x = 50
 
 		if state != PATROL:
@@ -95,7 +95,7 @@ func _ready() -> void:
 	animation_player.play("idle")
 	state = PATROL
 	if idle_stand:
-		state = LOAF
+		state = DO_NOTHING
 
 func _physics_process(delta: float) -> void:
 	#print(state)
@@ -146,7 +146,7 @@ func _physics_process(delta: float) -> void:
 func check_visions():
 	# check visions
 	get_tracked_character()
-	if tracked_character != null and (state == PATROL or state == LOAF):
+	if tracked_character != null and (state == PATROL or state == DO_NOTHING):
 		awared()
 	elif tracked_character == null and state == CHASE:
 		distracted()
@@ -238,7 +238,7 @@ func awared():
 	state = CHASE
 
 func distracted():
-	state = LOAF
+	state = DO_NOTHING
 	#animation_player.play("idle")
 	label.text = "wtf..."
 	#full_stop()

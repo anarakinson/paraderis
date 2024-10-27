@@ -1,4 +1,4 @@
-[gd_scene load_steps=301 format=3 uid="uid://clc02tsxv7afg"]
+[gd_scene load_steps=300 format=3 uid="uid://clc02tsxv7afg"]
 
 [ext_resource type="Script" path="res://game/shady/shady.gd" id="1_rfscw"]
 [ext_resource type="Shader" path="res://game/shaders/flickering_damage.gdshader" id="2_7cgup"]
@@ -49,15 +49,13 @@
 [ext_resource type="Texture2D" uid="uid://bks6a8kx046op" path="res://assets/shady/frames/idle/frame0008.png" id="43_ho2o5"]
 [ext_resource type="Texture2D" uid="uid://bn4n4pfxoe0nn" path="res://assets/shady/frames/idle/frame0010.png" id="44_m0hle"]
 [ext_resource type="Texture2D" uid="uid://yjo5rqs7hlxw" path="res://assets/shady/frames/climb/frame0002.png" id="45_6lqku"]
-[ext_resource type="Texture2D" uid="uid://b8o8m1qpuchck" path="res://assets/shady/frames/climb/frame0003.png" id="46_q2wux"]
 [ext_resource type="Texture2D" uid="uid://4vbv0qrh0mpo" path="res://assets/shady/frames/climb/frame0004.png" id="47_uok5w"]
 [ext_resource type="Texture2D" uid="uid://vjg4hcgta0am" path="res://assets/shady/frames/climb/frame0005.png" id="48_o7gjd"]
 [ext_resource type="Texture2D" uid="uid://dwvlf2yrffih8" path="res://assets/shady/frames/climb/frame0006.png" id="49_7pq0w"]
 [ext_resource type="Texture2D" uid="uid://biqw7lu3hh72w" path="res://assets/shady/frames/climb2/frame0004.png" id="51_kw17x"]
+[ext_resource type="Texture2D" uid="uid://dyl1c5jujlel1" path="res://assets/shady/frames/climb/frame0026.png" id="52_5ugg3"]
 [ext_resource type="Texture2D" uid="uid://biahh61hyloka" path="res://assets/shady/frames/climb2/frame0005.png" id="52_meqbp"]
 [ext_resource type="Texture2D" uid="uid://bmrx3e6uddvsd" path="res://assets/shady/frames/climb2/frame0006.png" id="53_dvyoo"]
-[ext_resource type="Texture2D" uid="uid://cn7f15rc3pooo" path="res://assets/shady/frames/climb2/frame0007.png" id="53_s3rdm"]
-[ext_resource type="Texture2D" uid="uid://wghmeu8dbypr" path="res://assets/shady/frames/climb/frame0007.png" id="55_qly1y"]
 [ext_resource type="Texture2D" uid="uid://derqaswg5frtv" path="res://assets/shady/frames/dissolve/frame0028.png" id="56_vqiij"]
 [ext_resource type="Texture2D" uid="uid://ck6ujk5f7yw1y" path="res://assets/shady/frames/dissolve/frame0029.png" id="57_pyr5w"]
 [ext_resource type="Texture2D" uid="uid://emt2lt7qh70o" path="res://assets/shady/frames/dissolve/frame0030.png" id="58_gkxdm"]
@@ -449,9 +447,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("46_q2wux")
-}, {
-"duration": 1.0,
 "texture": ExtResource("47_uok5w")
 }, {
 "duration": 1.0,
@@ -461,7 +456,7 @@ animations = [{
 "texture": ExtResource("49_7pq0w")
 }, {
 "duration": 1.0,
-"texture": ExtResource("53_s3rdm")
+"texture": ExtResource("52_5ugg3")
 }],
 "loop": false,
 "name": &"climb",
@@ -478,7 +473,7 @@ animations = [{
 "texture": ExtResource("53_dvyoo")
 }, {
 "duration": 1.0,
-"texture": ExtResource("53_s3rdm")
+"texture": ExtResource("52_5ugg3")
 }],
 "loop": false,
 "name": &"climb2",
@@ -486,7 +481,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("55_qly1y")
+"texture": ExtResource("180_8wdu8")
 }],
 "loop": false,
 "name": &"climb_finish",
@@ -1291,6 +1286,9 @@ animations = [{
 "speed": 15.0
 }]
 
+[sub_resource type="Animation" id="Animation_oljcw"]
+length = 0.001
+
 [sub_resource type="Animation" id="Animation_mwhpd"]
 length = 0.266667
 tracks/0/type = "value"
@@ -1618,7 +1616,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_ke28d"]
-length = 0.4
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1626,10 +1624,10 @@ tracks/0/path = NodePath("AnimatedSprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3, 4]
+"values": [0, 1, 2, 3]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -2823,6 +2821,7 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_12da6"]
 _data = {
+"RESET": SubResource("Animation_oljcw"),
 "attack1": SubResource("Animation_mwhpd"),
 "attack2": SubResource("Animation_3etkw"),
 "attack3": SubResource("Animation_3c044"),
@@ -3058,8 +3057,8 @@ radius = 21.0
 height = 214.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vc5v2"]
-radius = 15.0
-height = 175.0
+radius = 60.0
+height = 120.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tc37f"]
 size = Vector2(35, 0)
@@ -3082,7 +3081,7 @@ script = ExtResource("1_rfscw")
 material = SubResource("ShaderMaterial_hlg2r")
 position = Vector2(0, -21)
 sprite_frames = SubResource("SpriteFrames_flbuy")
-animation = &"run"
+animation = &"climb"
 autoplay = "idle"
 
 [node name="SlashSprite2D" type="AnimatedSprite2D" parent="."]
@@ -3107,8 +3106,7 @@ shape = SubResource("CapsuleShape2D_d5uql")
 
 [node name="LyingCollisionShape2D5" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2(0, 92)
-rotation = 1.5708
+position = Vector2(0, 47)
 shape = SubResource("CapsuleShape2D_vc5v2")
 disabled = true
 
@@ -3152,8 +3150,7 @@ position = Vector2(0, -105)
 target_position = Vector2(60, 0)
 
 [node name="ClimbShapeCast" type="ShapeCast2D" parent="RayCasts"]
-visible = false
-position = Vector2(100, -170)
+position = Vector2(80, -170)
 shape = SubResource("CircleShape2D_dderw")
 target_position = Vector2(0, 0)
 
@@ -3166,7 +3163,6 @@ shape = SubResource("RectangleShape2D_bpqpf")
 disabled = true
 
 [node name="Label" type="Label" parent="."]
-visible = false
 z_index = 3
 offset_left = -205.0
 offset_top = -330.0
