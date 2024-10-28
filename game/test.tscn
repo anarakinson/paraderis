@@ -258,7 +258,7 @@ position = Vector2(4946, 36)
 idle_stand = true
 
 [node name="Shady" parent="." instance=ExtResource("3_81eks")]
-position = Vector2(2037, -875)
+position = Vector2(1879, 541)
 scale = Vector2(0.5, 0.5)
 
 [node name="Camera2D" type="Camera2D" parent="Shady"]

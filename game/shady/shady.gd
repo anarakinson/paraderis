@@ -222,7 +222,7 @@ func _ready() -> void:
 
 func _physics_process(delta):
 	#print(state_dict[state], " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
-	$Label.text = state_dict[state] + " " + str(velocity) + " " + str(hitpoints.is_invincible)
+	$Label.text = state_dict[state] + " " + str(is_invincible) + " " + str(hitpoints.is_invincible)
 	match state:
 		DEATH:
 			death_state()
@@ -231,7 +231,7 @@ func _physics_process(delta):
 			idle_state()
 			apply_gravity(delta)
 			move_and_slide()
-			#return
+			return
 		FALL:
 			set_collision_shape(collider_shape["jump"])
 			fall_state()
@@ -715,7 +715,7 @@ func climb_ledge_state(delta):
 	
 	if Input.is_action_just_pressed("down"):
 		$ClimbCollision.disabled = true
-		state = IDLE
+		state = DO_NOTHIG
 		animation_player.play("out_wall")
 		face_direction = -face_direction
 		direction = face_direction
@@ -760,7 +760,7 @@ func climb_ledge_process(delta):
 
 func wall_bouncing():
 	fall_counter = 0
-	state = IDLE
+	state = DO_NOTHIG
 	velocity.x = 0
 	velocity.y = 0
 	face_direction = -face_direction
@@ -920,13 +920,17 @@ func return_to_checkpoint():
 	fall_counter = 0
 	if state == DEATH:
 		return
+	if GlobalParams.last_checkpoint == null:
+		hitpoints.hitpoints = 0 
+		hitpoints.decrease(1)
+		return
 	state = IDLE
 	animation_player.play("collapse_start")
 	await animation_player.animation_finished
-	if GlobalParams.last_checkpoint.global_position != null:
-		global_position = GlobalParams.last_checkpoint.global_position
+	global_position = GlobalParams.last_checkpoint.global_position
 	animation_player.play("collapse_end")
 	await animation_player.animation_finished
+	hitpoints.invincibility()
 	is_floating = false
 	state = MOVE
 	
@@ -935,7 +939,7 @@ func _on_hitpoints_hitted() -> void:
 	#print("HIT!")
 	if is_fall_hitted:
 		return
-	state = DO_NOTHIG
+	state = IDLE
 	fall_counter = 0
 	full_stop()
 	velocity = Vector2(0,0)
@@ -947,7 +951,14 @@ func _on_hitpoints_hitted() -> void:
 	await get_tree().create_timer(0.25).timeout
 	state = MOVE
 
+
 func _on_hitpoints_time_to_die() -> void:
+	death_process()
+
+func death_state():
+	pass
+	
+func death_process():
 	print("DIE!")
 	state = DEATH
 	animation_player.play("collapse_start")
@@ -955,17 +966,19 @@ func _on_hitpoints_time_to_die() -> void:
 	visible = false
 	queue_free()
 
-func death_state():
-	pass
 
 
 func _on_hitpoints_invincibility_start() -> void:
+	if is_invincible == true: 
+		return
 	damage.hurtbox_deactivate()
 	is_invincible = true
 	is_flickering = true
 	flickering()
 
 func _on_hitpoints_invincibility_stop() -> void:
+	if is_invincible == false: 
+		return
 	damage.hurtbox_activate()
 	is_invincible = false
 	is_flickering = false

@@ -51,12 +51,13 @@ func increase(value : int = 1):
 	
 func invincibility():
 	is_invincible += 1
+	print(is_invincible)
 	invincibility_start.emit()
 	await get_tree().create_timer(invincibility_time).timeout
 	is_invincible -= 1
-	if is_invincible < 0:
+	if is_invincible <= 0:
 		is_invincible = 0
-	invincibility_stop.emit()
+		invincibility_stop.emit()
 
 
 func _on_hitpoints_update() -> void:

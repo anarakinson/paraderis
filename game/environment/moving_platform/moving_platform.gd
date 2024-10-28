@@ -13,7 +13,7 @@ func _ready() -> void:
 		
 	if loop:
 		animation_player.play("move_loop")
-		curve.add_point(Vector2(0, 0))
+		curve.add_point(curve.get_point_position(0))
 		#animation_player.get_animation("move").loop_mode = Animation.LOOP_LINEAR
 	else:
 		animation_player.play("move")
