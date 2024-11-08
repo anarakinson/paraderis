@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://bmciyed3n1pf8"]
 
 [ext_resource type="Texture2D" uid="uid://cbpihqg5n2nps" path="res://assets/environment/platforms_2.png" id="1_dgmgp"]
-[ext_resource type="PackedScene" uid="uid://cnv38iiucgso1" path="res://game/environment/checkpoint.tscn" id="2_3etta"]
+[ext_resource type="PackedScene" uid="uid://cnv38iiucgso1" path="res://game/technical/checkpoint/checkpoint.tscn" id="2_3etta"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u0pxq"]
 size = Vector2(271, 40)

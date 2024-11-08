@@ -16,11 +16,11 @@ extends Camera2D
 func _ready():
 	GlobalParams.connect("hitted", _on_hitted)
 	vignette_hitted.visible = false
+	
+	var win_size = get_viewport().get_visible_rect().size
+	vignette_hitted.size = win_size 
+	vignette_rect.size = win_size 
 
-	#drag_bottom_margin = 0.2 * (1 / zoom.y)
-	#drag_top_margin = 0.2 * (1 / zoom.y)
-	#drag_left_margin = 0.2 * (1 / zoom.x)
-	#drag_right_margin = 0.2 * (1 / zoom.x)
 	if player != null:
 		global_position = player.global_position
 		print(zoom, vignette_rect.scale, vignette_rect.position, drag_right_margin)

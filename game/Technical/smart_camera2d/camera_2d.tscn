@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://7qqerdt571s7"]
 
-[ext_resource type="Script" path="res://game/technical/camera_2d.gd" id="1_b434i"]
+[ext_resource type="Script" path="res://game/technical/smart_camera2d/camera_2d.gd" id="1_b434i"]
 [ext_resource type="Texture2D" uid="uid://tngmwfuj1sdv" path="res://assets/9oq74slw3dc01.jpg" id="2_8x6hn"]
 
 [sub_resource type="Shader" id="Shader_atgca"]
@@ -80,24 +80,13 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VignetteHitted" type="TextureRect" parent="CanvasLayer"]
-offset_left = -66.0
-offset_top = -49.0
-offset_right = 1208.0
-offset_bottom = 718.0
+offset_right = 1274.0
+offset_bottom = 767.0
 texture = SubResource("GradientTexture2D_3sro1")
 
 [node name="Vignette" type="TextureRect" parent="CanvasLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -650.0
-offset_top = -385.0
-offset_right = 645.0
-offset_bottom = 405.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_right = 1295.0
+offset_bottom = 790.0
 texture = SubResource("GradientTexture2D_bhdqc")
 
 [node name="Label" type="Label" parent="."]

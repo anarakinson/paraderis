@@ -4,14 +4,14 @@
 [ext_resource type="Script" path="res://game/rooms/obstacle_course_room/obstacle_course_room.gd" id="1_ffvij"]
 [ext_resource type="PackedScene" uid="uid://clc02tsxv7afg" path="res://game/shady/shady.tscn" id="3_tlemg"]
 [ext_resource type="PackedScene" uid="uid://cs1mj6piosccg" path="res://game/environment/door/room_connection.tscn" id="4_uaj7w"]
-[ext_resource type="PackedScene" uid="uid://7qqerdt571s7" path="res://game/technical/camera_2d.tscn" id="6_a7qj1"]
+[ext_resource type="PackedScene" uid="uid://7qqerdt571s7" path="res://game/technical/smart_camera2d/camera_2d.tscn" id="6_a7qj1"]
 
 [node name="ObstacleCourseRoom" type="Node2D"]
 script = ExtResource("1_ffvij")
 
 [node name="RoomConnection" parent="." instance=ExtResource("4_uaj7w")]
 position = Vector2(690, 1882)
-next_room = "res://game/test.tscn"
+next_room = "res://game/rooms/test_room/test.tscn"
 
 [node name="Shady" parent="." instance=ExtResource("3_tlemg")]
 position = Vector2(1285, 1806)

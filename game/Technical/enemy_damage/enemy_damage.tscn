@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://chlijv5hltxrj"]
 
-[ext_resource type="Script" path="res://game/technical/enemy_damage.gd" id="1_m1cjg"]
+[ext_resource type="Script" path="res://game/technical/enemy_damage/enemy_damage.gd" id="1_m1cjg"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p44v6"]
 radius = 51.0

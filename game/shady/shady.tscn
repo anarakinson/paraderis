@@ -3057,8 +3057,8 @@ radius = 21.0
 height = 214.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vc5v2"]
-radius = 60.0
-height = 120.0
+radius = 40.0
+height = 170.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tc37f"]
 size = Vector2(35, 0)
@@ -3074,14 +3074,14 @@ polygon = PackedVector2Array(-1, 5.3, 1, 5.3, 1.1, 5.5, -1.1, 5.5)
 
 [node name="Shady" type="CharacterBody2D"]
 collision_layer = 2
-floor_max_angle = 0.174533
+floor_max_angle = 0.349066
 script = ExtResource("1_rfscw")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_hlg2r")
 position = Vector2(0, -21)
 sprite_frames = SubResource("SpriteFrames_flbuy")
-animation = &"climb"
+animation = &"fall"
 autoplay = "idle"
 
 [node name="SlashSprite2D" type="AnimatedSprite2D" parent="."]
@@ -3105,8 +3105,7 @@ libraries = {
 shape = SubResource("CapsuleShape2D_d5uql")
 
 [node name="LyingCollisionShape2D5" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(0, 47)
+position = Vector2(0, 22)
 shape = SubResource("CapsuleShape2D_vc5v2")
 disabled = true
 

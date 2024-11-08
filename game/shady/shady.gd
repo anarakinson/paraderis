@@ -155,7 +155,7 @@ var collider_shape : Dictionary = {
 	"run" : [35, 214, 0, 0],
 	"lying" : [15, 175, 90, 92],
 	"sit" : [60, 120, 0, 47],
-	"jump" : [40, 152, 0, 30],
+	"jump" : [40, 170, 0, 22],
 	"on_wall" : [35, 214, 0, 0],
 }
 
@@ -391,11 +391,12 @@ func _physics_process(delta):
 		velocity.y = -jump_velocity
 		state = WALL_CLIMB
 	
-	if state == WALL_CLIMB:
-		$ClimbCollision.disabled = false
-	elif state == FALL:
-	#else:
+	
+	if state == FALL:
 		$ClimbCollision.disabled = true
+	elif state == WALL_CLIMB:
+	#else:
+		$ClimbCollision.disabled = false
 	
 	
 	if Input.is_anything_pressed():
@@ -503,6 +504,7 @@ func fall_hit_state():
 	state = DO_NOTHIG
 	set_collision_shape(collider_shape["lying"])
 	await get_tree().create_timer(1).timeout
+	hitpoints.invincibility()
 	is_fall_hitted = false
 	state = LYING
 
@@ -544,6 +546,7 @@ func conjure_state():
 
 
 func magic_attack_state():
+	$ClimbCollision.disabled = true
 	velocity.x = 0
 	animation_player.play("throw")
 	await animation_player.animation_finished
@@ -712,9 +715,11 @@ func climb_ledge_state(delta):
 	#print("IS ON WALL")
 	fall_counter = 0
 	$ClimbCollision.disabled = false
+	#$ClimbCollision.set_deferred("disabled", false)
 	
 	if Input.is_action_just_pressed("down"):
 		$ClimbCollision.disabled = true
+		#$ClimbCollision.set_deferred("disabled", true)
 		state = DO_NOTHIG
 		animation_player.play("out_wall")
 		face_direction = -face_direction
@@ -733,6 +738,7 @@ func climb_ledge_state(delta):
 		await animation_player.animation_finished 
 		set_collision_shape(collider_shape["sit"])
 		$ClimbCollision.disabled = true
+		#$ClimbCollision.set_deferred("disabled", true)
 		position.x += climb_shape_cast.position.x * scale.x
 		position.y += climb_shape_cast.position.y * scale.y
 		state = SIT
@@ -786,6 +792,7 @@ func wall_bouncing_state():
 
 
 func attack_state():
+	$ClimbCollision.set_deferred("disabled", true)
 	if is_in_attack_cooldown:
 		state = MOVE
 		return
@@ -861,8 +868,8 @@ func attack_process_state():
 	if is_on_floor():
 		full_stop()
 	else:
-		set_direction(0.5, false)
-		
+		set_direction(0.95, false)
+	
 
 func attack_end_state():
 	#state = IDLE

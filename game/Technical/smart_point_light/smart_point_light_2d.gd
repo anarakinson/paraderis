@@ -8,6 +8,7 @@ var smoothing_distance : float = 22.5
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	visible = true
+	global_position = player.global_position
 	pass # Replace with function body.
 
 

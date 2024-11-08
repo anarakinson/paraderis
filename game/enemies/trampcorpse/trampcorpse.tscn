@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://game/enemies/trampcorpse/trampcorpse.gd" id="1_uf2bf"]
 [ext_resource type="Texture2D" uid="uid://wwclh2upfjdr" path="res://assets/enemies/trampcorpse/death/frame0001.png" id="2_q2uw1"]
-[ext_resource type="PackedScene" uid="uid://chlijv5hltxrj" path="res://game/technical/enemy_damage.tscn" id="3_dscf6"]
+[ext_resource type="PackedScene" uid="uid://chlijv5hltxrj" path="res://game/technical/enemy_damage/enemy_damage.tscn" id="3_dscf6"]
 [ext_resource type="Texture2D" uid="uid://c1bu8tnce1dfe" path="res://assets/enemies/trampcorpse/death/frame0002.png" id="3_kk8xd"]
 [ext_resource type="Texture2D" uid="uid://dacmscrop3wr1" path="res://assets/enemies/trampcorpse/death/frame0003.png" id="4_7mvts"]
 [ext_resource type="Texture2D" uid="uid://djj2pn1ghcyq5" path="res://assets/enemies/trampcorpse/death/frame0004.png" id="5_sov52"]
