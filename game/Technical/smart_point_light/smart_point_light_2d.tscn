@@ -13,8 +13,9 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.504587)
 
 [node name="SmartPointLight2D" type="PointLight2D"]
-visible = false
 scale = Vector2(40, 25)
 energy = 0.8
+range_layer_min = -50
+range_layer_max = 50
 texture = SubResource("GradientTexture2D_53mif")
 script = ExtResource("1_ngd44")

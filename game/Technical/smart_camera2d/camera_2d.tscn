@@ -39,8 +39,8 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
 
 [sub_resource type="Gradient" id="Gradient_7ha71"]
-offsets = PackedFloat32Array(0, 0.525974, 1)
-colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.988235)
+offsets = PackedFloat32Array(0, 0.532468, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.588235)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_bhdqc"]
 gradient = SubResource("Gradient_7ha71")
@@ -52,14 +52,11 @@ fill_to = Vector2(1, 1)
 position_smoothing_speed = 3.0
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
-drag_left_margin = 0.1
-drag_top_margin = 0.1
-drag_right_margin = 0.1
-drag_bottom_margin = 0.1
 script = ExtResource("1_b434i")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 128
+follow_viewport_enabled = true
 
 [node name="9Oq74Slw3Dc01" type="Sprite2D" parent="CanvasLayer"]
 visible = false

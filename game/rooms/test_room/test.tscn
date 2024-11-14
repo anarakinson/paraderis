@@ -1,9 +1,10 @@
-[gd_scene load_steps=26 format=4 uid="uid://ml43ca51jhhi"]
+[gd_scene load_steps=27 format=4 uid="uid://ml43ca51jhhi"]
 
 [ext_resource type="PackedScene" uid="uid://ds1euiiacrf38" path="res://game/environment/spruces.tscn" id="1_6dfa4"]
 [ext_resource type="Script" path="res://game/rooms/test_room/test.gd" id="1_yckt4"]
 [ext_resource type="PackedScene" uid="uid://djlolnfn241sq" path="res://game/technical/environmental_dust/parallax_dust.tscn" id="2_637b3"]
 [ext_resource type="Texture2D" uid="uid://c8pruu2l6ws21" path="res://assets/environment_altar1.png" id="2_vgy5l"]
+[ext_resource type="Texture2D" uid="uid://tngmwfuj1sdv" path="res://assets/9oq74slw3dc01.jpg" id="2_w6h2l"]
 [ext_resource type="PackedScene" uid="uid://dstmf1qriwhwk" path="res://game/effects/magic_place.tscn" id="3_yf1ar"]
 [ext_resource type="PackedScene" uid="uid://ca5d47lixhsj0" path="res://game/effects/flies/flies.tscn" id="4_djmce"]
 [ext_resource type="Texture2D" uid="uid://ck71piigf1bjb" path="res://game/effects/flies/shit.png" id="5_5uq7e"]
@@ -56,15 +57,21 @@ metadata/_edit_horizontal_guides_ = [2200.0]
 [node name="ParallaxBackground" type="ParallaxBackground" parent="Background"]
 layer = -50
 
-[node name="BackgroundRect" type="ColorRect" parent="Background/ParallaxBackground"]
+[node name="ParallaxLayer1" type="ParallaxLayer" parent="Background/ParallaxBackground"]
+motion_scale = Vector2(0.6, 0.8)
+
+[node name="BackgroundRect" type="ColorRect" parent="Background/ParallaxBackground/ParallaxLayer1"]
 offset_left = -1051.0
 offset_top = -1696.0
 offset_right = 11642.0
 offset_bottom = 3350.0
-color = Color(0.306923, 0.306923, 0.306922, 1)
+color = Color(0.305882, 0.305882, 0.305882, 1)
 
-[node name="ParallaxLayer1" type="ParallaxLayer" parent="Background/ParallaxBackground"]
-motion_scale = Vector2(0.6, 0.8)
+[node name="BackgroundRect1" type="Sprite2D" parent="Background/ParallaxBackground/ParallaxLayer1"]
+visible = false
+position = Vector2(5436, 1024)
+scale = Vector2(4.86728, 2.6956)
+texture = ExtResource("2_w6h2l")
 
 [node name="Spruces" parent="Background/ParallaxBackground/ParallaxLayer1" instance=ExtResource("1_6dfa4")]
 position = Vector2(3554, 1207)
@@ -147,12 +154,6 @@ texture = ExtResource("5_5uq7e")
 [node name="WarpGate" parent="Decor" instance=ExtResource("6_yqy1t")]
 position = Vector2(-8160, 986)
 
-[node name="SmartPointLight2D" parent="." node_paths=PackedStringArray("player") instance=ExtResource("7_xhs44")]
-energy = 0.94
-range_layer_min = -50
-range_layer_max = 50
-player = NodePath("../Shady")
-
 [node name="Enemies" type="Node2D" parent="."]
 position = Vector2(394, 507)
 scale = Vector2(0.5, 0.5)
@@ -225,7 +226,7 @@ position = Vector2(4946, 36)
 idle_stand = true
 
 [node name="Shady" parent="." instance=ExtResource("9_ul232")]
-position = Vector2(2085, -280)
+position = Vector2(7747, -478)
 scale = Vector2(0.5, 0.5)
 
 [node name="Camera2D" type="Camera2D" parent="Shady"]
@@ -525,33 +526,26 @@ notice = "further up"
 position = Vector2(574, -982)
 notice = "you are so close"
 
-[node name="Camera" type="Node2D" parent="."]
-show_behind_parent = true
-
-[node name="SmartCamera2D" parent="Camera" node_paths=PackedStringArray("player") instance=ExtResource("15_t4qcq")]
-visible = false
-zoom = Vector2(0.6, 0.6)
-limit_left = -375
-limit_top = -600
-limit_right = 10850
-limit_bottom = 2200
-player = NodePath("../../Shady")
-
-[node name="SmartCamera2D2" parent="Camera" instance=ExtResource("15_t4qcq")]
-visible = false
-position = Vector2(3974, -44)
-enabled = false
-zoom = Vector2(0.3, 0.3)
-
 [node name="Light" type="Node2D" parent="."]
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="Light"]
 visible = false
 position = Vector2(1495, 561)
-energy = 0.98
 blend_mode = 1
 range_layer_min = -50
 range_layer_max = 50
+
+[node name="SmartPointLight2D" parent="Light" node_paths=PackedStringArray("player") instance=ExtResource("7_xhs44")]
+scale = Vector2(20, 15)
+energy = 0.92
+player = NodePath("../../Shady")
+
+[node name="SmartPointLight2D2" parent="Light" node_paths=PackedStringArray("player") instance=ExtResource("7_xhs44")]
+scale = Vector2(40, 30)
+energy = 0.15
+range_layer_min = -51
+range_layer_max = 51
+player = NodePath("../../Shady")
 
 [node name="IngameInterface" parent="." instance=ExtResource("16_jjyu4")]
 visible = false
@@ -579,6 +573,28 @@ position = Vector2(-2252, 577)
 
 [node name="RoomConnection" parent="RoomConnections" instance=ExtResource("18_4auv5")]
 next_room = "res://game/rooms/obstacle_course_room/obstacle_course_room.tscn"
+
+[node name="Camera" type="Node2D" parent="."]
+show_behind_parent = true
+
+[node name="SmartCamera2D" parent="Camera" node_paths=PackedStringArray("player") instance=ExtResource("15_t4qcq")]
+visible = false
+zoom = Vector2(0.8, 0.8)
+limit_left = -375
+limit_top = -600
+limit_right = 10850
+limit_bottom = 2200
+player = NodePath("../../Shady")
+
+[node name="SmartCamera2D3" parent="Camera" node_paths=PackedStringArray("player") instance=ExtResource("15_t4qcq")]
+zoom = Vector2(0.5, 0.5)
+player = NodePath("../../Shady")
+
+[node name="SmartCamera2D2" parent="Camera" instance=ExtResource("15_t4qcq")]
+visible = false
+position = Vector2(3033, -304)
+enabled = false
+zoom = Vector2(0.25, 0.25)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_kjjft")

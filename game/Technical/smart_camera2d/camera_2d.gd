@@ -9,8 +9,10 @@ extends Camera2D
 @export var player : CharacterBody2D
 
 @export_category("Camera Smoothing")
-@export var smoothing_enabled : bool
+#@export var smoothing_enabled : bool
 @export_range(1, 50) var smoothing_distance : float = 2
+
+var speed_coeff : float = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,9 +27,13 @@ func _ready():
 		global_position = player.global_position
 		print(zoom, vignette_rect.scale, vignette_rect.position, drag_right_margin)
 		player.camera_position_point /= (zoom.x * 1.)
+		drag_top_margin = 0.1 * (1-zoom.y)
+		drag_bottom_margin = 0.1 * (1-zoom.y)
+		drag_left_margin = 0.5 * (1-zoom.x)
+		drag_right_margin = 0.5 * (1-zoom.x)
+		smoothing_distance = 2 * zoom.x
 	else:
 		pass # Replace with function body.
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -37,7 +43,11 @@ func _physics_process(delta):
 	var weight : float = float(smoothing_distance)
 	var camera_pos : Vector2
 	
-	var speed_coeff = abs(global_position.distance_to(player.camera_position.global_position)) / 200
+	#speed_coeff = abs(global_position.distance_to(player.camera_position.global_position)) / 250
+	if global_position.distance_to(player.camera_position.global_position) > 350:
+		speed_coeff = lerp(speed_coeff, 3., 0.1)
+	else:
+		speed_coeff = lerp(speed_coeff, 1., 0.1)
 	#print(speed_coeff)
 	camera_pos = lerp(global_position, player.camera_position.global_position, weight * delta * speed_coeff)
 	global_position = camera_pos.floor()
