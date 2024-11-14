@@ -8,6 +8,7 @@ extends Node2D
 #@onready var background_rect: ColorRect = $Background/BackgroundRect
 @onready var background_rect: ColorRect = $Background/ParallaxBackground/BackgroundRect
 @onready var dust_emission_shape: ColorRect = $Background/DustEmissionShape
+@onready var ingame_interface: Control = $IngameInterface
 
 
 # Called when the node enters the scene tree for the first time.
@@ -18,8 +19,7 @@ func _ready():
 	camera_2d.visible = true
 	camera_2d_2.visible = false
 	background_rect.visible = true
-	dust_emission_shape.visible = false
-	$Interface/IngameInterface.visible = true
+	ingame_interface.visible = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

@@ -350,12 +350,16 @@ shape = SubResource("CapsuleShape2D_a3771")
 position = Vector2(-1, -115)
 scale = Vector2(1.59375, 1.59375)
 energy = 0.1
+range_layer_min = -50
+range_layer_max = 50
 texture = SubResource("GradientTexture2D_cb1jb")
 
 [node name="PointLight2D2" type="PointLight2D" parent="."]
 position = Vector2(-45, -45)
 scale = Vector2(1.54688, 1.54688)
 energy = 0.1
+range_layer_min = -50
+range_layer_max = 50
 texture = SubResource("GradientTexture2D_cb1jb")
 
 [connection signal="body_entered" from="SightArea2D" to="." method="_on_sight_area_2d_body_entered"]
