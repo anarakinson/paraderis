@@ -59,7 +59,7 @@ drag_bottom_margin = 0.1
 script = ExtResource("1_b434i")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 0
+layer = 128
 
 [node name="9Oq74Slw3Dc01" type="Sprite2D" parent="CanvasLayer"]
 visible = false
@@ -91,5 +91,6 @@ texture = SubResource("GradientTexture2D_bhdqc")
 
 [node name="Label" type="Label" parent="."]
 visible = false
+z_index = 1026
 offset_right = 40.0
 offset_bottom = 23.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://ml43ca51jhhi"]
+[gd_scene load_steps=26 format=4 uid="uid://ml43ca51jhhi"]
 
 [ext_resource type="PackedScene" uid="uid://ds1euiiacrf38" path="res://game/environment/spruces.tscn" id="1_6dfa4"]
 [ext_resource type="Script" path="res://game/rooms/test_room/test.gd" id="1_yckt4"]
@@ -39,6 +39,19 @@ _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 184, 16, 0, 0, 0, 0, -383, 34)
 }
 point_count = 2
+
+[sub_resource type="Environment" id="Environment_5jtev"]
+background_mode = 3
+background_canvas_max_layer = 127
+glow_enabled = true
+glow_normalized = true
+glow_bloom = 0.52
+fog_light_energy = 7.07
+fog_sun_scatter = 0.28
+fog_density = 0.7679
+fog_height = 560.51
+fog_height_density = 8.4211
+adjustment_enabled = true
 
 [node name="Test" type="Node2D"]
 position = Vector2(2050, 982)
@@ -531,6 +544,7 @@ position = Vector2(574, -982)
 notice = "you are so close"
 
 [node name="Camera" type="Node2D" parent="."]
+show_behind_parent = true
 
 [node name="SmartCamera2D" parent="Camera" node_paths=PackedStringArray("player") instance=ExtResource("15_t4qcq")]
 visible = false
@@ -556,9 +570,11 @@ energy = 0.95
 blend_mode = 1
 
 [node name="Interface" type="CanvasLayer" parent="."]
+layer = 128
 
 [node name="IngameInterface" parent="Interface" instance=ExtResource("16_jjyu4")]
 visible = false
+top_level = true
 
 [node name="Checkpoints" type="Node2D" parent="."]
 position = Vector2(1495, 561)
@@ -582,3 +598,8 @@ position = Vector2(-2252, 577)
 
 [node name="RoomConnection" parent="RoomConnections" instance=ExtResource("18_4auv5")]
 next_room = "res://game/rooms/obstacle_course_room/obstacle_course_room.tscn"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_5jtev")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]

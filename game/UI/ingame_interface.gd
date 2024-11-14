@@ -1,7 +1,8 @@
 extends Control
 
-@onready var blur_rect: ColorRect = $Blur
-@onready var blood_rect = $BloodRect
+@onready var blur_rect: ColorRect = $Interface/Blur
+@onready var blood_rect = $Interface/BloodRect
+@onready var HP: Label = $Interface/HP
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -20,7 +21,7 @@ func _process(delta: float) -> void:
 
 
 func display_hp():
-	$HP.text = "HP: " + str(GlobalParams.shady_params.hitpoints) + "/" + str(GlobalParams.shady_params.max_hitpoints)
+	HP.text = "HP: " + str(GlobalParams.shady_params.hitpoints) + "/" + str(GlobalParams.shady_params.max_hitpoints)
 
 
 func _on_ui_update():
