@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://7qqerdt571s7"]
+[gd_scene load_steps=8 format=3 uid="uid://7qqerdt571s7"]
 
 [ext_resource type="Script" path="res://game/technical/smart_camera2d/camera_2d.gd" id="1_b434i"]
-[ext_resource type="Texture2D" uid="uid://tngmwfuj1sdv" path="res://assets/9oq74slw3dc01.jpg" id="2_8x6hn"]
 
 [sub_resource type="Shader" id="Shader_atgca"]
 code = "shader_type canvas_item;
@@ -49,19 +48,18 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 1)
 
 [node name="SmartCamera2D" type="Camera2D"]
+enabled = false
 position_smoothing_speed = 3.0
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
+drag_left_margin = 0.0
+drag_top_margin = 0.0
+drag_right_margin = 0.0
+drag_bottom_margin = 0.0
 script = ExtResource("1_b434i")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 128
-follow_viewport_enabled = true
-
-[node name="9Oq74Slw3Dc01" type="Sprite2D" parent="CanvasLayer"]
-visible = false
-position = Vector2(481, 467)
-texture = ExtResource("2_8x6hn")
+layer = 100
 
 [node name="Blur" type="ColorRect" parent="CanvasLayer"]
 visible = false
@@ -85,6 +83,20 @@ texture = SubResource("GradientTexture2D_3sro1")
 offset_right = 1295.0
 offset_bottom = 790.0
 texture = SubResource("GradientTexture2D_bhdqc")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -596.0
+offset_top = -344.0
+offset_right = -556.0
+offset_bottom = -304.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.113725, 0.356863, 1, 0.517647)
 
 [node name="Label" type="Label" parent="."]
 visible = false

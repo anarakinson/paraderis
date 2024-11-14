@@ -4,14 +4,15 @@ extends Camera2D
 @onready var blur_rect: ColorRect = $CanvasLayer/Blur
 @onready var vignette_rect: TextureRect = $CanvasLayer/Vignette
 @onready var vignette_hitted: TextureRect = $CanvasLayer/VignetteHitted
+@onready var color_rect: ColorRect = $CanvasLayer/ColorRect
 
 @export_category("Follow character")
 @export var player : CharacterBody2D
 
 @export_category("Camera Smoothing")
 #@export var smoothing_enabled : bool
-@export_range(1, 50) var smoothing_distance : float = 2
-
+@export_range(0, 50) var basic_smoothing_distance : float = 5
+var smoothing_distance = basic_smoothing_distance
 var speed_coeff : float = 1
 
 # Called when the node enters the scene tree for the first time.
@@ -22,16 +23,23 @@ func _ready():
 	var win_size = get_viewport().get_visible_rect().size
 	vignette_hitted.size = win_size 
 	vignette_rect.size = win_size 
+	color_rect.size = win_size / 50
+
+	vignette_hitted.position = Vector2(0, 0)
+	vignette_rect.position = Vector2(0, 0)
+	color_rect.position = win_size / 2
+
 
 	if player != null:
-		global_position = player.global_position
+		global_position = player.camera_position.global_position
 		print(zoom, vignette_rect.scale, vignette_rect.position, drag_right_margin)
-		player.camera_position_point /= (zoom.x * 1.)
-		drag_top_margin = 0.1 * (1-zoom.y)
-		drag_bottom_margin = 0.1 * (1-zoom.y)
-		drag_left_margin = 0.5 * (1-zoom.x)
-		drag_right_margin = 0.5 * (1-zoom.x)
-		smoothing_distance = 2 * zoom.x
+		player.camera_position_point += player.camera_position_point * (1-zoom.x)
+		#drag_top_margin = 0.1 * (1-zoom.y)
+		#drag_bottom_margin = 0.1 * (1-zoom.y)
+		drag_left_margin = 0.1 * (zoom.x)
+		drag_right_margin = 0.1 * (zoom.x)
+		smoothing_distance = basic_smoothing_distance * zoom.x
+		print(smoothing_distance, " ", (1-zoom.x))
 	else:
 		pass # Replace with function body.
 
@@ -52,6 +60,9 @@ func _physics_process(delta):
 	camera_pos = lerp(global_position, player.camera_position.global_position, weight * delta * speed_coeff)
 	global_position = camera_pos.floor()
 	
+	#print(global_position, vignette_hitted.global_position)
+
+
 func _on_hitted():
 	vignette_hitted.modulate.a = 1
 	vignette_hitted.visible = true
