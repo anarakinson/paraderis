@@ -41,7 +41,7 @@ class_name Shady
 @export var camera_position_point = 250
 
 @export_category("Effects")
-@export_range(0., 2., 0.1) var slash_glowing: float = 1.
+@export_range(0., 2., 0.1) var slash_glowing: float = .9
 
 @export_category("Parameters")
 @onready var attack_cooldown_time: float = GlobalParams.shady_params.attack_cooldown_time

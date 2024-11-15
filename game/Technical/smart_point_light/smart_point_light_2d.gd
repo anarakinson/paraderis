@@ -8,7 +8,8 @@ var smoothing_distance : float = 22.5
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	visible = true
-	global_position = player.global_position
+	if player != null:
+		global_position = player.global_position
 	pass # Replace with function body.
 
 
@@ -20,3 +21,4 @@ func _process(delta: float) -> void:
 	var weight : float = float(smoothing_distance)
 	var light_pos : Vector2 = lerp(global_position, player.global_position, weight * delta)
 	global_position = light_pos.floor()
+	

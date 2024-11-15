@@ -8,13 +8,14 @@ extends Node2D
 #@onready var background_rect: ColorRect = $Background/BackgroundRect
 #@onready var background_rect = $Background/ParallaxBackground/BackgroundRect
 @onready var background_rect = $Background/ParallaxBackground/ParallaxLayer1/BackgroundRect
-@onready var dust_emission_shape: ColorRect = $Background/DustEmissionShape
 @onready var ingame_interface: Control = $IngameInterface
+@onready var parallax_dust: Control = $Background/ParallaxDust
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	directional_light_2d.visible = true
+	parallax_dust.visible = true
 	background_rect.visible = true
 	ingame_interface.visible = true
 	
@@ -36,3 +37,11 @@ func _input(event: InputEvent) -> void:
 			camera_2d_2.enabled = !camera_2d_2.enabled
 			camera_2d.visible = !camera_2d.visible
 			camera_2d_2.visible = !camera_2d_2.visible
+	
+		if event.as_text() == "K":
+			camera_2d.zoom -= Vector2(0.1, 0.1)
+			print(camera_2d.zoom)
+		if event.as_text() == "L":
+			camera_2d.zoom += Vector2(0.1, 0.1)
+			print(camera_2d.zoom)
+	

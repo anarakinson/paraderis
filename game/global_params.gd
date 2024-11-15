@@ -30,6 +30,11 @@ var shady_params : ShadyParams
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	shady_params = ShadyParams.new()
+	
+	var resolution = Vector2(1920, 1080)
+	DisplayServer.window_set_size(resolution)
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+	
 	pass # Replace with function body.
 
 

@@ -347,6 +347,7 @@ shape = SubResource("CapsuleShape2D_f6w02")
 shape = SubResource("CapsuleShape2D_a3771")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
 position = Vector2(-1, -115)
 scale = Vector2(1.59375, 1.59375)
 energy = 0.1
@@ -355,6 +356,7 @@ range_layer_max = 50
 texture = SubResource("GradientTexture2D_cb1jb")
 
 [node name="PointLight2D2" type="PointLight2D" parent="."]
+visible = false
 position = Vector2(-45, -45)
 scale = Vector2(1.54688, 1.54688)
 energy = 0.1

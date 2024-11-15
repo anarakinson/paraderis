@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://ml43ca51jhhi"]
+[gd_scene load_steps=29 format=4 uid="uid://ml43ca51jhhi"]
 
 [ext_resource type="PackedScene" uid="uid://ds1euiiacrf38" path="res://game/environment/spruces.tscn" id="1_6dfa4"]
 [ext_resource type="Script" path="res://game/rooms/test_room/test.gd" id="1_yckt4"]
@@ -23,6 +23,15 @@
 [ext_resource type="PackedScene" uid="uid://cs1mj6piosccg" path="res://game/environment/door/room_connection.tscn" id="18_4auv5"]
 [ext_resource type="PackedScene" uid="uid://dfubt4v77owcf" path="res://game/environment/moving_platform/moving_platform.tscn" id="19_r0622"]
 
+[sub_resource type="Gradient" id="Gradient_bupfj"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_a4dxu"]
+gradient = SubResource("Gradient_bupfj")
+fill = 1
+fill_from = Vector2(0.555046, 0.509174)
+fill_to = Vector2(1, 0.463303)
+
 [sub_resource type="Curve2D" id="Curve2D_v0xed"]
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, -27, 16, 0, 0, 0, 0, 329, -227, 0, 0, 0, 0, -214, -248)
@@ -41,10 +50,15 @@ _data = {
 }
 point_count = 2
 
-[sub_resource type="Environment" id="Environment_kjjft"]
+[sub_resource type="Environment" id="Environment_tvhgi"]
+resource_local_to_scene = true
+background_mode = 3
 glow_enabled = true
-glow_bloom = 0.1
-glow_hdr_threshold = 1.25
+glow_levels/4 = 2.0
+glow_levels/5 = 2.0
+glow_blend_mode = 1
+glow_hdr_threshold = 0.3
+glow_hdr_scale = 0.25
 
 [node name="Test" type="Node2D"]
 position = Vector2(2050, 982)
@@ -54,6 +68,12 @@ metadata/_edit_horizontal_guides_ = [2200.0]
 
 [node name="Background" type="Node2D" parent="."]
 
+[node name="BackgroundRect1" type="Sprite2D" parent="Background"]
+visible = false
+position = Vector2(3386, 42)
+scale = Vector2(4.86728, 2.6956)
+texture = ExtResource("2_w6h2l")
+
 [node name="ParallaxBackground" type="ParallaxBackground" parent="Background"]
 layer = -50
 
@@ -61,19 +81,15 @@ layer = -50
 motion_scale = Vector2(0.6, 0.8)
 
 [node name="BackgroundRect" type="ColorRect" parent="Background/ParallaxBackground/ParallaxLayer1"]
+visible = false
 offset_left = -1051.0
 offset_top = -1696.0
 offset_right = 11642.0
 offset_bottom = 3350.0
 color = Color(0.305882, 0.305882, 0.305882, 1)
 
-[node name="BackgroundRect1" type="Sprite2D" parent="Background/ParallaxBackground/ParallaxLayer1"]
-visible = false
-position = Vector2(5436, 1024)
-scale = Vector2(4.86728, 2.6956)
-texture = ExtResource("2_w6h2l")
-
 [node name="Spruces" parent="Background/ParallaxBackground/ParallaxLayer1" instance=ExtResource("1_6dfa4")]
+visible = false
 position = Vector2(3554, 1207)
 scale = Vector2(0.5, 0.5)
 
@@ -84,6 +100,7 @@ layer = 50
 motion_scale = Vector2(1.2, 1.1)
 
 [node name="Spruces2" parent="Background/ParallaxForeground/ParallaxLayer2" instance=ExtResource("1_6dfa4")]
+visible = false
 modulate = Color(1.5, 1.5, 1.5, 1)
 position = Vector2(4178, 1264)
 rotation = -0.119269
@@ -91,6 +108,7 @@ scale = Vector2(0.5, 0.5)
 frame = 1
 
 [node name="ParallaxDust" parent="Background" instance=ExtResource("2_637b3")]
+visible = false
 offset_left = -2422.0
 offset_top = -1776.0
 offset_right = 9221.0
@@ -132,6 +150,7 @@ position = Vector2(-4450, -552)
 position = Vector2(-1384, -2318)
 
 [node name="EnvironmentAltar6" type="Sprite2D" parent="Decor"]
+modulate = Color(2, 2, 2, 1)
 position = Vector2(-4717.2, -599.2)
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("2_vgy5l")
@@ -187,10 +206,10 @@ position = Vector2(6392, -1694)
 position = Vector2(6366, -190)
 
 [node name="Trampcorpse9" parent="Enemies" instance=ExtResource("8_csnw0")]
-position = Vector2(6658, -1734)
+position = Vector2(6692, -1632)
 
 [node name="Trampcorpse12" parent="Enemies" instance=ExtResource("8_csnw0")]
-position = Vector2(5996, -1598)
+position = Vector2(6012, -1614)
 
 [node name="Trampcorpse11" parent="Enemies" instance=ExtResource("8_csnw0")]
 position = Vector2(6792, -192)
@@ -231,11 +250,20 @@ scale = Vector2(0.5, 0.5)
 
 [node name="Camera2D" type="Camera2D" parent="Shady"]
 visible = false
-position = Vector2(-3012, -1146)
+position = Vector2(20, -20)
 scale = Vector2(2, 2)
 enabled = false
+zoom = Vector2(0.4, 0.4)
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
+
+[node name="PointLight2D" type="PointLight2D" parent="Shady"]
+visible = false
+scale = Vector2(30, 30)
+energy = 0.92
+range_layer_min = -50
+range_layer_max = 50
+texture = SubResource("GradientTexture2D_a4dxu")
 
 [node name="Environment" type="Node2D" parent="."]
 
@@ -353,6 +381,7 @@ offset_right = 1740.0
 offset_bottom = 178.0
 grow_horizontal = 1
 grow_vertical = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="Spikes2" parent="Spikes" instance=ExtResource("11_v2u8y")]
 offset_left = 1428.0
@@ -361,6 +390,7 @@ offset_right = 2371.0
 offset_bottom = -1323.0
 grow_horizontal = 1
 grow_vertical = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="Spikes-swords" type="Sprite2D" parent="Spikes"]
 position = Vector2(1470, 111)
@@ -531,20 +561,15 @@ notice = "you are so close"
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="Light"]
 visible = false
 position = Vector2(1495, 561)
+energy = 0.99
 blend_mode = 1
 range_layer_min = -50
 range_layer_max = 50
 
 [node name="SmartPointLight2D" parent="Light" node_paths=PackedStringArray("player") instance=ExtResource("7_xhs44")]
-scale = Vector2(20, 15)
-energy = 0.92
-player = NodePath("../../Shady")
-
-[node name="SmartPointLight2D2" parent="Light" node_paths=PackedStringArray("player") instance=ExtResource("7_xhs44")]
-scale = Vector2(40, 30)
-energy = 0.15
-range_layer_min = -51
-range_layer_max = 51
+visible = false
+energy = 0.9
+texture_scale = 1.0
 player = NodePath("../../Shady")
 
 [node name="IngameInterface" parent="." instance=ExtResource("16_jjyu4")]
@@ -586,13 +611,14 @@ limit_right = 10850
 limit_bottom = 2200
 player = NodePath("../../Shady")
 
-[node name="SmartCamera2D2" parent="Camera" instance=ExtResource("15_t4qcq")]
+[node name="SmartCamera2D2" parent="Camera" node_paths=PackedStringArray("player") instance=ExtResource("15_t4qcq")]
 visible = false
 position = Vector2(3033, -304)
-zoom = Vector2(0.25, 0.25)
+zoom = Vector2(0.4, 0.4)
+player = NodePath("../../Shady")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_kjjft")
+environment = SubResource("Environment_tvhgi")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 visible = false

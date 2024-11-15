@@ -29,6 +29,7 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 [node name="MagicPlace" type="Node2D"]
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+modulate = Color(15, 15, 15, 1)
 texture_filter = 2
 material = SubResource("ShaderMaterial_328sg")
 amount = 12

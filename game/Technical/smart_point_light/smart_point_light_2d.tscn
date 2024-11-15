@@ -3,19 +3,24 @@
 [ext_resource type="Script" path="res://game/technical/smart_point_light/smart_point_light_2d.gd" id="1_ngd44"]
 
 [sub_resource type="Gradient" id="Gradient_d84h6"]
-offsets = PackedFloat32Array(0, 0.532468, 1)
-colors = PackedColorArray(1, 1, 1, 1, 0.94902, 0.94902, 0.94902, 0.623529, 1, 1, 1, 0)
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.37013, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.46755, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_53mif"]
 gradient = SubResource("Gradient_d84h6")
+width = 1024
+height = 1024
+use_hdr = true
 fill = 1
 fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(1, 0.504587)
+fill_to = Vector2(1, 0.5)
 
 [node name="SmartPointLight2D" type="PointLight2D"]
-scale = Vector2(40, 25)
+scale = Vector2(2, 1.5)
 energy = 0.8
 range_layer_min = -50
 range_layer_max = 50
 texture = SubResource("GradientTexture2D_53mif")
+texture_scale = 0.01
 script = ExtResource("1_ngd44")
