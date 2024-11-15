@@ -34,14 +34,7 @@ func _input(event: InputEvent) -> void:
 		#if event.as_text() == InputMap.action_get_events("camera_change"):
 		if event.as_text() == "P":
 			camera_2d.enabled = !camera_2d.enabled
-			camera_2d_2.enabled = !camera_2d_2.enabled
 			camera_2d.visible = !camera_2d.visible
+			camera_2d_2.enabled = !camera_2d_2.enabled
 			camera_2d_2.visible = !camera_2d_2.visible
-	
-		if event.as_text() == "K":
-			camera_2d.zoom -= Vector2(0.1, 0.1)
-			print(camera_2d.zoom)
-		if event.as_text() == "L":
-			camera_2d.zoom += Vector2(0.1, 0.1)
-			print(camera_2d.zoom)
 	

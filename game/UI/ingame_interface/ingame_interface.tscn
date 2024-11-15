@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://draf4jcw4rp4e"]
 
-[ext_resource type="Script" path="res://game/UI/ingame_interface.gd" id="1_qm365"]
+[ext_resource type="Script" path="res://game/UI/ingame_interface/ingame_interface.gd" id="1_qm365"]
 
 [sub_resource type="Gradient" id="Gradient_kuim5"]
 colors = PackedColorArray(0.501961, 0, 0, 1, 0, 0, 0, 1)

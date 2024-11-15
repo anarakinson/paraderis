@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=4 uid="uid://ml43ca51jhhi"]
+[gd_scene load_steps=30 format=4 uid="uid://ml43ca51jhhi"]
 
 [ext_resource type="PackedScene" uid="uid://ds1euiiacrf38" path="res://game/environment/spruces.tscn" id="1_6dfa4"]
 [ext_resource type="Script" path="res://game/rooms/test_room/test.gd" id="1_yckt4"]
@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://cnv38iiucgso1" path="res://game/technical/checkpoint/checkpoint.tscn" id="17_axvv5"]
 [ext_resource type="PackedScene" uid="uid://cs1mj6piosccg" path="res://game/environment/door/room_connection.tscn" id="18_4auv5"]
 [ext_resource type="PackedScene" uid="uid://dfubt4v77owcf" path="res://game/environment/moving_platform/moving_platform.tscn" id="19_r0622"]
+[ext_resource type="PackedScene" uid="uid://hofe54ar0o34" path="res://game/UI/pause_menu/pause_menu.tscn" id="23_d51x3"]
 
 [sub_resource type="Gradient" id="Gradient_bupfj"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -621,4 +622,7 @@ player = NodePath("../../Shady")
 environment = SubResource("Environment_tvhgi")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
+
+[node name="PauseMenu" parent="." instance=ExtResource("23_d51x3")]
 visible = false

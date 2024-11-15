@@ -1,0 +1,52 @@
+[gd_scene load_steps=2 format=3 uid="uid://hofe54ar0o34"]
+
+[ext_resource type="Script" path="res://game/UI/pause_menu/pause_menu.gd" id="1_dsjmm"]
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dsjmm")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.187, 0.187, 0.187, 0.481)
+
+[node name="Resume" type="Button" parent="."]
+offset_left = 510.0
+offset_top = 240.0
+offset_right = 660.0
+offset_bottom = 290.0
+theme_override_font_sizes/font_size = 25
+text = "Resume"
+icon_alignment = 1
+
+[node name="Options" type="Button" parent="."]
+offset_left = 510.0
+offset_top = 300.0
+offset_right = 660.0
+offset_bottom = 350.0
+theme_override_font_sizes/font_size = 25
+text = "Options"
+icon_alignment = 1
+
+[node name="Quit" type="Button" parent="."]
+offset_left = 510.0
+offset_top = 362.0
+offset_right = 660.0
+offset_bottom = 412.0
+theme_override_font_sizes/font_size = 25
+text = "Quit"
+icon_alignment = 1
+
+[connection signal="pressed" from="Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]

@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://6wryaalvwy7q" path="res://game/technical/environmental_dust/environmental_dust.tscn" id="14_a5bh2"]
 [ext_resource type="PackedScene" uid="uid://ces6d02e2bqyy" path="res://game/tilemap/basic_tilemap.tscn" id="15_phk1h"]
 [ext_resource type="PackedScene" uid="uid://7qqerdt571s7" path="res://game/technical/smart_camera2d/camera_2d.tscn" id="17_8jvib"]
-[ext_resource type="PackedScene" uid="uid://draf4jcw4rp4e" path="res://game/UI/ingame_interface.tscn" id="18_7qxoy"]
+[ext_resource type="PackedScene" uid="uid://draf4jcw4rp4e" path="res://game/UI/ingame_interface/ingame_interface.tscn" id="18_7qxoy"]
 [ext_resource type="PackedScene" uid="uid://cnv38iiucgso1" path="res://game/technical/checkpoint/checkpoint.tscn" id="19_f5pe7"]
 [ext_resource type="PackedScene" uid="uid://cs1mj6piosccg" path="res://game/environment/door/room_connection.tscn" id="20_aev60"]
 

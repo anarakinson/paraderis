@@ -5,6 +5,8 @@ extends Camera2D
 @onready var vignette_rect: TextureRect = $CanvasLayer/Vignette
 @onready var vignette_hitted: TextureRect = $CanvasLayer/VignetteHitted
 @onready var color_rect: ColorRect = $CanvasLayer/ColorRect
+@onready var pause_menu: Control = $CanvasLayer/PauseMenu
+
 
 @export_category("Follow character")
 @export var player : CharacterBody2D
@@ -21,6 +23,7 @@ var camera_position_point = 0
 func _ready():
 	GlobalParams.connect("hitted", _on_hitted)
 	vignette_hitted.visible = false
+	pause_menu.visible = false
 	
 	var win_size = get_viewport().get_visible_rect().size
 	vignette_hitted.size = win_size 
@@ -30,7 +33,7 @@ func _ready():
 	vignette_hitted.position = Vector2(0, 0)
 	vignette_rect.position = Vector2(0, 0)
 	color_rect.position = win_size / 2
-
+	pause_menu.position = Vector2(0, 0)
 
 	if player != null:
 		global_position = player.camera_position.global_position
@@ -79,3 +82,20 @@ func _on_hitted():
 	vignette_hitted.visible = false
 	vignette_hitted.modulate.a = 1
 	
+
+func _input(event: InputEvent) -> void:
+	if !self.is_current():
+		return
+	if event is InputEventKey and event.pressed:
+		if event.as_text() == "K":
+			zoom -= Vector2(0.1, 0.1)
+		if event.as_text() == "L":
+			zoom += Vector2(0.1, 0.1)
+		#if event.keycode == KEY_ESCAPE:
+		if event.is_action("pause"):
+			#print("escape")
+			pause_menu.activate()
+
+
+func _on_visibility_changed() -> void:
+	$CanvasLayer.visible = visible
