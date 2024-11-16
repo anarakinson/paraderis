@@ -113,9 +113,6 @@ autoplay = "dead"
 shape = SubResource("CapsuleShape2D_g7p8w")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-visible = false
 position = Vector2(-120, 90)
 energy = 0.2
-range_layer_min = -50
-range_layer_max = 50
 texture = SubResource("GradientTexture2D_cb1jb")

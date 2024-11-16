@@ -4,8 +4,8 @@
 
 [sub_resource type="Gradient" id="Gradient_d84h6"]
 interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.37013, 1)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.46755, 1, 1, 1, 0)
+offsets = PackedFloat32Array(0, 0.363636, 0.714286, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.392157, 0.340339, 0.340339, 0.340339, 0.196078, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_53mif"]
 gradient = SubResource("Gradient_d84h6")
@@ -22,5 +22,5 @@ energy = 0.8
 range_layer_min = -50
 range_layer_max = 50
 texture = SubResource("GradientTexture2D_53mif")
-texture_scale = 0.01
+texture_scale = 0.5
 script = ExtResource("1_ngd44")

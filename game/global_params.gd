@@ -46,3 +46,20 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+	
+
+
+#func _input(event)
+	#if(event is InputEventKey):
+		## Do stuff
+	#elif(event is InputEventJoypadButton):
+		## Do stuff
+	#elif(event is InputMouseButton):
+		## Do stuff
+	#elif(event is InputEventScreenTouch):
+		## Do stuff
+	#else:
+		## Do stuff
+	#print(Input.get_joy_name(0))
+	#print(Input.get_joy_name(1))
+	#print(Input.get_joy_name(2))

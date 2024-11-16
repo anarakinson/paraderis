@@ -156,13 +156,13 @@ position = Vector2(-1384, -2318)
 [node name="EnvironmentAltar6" type="Sprite2D" parent="Decor"]
 modulate = Color(2, 2, 2, 1)
 position = Vector2(-4717.2, -599.2)
-scale = Vector2(0.6, 0.6)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_vgy5l")
 
 [node name="EnvironmentAltar8" type="Sprite2D" parent="Decor"]
 modulate = Color(2, 2, 2, 1)
 position = Vector2(-4178, -602)
-scale = Vector2(0.6, 0.6)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_vgy5l")
 flip_h = true
 
@@ -250,7 +250,7 @@ position = Vector2(4946, 36)
 idle_stand = true
 
 [node name="Shady" parent="." node_paths=PackedStringArray("step_dust") instance=ExtResource("9_ul232")]
-position = Vector2(1960, -337)
+position = Vector2(1779, -272)
 scale = Vector2(0.5, 0.5)
 step_dust = NodePath("../Technical/StepDust")
 
@@ -618,8 +618,8 @@ range_layer_max = 50
 
 [node name="SmartPointLight2D" parent="Light" node_paths=PackedStringArray("player") instance=ExtResource("7_xhs44")]
 visible = false
+scale = Vector2(3, 2.5)
 energy = 0.9
-texture_scale = 1.0
 player = NodePath("../../Shady")
 
 [node name="Checkpoints" type="Node2D" parent="."]
@@ -650,7 +650,7 @@ show_behind_parent = true
 
 [node name="SmartCamera2D" parent="Camera" node_paths=PackedStringArray("player") instance=ExtResource("15_t4qcq")]
 visible = false
-zoom = Vector2(0.5, 0.5)
+zoom = Vector2(0.6, 0.6)
 limit_left = -375
 limit_top = -600
 limit_right = 10850
