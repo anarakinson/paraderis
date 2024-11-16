@@ -23,7 +23,6 @@ SceneTransition="*res://game/technical/scene_transition/scene_transition.tscn"
 [display]
 
 window/stretch/mode="canvas_items"
-window/per_pixel_transparency/allowed=true
 
 [editor_plugins]
 
@@ -150,6 +149,12 @@ pause={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":6,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
+select={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":73,"key_label":0,"unicode":105,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":4,"pressure":0.0,"pressed":true,"script":null)
+]
+}
 
 [layer_names]
 
@@ -166,6 +171,8 @@ common/max_physics_steps_per_frame=16
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=2
+renderer/rendering_method.mobile="forward_plus"
 lights_and_shadows/use_physical_light_units=true
 reflections/sky_reflections/fast_filter_high_quality=true
 camera/depth_of_field/depth_of_field_bokeh_quality=2

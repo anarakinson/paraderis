@@ -628,9 +628,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("87_qddda")
-}, {
-"duration": 1.0,
-"texture": ExtResource("91_5uj2m")
 }],
 "loop": false,
 "name": &"fall_hit",
@@ -1860,7 +1857,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_ucs7w"]
-length = 0.3
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1868,10 +1865,10 @@ tracks/0/path = NodePath("AnimatedSprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [0, 1, 2]
+"values": [0, 1]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -3081,7 +3078,7 @@ script = ExtResource("1_rfscw")
 material = SubResource("ShaderMaterial_hlg2r")
 position = Vector2(0, -21)
 sprite_frames = SubResource("SpriteFrames_flbuy")
-animation = &"fall"
+animation = &"climb2"
 autoplay = "idle"
 
 [node name="SlashSprite2D" type="AnimatedSprite2D" parent="."]

@@ -20,7 +20,7 @@ extends CharacterBody2D
 
 @export_group("Parameters")
 @export var damage = 1
-@export var hitpoints = 5
+@export var hitpoints = 4
 @export var direction = 1
 
 

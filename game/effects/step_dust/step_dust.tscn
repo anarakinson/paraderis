@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgqfwlym3rc0"]
+
+[ext_resource type="Texture2D" uid="uid://cklyg8134am2o" path="res://assets/effects/step_dust/step_dust.png" id="1_h6t67"]
+[ext_resource type="Script" path="res://game/effects/step_dust/step_dust.gd" id="2_g05do"]
+
+[node name="StepDust" type="CPUParticles2D"]
+emitting = false
+amount = 16
+one_shot = true
+texture = ExtResource("1_h6t67")
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector2(0, -1)
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 30.0
+angular_velocity_min = -10.0
+angular_velocity_max = 10.0
+linear_accel_min = -10.0
+linear_accel_max = -5.0
+damping_min = 10.0
+damping_max = 20.0
+scale_amount_min = 0.05
+scale_amount_max = 0.2
+color = Color(0.113658, 0.0921731, 0.0693621, 1)
+script = ExtResource("2_g05do")

@@ -21,6 +21,7 @@ grow_vertical = 2
 color = Color(0.187, 0.187, 0.187, 0.481)
 
 [node name="Resume" type="Button" parent="."]
+layout_mode = 0
 offset_left = 510.0
 offset_top = 240.0
 offset_right = 660.0
@@ -30,6 +31,7 @@ text = "Resume"
 icon_alignment = 1
 
 [node name="Options" type="Button" parent="."]
+layout_mode = 0
 offset_left = 510.0
 offset_top = 300.0
 offset_right = 660.0
@@ -39,6 +41,7 @@ text = "Options"
 icon_alignment = 1
 
 [node name="Quit" type="Button" parent="."]
+layout_mode = 0
 offset_left = 510.0
 offset_top = 362.0
 offset_right = 660.0

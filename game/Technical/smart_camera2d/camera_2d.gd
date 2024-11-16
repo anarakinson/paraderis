@@ -19,12 +19,18 @@ var smoothing_distance = basic_smoothing_distance
 var speed_coeff : float = 1
 var camera_position_point = 0
 
+
+var is_dead = false
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	GlobalParams.connect("hitted", _on_hitted)
+	GlobalParams.connect("death", _on_death)
 	vignette_hitted.visible = false
 	pause_menu.visible = false
-	
+	$CanvasLayer/Corpserobber.visible = false
+
 	var win_size = get_viewport().get_visible_rect().size
 	vignette_hitted.size = win_size 
 	vignette_rect.size = win_size 
@@ -59,12 +65,12 @@ func _physics_process(delta):
 	#speed_coeff = abs(global_position.distance_to(player.camera_position.global_position)) / 250
 	var player_camera_position = player.camera_position.global_position + Vector2(camera_position_point * player.face_direction, 0)
 	if global_position.distance_to(player_camera_position) > speedup_threshold:
-		speed_coeff = lerp(speed_coeff, 3., 0.1)
+		speed_coeff = lerp(speed_coeff, 3., 0.5 * delta)
 	else:
-		speed_coeff = lerp(speed_coeff, 1., 0.1)
+		speed_coeff = lerp(speed_coeff, 1., 0.5 * delta)
 	#print(speed_coeff)
 	camera_pos = lerp(global_position, player_camera_position, weight * delta * speed_coeff)
-	global_position = camera_pos.floor()
+	global_position = camera_pos #.floor()
 	
 	#print(global_position, vignette_hitted.global_position)
 
@@ -84,9 +90,9 @@ func _on_hitted():
 	
 
 func _input(event: InputEvent) -> void:
-	if !self.is_current():
+	if !self.is_current() or is_dead:
 		return
-	if event is InputEventKey and event.pressed:
+	if (event is InputEventKey or event is InputEventJoypadButton) and event.pressed:
 		if event.as_text() == "K":
 			zoom -= Vector2(0.1, 0.1)
 		if event.as_text() == "L":
@@ -99,3 +105,7 @@ func _input(event: InputEvent) -> void:
 
 func _on_visibility_changed() -> void:
 	$CanvasLayer.visible = visible
+
+func _on_death():
+	is_dead = true
+	

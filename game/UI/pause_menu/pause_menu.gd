@@ -22,9 +22,6 @@ func activate():
 
 func _on_resume_pressed() -> void:
 	activate()
-	#visible = false
-	#is_active = false
-	#get_tree().paused = false
 	
 func _on_options_pressed() -> void:
 	pass # Replace with function body.
@@ -34,7 +31,7 @@ func _on_quit_pressed() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed:
+	if (event is InputEventKey or event is InputEventJoypadButton) and event.pressed:
 		if event.is_action("pause"):
 			print("escape")
 			visible = false

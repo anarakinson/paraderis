@@ -1,33 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://7qqerdt571s7"]
+[gd_scene load_steps=11 format=3 uid="uid://7qqerdt571s7"]
 
 [ext_resource type="Script" path="res://game/technical/smart_camera2d/camera_2d.gd" id="1_b434i"]
+[ext_resource type="PackedScene" uid="uid://draf4jcw4rp4e" path="res://game/UI/ingame_interface/ingame_interface.tscn" id="2_5u0xy"]
+[ext_resource type="Texture2D" uid="uid://btbadadomkepd" path="res://assets/enemies/corpserobber/corpserobber.png" id="2_jfnuo"]
 [ext_resource type="PackedScene" uid="uid://hofe54ar0o34" path="res://game/UI/pause_menu/pause_menu.tscn" id="2_mqlpe"]
-
-[sub_resource type="Shader" id="Shader_atgca"]
-code = "shader_type canvas_item;
-
-uniform sampler2D screen_texture: hint_screen_texture, filter_linear_mipmap;
-uniform float amount: hint_range(0.0, 5.0, 0.1);
-
-void vertex() {
-	// Called for every vertex the material is visible on.
-}
-
-void fragment() {
-	vec4 color = textureLod(screen_texture, SCREEN_UV, amount);
-	COLOR = color;
-	// Called for every pixel the material is visible on.
-}
-
-//void light() {
-	// Called for every pixel for every light affecting the CanvasItem.
-	// Uncomment to replace the default light processing function with this one.
-//}
-"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ho1kk"]
-shader = SubResource("Shader_atgca")
-shader_parameter/amount = 0.0
+[ext_resource type="Shader" path="res://game/shaders/blur_shader.gdshader" id="3_ky8ap"]
 
 [sub_resource type="Gradient" id="Gradient_2optk"]
 colors = PackedColorArray(0, 0, 0, 0, 0.458824, 0, 0, 0.627451)
@@ -48,6 +25,10 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 1)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qk83y"]
+shader = ExtResource("3_ky8ap")
+shader_parameter/amount = 0.2
+
 [node name="SmartCamera2D" type="Camera2D"]
 position_smoothing_speed = 3.0
 drag_horizontal_enabled = true
@@ -59,19 +40,12 @@ drag_bottom_margin = 0.0
 script = ExtResource("1_b434i")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 128
 
-[node name="Blur" type="ColorRect" parent="CanvasLayer"]
-visible = false
-material = SubResource("ShaderMaterial_ho1kk")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -583.0
-offset_top = -309.0
-offset_right = 617.0
-offset_bottom = 293.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Corpserobber" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(260, 542)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_jfnuo")
 
 [node name="VignetteHitted" type="TextureRect" parent="CanvasLayer"]
 offset_right = 1274.0
@@ -97,6 +71,18 @@ offset_bottom = -304.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.113725, 0.356863, 1, 0.517647)
+
+[node name="Blur" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_qk83y")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="IngameInterface" parent="CanvasLayer" instance=ExtResource("2_5u0xy")]
+visible = false
+top_level = true
 
 [node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("2_mqlpe")]
 

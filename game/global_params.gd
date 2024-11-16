@@ -11,19 +11,24 @@ var gravity_coeff = 1.75
 
 
 class ShadyParams:
+	var speed = 500.0
+	var jump_velocity = -775.0
+
 	var hitpoints : int = 5
 	var damage : int = 1
 	var max_hitpoints : int = 5
 	var invincibility_time = 1.6
+
 	var attack_cooldown_time = 0.25
+	var knockback_force = 400
+	var recoil_force = Vector2(-150, -350)
 	
 	var current_state : int = Shady.MOVE
 	var transition_state : int = Shady.MOVE
 	
-	var knockback_force = 400
 	var attack_direction = Vector2(0, 0)
-	var recoil_force = Vector2(-300, -420)
 	var hazard_direction = 0
+	
 
 var shady_params : ShadyParams
 

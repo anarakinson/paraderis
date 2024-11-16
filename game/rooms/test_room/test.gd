@@ -10,14 +10,16 @@ extends Node2D
 @onready var background_rect = $Background/ParallaxBackground/ParallaxLayer1/BackgroundRect
 @onready var ingame_interface: Control = $IngameInterface
 @onready var parallax_dust: Control = $Background/ParallaxDust
+@onready var world_environment: WorldEnvironment = $WorldEnvironment
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	world_environment.environment.glow_enabled = true
+	
 	directional_light_2d.visible = true
 	parallax_dust.visible = true
 	background_rect.visible = true
-	ingame_interface.visible = true
 	
 	camera_2d.visible = true
 	camera_2d.enabled = true
