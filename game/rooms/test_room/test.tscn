@@ -53,7 +53,6 @@ point_count = 2
 [sub_resource type="Environment" id="Environment_tvhgi"]
 resource_local_to_scene = true
 background_mode = 3
-glow_enabled = true
 glow_levels/4 = 2.0
 glow_levels/5 = 2.0
 glow_blend_mode = 1
@@ -160,8 +159,9 @@ position = Vector2(-4717.2, -599.2)
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("2_vgy5l")
 
-[node name="EnvironmentAltar7" type="Sprite2D" parent="Decor"]
-position = Vector2(-4191.2, -601.2)
+[node name="EnvironmentAltar8" type="Sprite2D" parent="Decor"]
+modulate = Color(2, 2, 2, 1)
+position = Vector2(-4178, -602)
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("2_vgy5l")
 flip_h = true

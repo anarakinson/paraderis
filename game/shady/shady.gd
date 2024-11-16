@@ -21,8 +21,7 @@ class_name Shady
 @onready var climb_ray_cast_2: RayCast2D = $RayCasts/ClimbRayCast2
 @onready var climb_shape_cast: ShapeCast2D = $RayCasts/ClimbShapeCast
 @onready var ceiling_raycast: RayCast2D = $RayCasts/CeilingRaycast
-@onready var lyingl_ray_cast: RayCast2D = $RayCasts/LyinglRayCast
-@onready var lyingl_ray_cast_2: RayCast2D = $RayCasts/LyinglRayCast2
+@onready var floor_raycast: RayCast2D = $RayCasts/FloorRaycast
 
 @onready var wall_ray_cast_lenght = wall_ray_cast.target_position.x
 @onready var climb_shape_cast_x = climb_shape_cast.position.x
@@ -34,7 +33,7 @@ class_name Shady
 @export_category("Personal metrics")
 @export_range(1, 10) var is_bored_timer = 2.5
 @export var speed_blink = 150.0
-@export var koyotee_time = 0.1
+@export var koyotee_time = 0.15
 @export var camera_position_point = 250
 
 @onready var speed = GlobalParams.shady_params.speed
@@ -158,6 +157,7 @@ var collider_shape : Dictionary = {
 	"sit" : [60, 120, 0, 47],
 	"jump" : [40, 170, 0, 22],
 	"on_wall" : [35, 214, 0, 0],
+	"on_wall2" : [25, 232, 0, 10],
 }
 
 func set_collision_shape(shape):
@@ -223,7 +223,7 @@ func _ready() -> void:
 
 func _physics_process(delta):
 	#print(state_dict[state], " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
-	$Label.text = state_dict[state] + " " + str(is_invincible) + " " + str(GlobalParams.shady_params.attack_direction)
+	$Label.text = state_dict[state] + " " + str(is_invincible) + " " + str(GlobalParams.shady_params.attack_direction) + " " + str(is_on_floor())
 	match state:
 		DEATH:
 			death_state()
@@ -279,7 +279,7 @@ func _physics_process(delta):
 			set_collision_shape(collider_shape["basic"])
 			look_down_state()
 		WALL_CLIMB:
-			set_collision_shape(collider_shape["on_wall"])
+			#set_collision_shape(collider_shape["on_wall"])
 			climb_ledge_state(delta)
 		WALL_CLIMB_PROCESS:
 			set_collision_shape(collider_shape["on_wall"])
@@ -397,7 +397,7 @@ func _physics_process(delta):
 		velocity.y = -jump_velocity
 	
 	
-	if state == FALL:
+	if state == FALL or state == MOVE:
 		$ClimbCollision.disabled = true
 	elif state == WALL_CLIMB:
 	#else:
@@ -724,22 +724,32 @@ func climb_ledge_state(delta):
 	#$ClimbCollision.set_deferred("disabled", false)
 	
 	if wall_ray_cast.is_colliding():
+		set_collision_shape(collider_shape["on_wall"])
 		animation_player.play("on_wall")
+		floor_raycast.target_position.y = 115
 		if Input.is_action_just_pressed("jump"):
 			wall_bouncing()
 	elif not wall_ray_cast.is_colliding():
+		set_collision_shape(collider_shape["on_wall2"])
 		animation_player.play("on_wall2")
+		floor_raycast.target_position.y = 130
 	
-	if Input.is_action_just_pressed("down"):
-		$ClimbCollision.disabled = true
-		#$ClimbCollision.set_deferred("disabled", true)
+	if floor_raycast.is_colliding():
+		$ClimbCollision.set_deferred("disabled", true)
 		state = DO_NOTHIG
-		animation_player.play("out_wall")
-		face_direction = -face_direction
-		direction = face_direction
-		set_direction()
 		await get_tree().create_timer(0.01).timeout
-		state = FALL
+		state = MOVE
+	elif Input.is_action_just_pressed("down"):
+		$ClimbCollision.set_deferred("disabled", true)
+		climb_ray_cast.target_position.x = 0
+		state = DO_NOTHIG
+		if wall_ray_cast.is_colliding():
+		#animation_player.play("out_wall")
+			set_direction()
+			face_direction = -face_direction
+			direction = face_direction
+		await get_tree().create_timer(0.01).timeout
+		state = MOVE
 	elif time_to_climb_up > 0.2 and not climb_shape_cast.is_colliding():
 		time_to_climb_up = 0
 		full_stop()

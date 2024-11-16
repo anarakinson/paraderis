@@ -861,7 +861,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"out_wall",
-"speed": 20.0
+"speed": 100.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2298,7 +2298,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_jd0g4"]
-length = 0.05
+length = 0.01
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -3054,8 +3054,8 @@ radius = 21.0
 height = 214.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vc5v2"]
-radius = 40.0
-height = 170.0
+radius = 25.0
+height = 232.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tc37f"]
 size = Vector2(35, 0)
@@ -3078,7 +3078,7 @@ script = ExtResource("1_rfscw")
 material = SubResource("ShaderMaterial_hlg2r")
 position = Vector2(0, -21)
 sprite_frames = SubResource("SpriteFrames_flbuy")
-animation = &"climb2"
+animation = &"out_wall"
 autoplay = "idle"
 
 [node name="SlashSprite2D" type="AnimatedSprite2D" parent="."]
@@ -3102,7 +3102,7 @@ libraries = {
 shape = SubResource("CapsuleShape2D_d5uql")
 
 [node name="LyingCollisionShape2D5" type="CollisionShape2D" parent="."]
-position = Vector2(0, 22)
+position = Vector2(0, 10)
 shape = SubResource("CapsuleShape2D_vc5v2")
 disabled = true
 
@@ -3137,11 +3137,11 @@ z_index = 5
 
 [node name="EdgeDetection" type="RayCast2D" parent="RayCasts"]
 position = Vector2(30, 0)
-target_position = Vector2(0, 120)
+target_position = Vector2(0, 115)
 
 [node name="EdgeDetection2" type="RayCast2D" parent="RayCasts"]
 position = Vector2(-30, 0)
-target_position = Vector2(0, 120)
+target_position = Vector2(0, 115)
 
 [node name="WallRayCast" type="RayCast2D" parent="RayCasts"]
 target_position = Vector2(60, 0)
@@ -3161,6 +3161,9 @@ target_position = Vector2(0, 0)
 
 [node name="CeilingRaycast" type="RayCast2D" parent="RayCasts"]
 target_position = Vector2(0, -110)
+
+[node name="FloorRaycast" type="RayCast2D" parent="RayCasts"]
+target_position = Vector2(0, 115)
 
 [node name="ClimbCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -105)
