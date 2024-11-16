@@ -743,12 +743,13 @@ func climb_ledge_state(delta):
 	elif Input.is_action_just_pressed("down"):
 		$ClimbCollision.set_deferred("disabled", true)
 		climb_ray_cast.target_position.x = 0
+		climb_ray_cast_2.target_position.x = 0
 		state = DO_NOTHIG
 		if wall_ray_cast.is_colliding():
-		#animation_player.play("out_wall")
-			set_direction()
+			animation_player.play("out_wall")
 			face_direction = -face_direction
 			direction = face_direction
+			set_direction()
 		await get_tree().create_timer(0.01).timeout
 		state = MOVE
 	elif time_to_climb_up > 0.2 and not climb_shape_cast.is_colliding():
