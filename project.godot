@@ -168,16 +168,12 @@ select={
 
 common/physics_ticks_per_second=120
 common/max_physics_steps_per_frame=16
-common/physics_interpolation=true
 
 [rendering]
 
 textures/canvas_textures/default_texture_filter=2
 renderer/rendering_method.mobile="forward_plus"
-lights_and_shadows/use_physical_light_units=true
-reflections/sky_reflections/fast_filter_high_quality=true
-camera/depth_of_field/depth_of_field_bokeh_quality=2
-textures/decals/filter=5
-textures/light_projectors/filter=5
-global_illumination/sdfgi/frames_to_update_lights=1
+anti_aliasing/quality/msaa_2d=1
+anti_aliasing/quality/msaa_3d=1
 viewport/hdr_2d=true
+anti_aliasing/quality/screen_space_aa=1

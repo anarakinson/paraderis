@@ -3078,8 +3078,9 @@ script = ExtResource("1_rfscw")
 material = SubResource("ShaderMaterial_hlg2r")
 position = Vector2(0, -21)
 sprite_frames = SubResource("SpriteFrames_flbuy")
-animation = &"out_wall"
+animation = &"bored"
 autoplay = "idle"
+frame = 2
 
 [node name="SlashSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false

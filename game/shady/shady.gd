@@ -507,6 +507,7 @@ func fall_hit_state():
 	animation_player.play("fall_hit")
 	await animation_player.animation_finished
 	state = DO_NOTHIG
+	animation_player.play("lying")
 	set_collision_shape(collider_shape["lying"])
 	await get_tree().create_timer(1).timeout
 	full_stop()

@@ -43,6 +43,7 @@ script = ExtResource("1_b434i")
 layer = 128
 
 [node name="Corpserobber" type="Sprite2D" parent="CanvasLayer"]
+visible = false
 position = Vector2(260, 542)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_jfnuo")
@@ -85,6 +86,15 @@ visible = false
 top_level = true
 
 [node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("2_mqlpe")]
+
+[node name="Zoom" type="Label" parent="CanvasLayer"]
+offset_left = 977.0
+offset_top = 605.0
+offset_right = 1138.0
+offset_bottom = 628.0
+text = "zoom: "
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Label" type="Label" parent="."]
 visible = false

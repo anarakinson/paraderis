@@ -6,6 +6,7 @@ extends Camera2D
 @onready var vignette_hitted: TextureRect = $CanvasLayer/VignetteHitted
 @onready var color_rect: ColorRect = $CanvasLayer/ColorRect
 @onready var pause_menu: Control = $CanvasLayer/PauseMenu
+@onready var zoom_label: Label = $CanvasLayer/Zoom
 
 
 @export_category("Follow character")
@@ -29,8 +30,9 @@ func _ready():
 	GlobalParams.connect("death", _on_death)
 	vignette_hitted.visible = false
 	pause_menu.visible = false
+	zoom_label.text = "zoom: %.2f" % zoom.x
 	$CanvasLayer/Corpserobber.visible = false
-
+	
 	var win_size = get_viewport().get_visible_rect().size
 	vignette_hitted.size = win_size 
 	vignette_rect.size = win_size 
@@ -70,7 +72,7 @@ func _physics_process(delta):
 		speed_coeff = lerp(speed_coeff, 1., 0.5 * delta)
 	#print(speed_coeff)
 	camera_pos = lerp(global_position, player_camera_position, weight * delta * speed_coeff)
-	global_position = camera_pos #.floor()
+	global_position = camera_pos.floor()
 	
 	#print(global_position, vignette_hitted.global_position)
 
@@ -94,9 +96,11 @@ func _input(event: InputEvent) -> void:
 		return
 	if (event is InputEventKey or event is InputEventJoypadButton) and event.pressed:
 		if event.as_text() == "K":
-			zoom -= Vector2(0.1, 0.1)
+			zoom -= Vector2(0.005, 0.005)
+			zoom_label.text = "zoom: %.2f" % zoom.x
 		if event.as_text() == "L":
-			zoom += Vector2(0.1, 0.1)
+			zoom += Vector2(0.005, 0.005)
+			zoom_label.text = "zoom: %.2f" % zoom.x
 		#if event.keycode == KEY_ESCAPE:
 		if event.is_action("pause"):
 			#print("escape")

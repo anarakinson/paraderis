@@ -246,11 +246,11 @@ position = Vector2(2256, 732)
 hitpoints = 1
 
 [node name="Trampcorpse4" parent="Enemies" instance=ExtResource("8_csnw0")]
-position = Vector2(4946, 36)
+position = Vector2(4980, 36)
 idle_stand = true
 
 [node name="Shady" parent="." node_paths=PackedStringArray("step_dust") instance=ExtResource("9_ul232")]
-position = Vector2(1779, -272)
+position = Vector2(2021, 476)
 scale = Vector2(0.5, 0.5)
 step_dust = NodePath("../Technical/StepDust")
 
@@ -391,23 +391,65 @@ grow_horizontal = 1
 grow_vertical = 1
 metadata/_edit_use_anchors_ = true
 
+[node name="Parallax2D3" type="Parallax2D" parent="Spikes/Pit1"]
+scale = Vector2(0.8, 0.8)
+scroll_scale = Vector2(0.98, 0.98)
+
+[node name="Spikes-swords4" type="Sprite2D" parent="Spikes/Pit1/Parallax2D3"]
+position = Vector2(1899.17, 156)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("12_80ise")
+
+[node name="Spikes-swords7" type="Sprite2D" parent="Spikes/Pit1/Parallax2D3"]
+position = Vector2(1821.39, 156)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("12_80ise")
+
+[node name="Spikes-swords8" type="Sprite2D" parent="Spikes/Pit1/Parallax2D3"]
+position = Vector2(2154.72, 156)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("12_80ise")
+
+[node name="Spikes-swords5" type="Sprite2D" parent="Spikes/Pit1/Parallax2D3"]
+position = Vector2(2103.17, 158)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("12_80ise")
+
+[node name="Spikes-swords6" type="Sprite2D" parent="Spikes/Pit1/Parallax2D3"]
+position = Vector2(2006.17, 156)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("12_80ise")
+flip_h = true
+
 [node name="Parallax2D" type="Parallax2D" parent="Spikes/Pit1"]
 scale = Vector2(0.9, 0.9)
 scroll_scale = Vector2(0.985, 0.985)
 
 [node name="Spikes-swords4" type="Sprite2D" parent="Spikes/Pit1/Parallax2D"]
-position = Vector2(1470, 111)
+position = Vector2(1656.67, 131)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("12_80ise")
 
+[node name="Spikes-swords7" type="Sprite2D" parent="Spikes/Pit1/Parallax2D"]
+position = Vector2(1578.89, 131)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("12_80ise")
+flip_h = true
+
+[node name="Spikes-swords8" type="Sprite2D" parent="Spikes/Pit1/Parallax2D"]
+position = Vector2(1912.22, 131)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("12_80ise")
+flip_h = true
+
 [node name="Spikes-swords5" type="Sprite2D" parent="Spikes/Pit1/Parallax2D"]
-position = Vector2(1674, 113)
+position = Vector2(1860.67, 133)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("12_80ise")
 flip_h = true
 
 [node name="Spikes-swords6" type="Sprite2D" parent="Spikes/Pit1/Parallax2D"]
-position = Vector2(1577, 111)
+position = Vector2(1763.67, 131)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("12_80ise")
 flip_h = true
@@ -416,20 +458,20 @@ flip_h = true
 position = Vector2(1470, 111)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("12_80ise")
+flip_h = true
 
 [node name="Spikes-swords2" type="Sprite2D" parent="Spikes/Pit1"]
 position = Vector2(1674, 113)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("12_80ise")
-flip_h = true
 
 [node name="Spikes-swords3" type="Sprite2D" parent="Spikes/Pit1"]
 position = Vector2(1577, 111)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("12_80ise")
-flip_h = true
 
 [node name="Parallax2D2" type="Parallax2D" parent="Spikes/Pit1"]
+visible = false
 scale = Vector2(1.1, 1.1)
 scroll_scale = Vector2(1.015, 1.015)
 
