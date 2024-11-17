@@ -178,7 +178,8 @@ func set_direction(coeff = 1, with_sprite=true):
 		velocity.x = 0
 	else:
 		#time_to_turn = false
-		velocity.x = direction * speed * coeff
+		var round_direction = int(direction > 0) - int(direction < 0)
+		velocity.x = round_direction * speed * coeff
 	
 	set_face_direction(with_sprite)
 
@@ -493,10 +494,13 @@ func koyotee_jump_start():
 
 func fall_hit_state():
 	state = DO_NOTHIG
+	GlobalParams.screenshake.emit(1.1, 20)
 	velocity.y = 0
 	full_stop()
 	is_fall_hitted = true
 	hitpoints.decrease(1)
+	if fall_counter > 2 * critical_fall_lenght:
+		hitpoints.decrease(1)
 	fall_counter = 0
 	set_collision_shape(collider_shape["sit"])
 	animation_player.play("fall_hit")
@@ -516,13 +520,15 @@ func fall_state():
 	if velocity.y == 0 and is_on_floor():
 		if edge_detection.is_colliding() != edge_detection_2.is_colliding():
 			velocity.x += speed * face_direction
-		if fall_counter < critical_fall_lenght and fall_counter > 0.25:
+		if fall_counter < critical_fall_lenght and fall_counter > critical_fall_lenght / 4:
 			full_stop()
 			state = DO_NOTHIG
+			if fall_counter > critical_fall_lenght / 2:
+				GlobalParams.screenshake.emit(0.2 * fall_counter, 10 * fall_counter)
 			animation_player.play("landing")
 			await animation_player.animation_finished
 			state = SIT
-		elif fall_counter < 0.25:
+		elif fall_counter < critical_fall_lenght / 4:
 			state = MOVE
 		else:
 			fall_hit_state()
@@ -922,9 +928,11 @@ func full_stop():
 	bored_counter = 0
 	is_koyotee_awailable = true
 	
-func return_to_checkpoint():
+func return_to_checkpoint(shake=false):
 	print("return to checkpoint")
 	is_floating = true
+	if shake:
+		GlobalParams.screenshake.emit(0.4, 20)
 	velocity.y = 0
 	full_stop()
 	fall_counter = 0
@@ -950,6 +958,7 @@ func _on_hitpoints_hitted() -> void:
 	if is_fall_hitted:
 		return
 	state = IDLE
+	GlobalParams.screenshake.emit(0.3, 5)
 	#fall_counter = 0
 	#full_stop()
 	velocity = Vector2(0,0)
@@ -965,6 +974,7 @@ func _on_hitpoints_hitted() -> void:
 
 
 func _on_hitpoints_time_to_die() -> void:
+	GlobalParams.screenshake.emit(.8, 20)
 	death_process()
 
 func death_state():

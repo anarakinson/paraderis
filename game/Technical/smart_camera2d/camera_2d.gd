@@ -25,10 +25,17 @@ var is_dead = false
 @export var basic_offset_y = -100. 
 
 
+@export_category("screenshake")
+@export var shake_coeff: float = 1.
+@export var shake_fade: float = 4.0
+var rng = RandomNumberGenerator.new()
+var shake_strength: float = 0.
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	GlobalParams.connect("hitted", _on_hitted)
 	GlobalParams.connect("death", _on_death)
+	GlobalParams.connect("screenshake", _on_screenshake)
 	visible = true
 	vignette_hitted.visible = false
 	pause_menu.visible = false
@@ -81,6 +88,11 @@ func _physics_process(delta):
 	global_position = camera_pos#.floor()
 	$CanvasLayer/ColorRect/Label.text = "%.3f" % global_position.distance_to(player_camera_position) + " " + str(speed_coeff)
 	#print(global_position, vignette_hitted.global_position)
+	
+	
+	if shake_strength > 0:
+		shake_strength = lerp(shake_strength, 0.0, shake_fade * delta)
+		offset = random_offset() + Vector2(0, basic_offset_y)
 
 
 func _on_hitted():
@@ -121,3 +133,17 @@ func _on_visibility_changed() -> void:
 func _on_death():
 	is_dead = true
 	
+func _on_screenshake(duration, strenght):
+	print("screenshake %f" % duration)
+	Input.vibrate_handheld(duration / 10)
+	Input.start_joy_vibration(0, 0.9 , 0.9 , duration)
+	Input.start_joy_vibration(1, 0.6 , 0.8 , duration)
+	shake_strength = strenght * shake_coeff
+	await get_tree().create_timer(duration).timeout
+	shake_strength = 0
+
+func random_offset() -> Vector2:
+	return Vector2(
+		rng.randf_range(-shake_strength, shake_strength), 
+		rng.randf_range(-shake_strength, shake_strength)
+	)

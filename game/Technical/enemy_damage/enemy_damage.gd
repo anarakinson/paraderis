@@ -30,8 +30,10 @@ func _on_hurtbox_area_entered(area: Area2D) -> void:
 		hitpoints -= GlobalParams.shady_params.damage
 		invincibility()
 		if hitpoints <= 0:
+			GlobalParams.screenshake.emit(0.15, 10)
 			death.emit()
 		else:
+			GlobalParams.screenshake.emit(0.1, 5)
 			hitted.emit()
 		if owner.name == "Shady":
 			owner.attack_recoil()

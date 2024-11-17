@@ -269,6 +269,7 @@ func full_stop():
 	set_collision_direction()
 
 func _on_enemy_damage_hitted() -> void:
+	#GlobalParams.screenshake.emit(0.1, 5)
 	if state != DEATH:
 		state = HIT
 	
@@ -291,6 +292,7 @@ func hitted_state():
 
 
 func died():
+	#GlobalParams.screenshake.emit(0.1, 10)
 	full_stop()
 	print("NOOOOOOOO")
 	#animation_player.play("die")
