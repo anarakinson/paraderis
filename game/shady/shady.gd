@@ -188,7 +188,7 @@ func set_direction(coeff = 1, with_sprite=true):
 	elif direction > 0:
 		face_direction = 1
 	
-	camera_position.position.x = camera_position_point * face_direction
+	#camera_position.position.x = camera_position_point * face_direction
 
 
 func set_face_direction(with_sprite=true):
@@ -309,7 +309,8 @@ func _physics_process(delta):
 			state = FALL
 		fall_counter += 1 * delta
 	elif velocity.y == 0:
-		if state != MOVE and state != BORED:
+		if (state != MOVE and state != BORED and 
+			state != WALL_CLIMB and state != SIT):
 			$CameraPosition.position.y = 0
 		if fall_counter >= critical_fall_lenght:
 			fall_hit_state()
@@ -345,14 +346,17 @@ func _physics_process(delta):
 			sit_down()
 		if Input.is_action_pressed("fading"):
 			state = FADING
-			
-		if full_idle or run_counter <= 0.1:
-			camera_position.position = lerp(camera_position.position, look_direction * Vector2(3.*camera_position_point, look_addition) + Vector2(camera_position_point * face_direction, 0), 3*delta)
+	
+	if (state == MOVE or state == DO_NOTHIG or 
+		state == WALL_CLIMB or state == SIT):
+		camera_position.position = lerp(camera_position.position, look_direction * Vector2(3.*camera_position_point, look_addition) + Vector2(camera_position_point * face_direction, 0), 3*delta)
+		if (not time_to_turn and state == MOVE and 
+			(full_idle or run_counter <= 0.1)):
 			if camera_position.position.y > look_addition/3:
 				animation_player.play("look_down")
 			elif camera_position.position.y < -look_addition/3:
 				animation_player.play("look_up")
-	
+
 	
 	# Handle jump.
 	if Input.is_action_just_pressed("jump"):
@@ -451,7 +455,9 @@ func move_state(delta):
 				animation_player.play("run_stop")
 				await animation_player.animation_finished
 				full_idle = true
-
+	
+	
+	
 
 
 func idle_state():
@@ -524,7 +530,7 @@ func fall_state():
 			full_stop()
 			state = DO_NOTHIG
 			if fall_counter > critical_fall_lenght / 2:
-				GlobalParams.screenshake.emit(0.2 * fall_counter, 10 * fall_counter)
+				GlobalParams.screenshake.emit(0.2 * fall_counter, 7 * fall_counter)
 			animation_player.play("landing")
 			await animation_player.animation_finished
 			state = SIT
