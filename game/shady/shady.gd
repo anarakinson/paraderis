@@ -35,6 +35,7 @@ class_name Shady
 @export var speed_blink = 150.0
 @export var koyotee_time = 0.15
 @export var camera_position_point = 250
+@export var look_addition = 750
 
 @onready var speed = GlobalParams.shady_params.speed
 @onready var jump_velocity = GlobalParams.shady_params.jump_velocity
@@ -344,11 +345,11 @@ func _physics_process(delta):
 		if Input.is_action_pressed("fading"):
 			state = FADING
 			
-		if direction == 0:
-			camera_position.position = lerp(camera_position.position, look_direction * Vector2(camera_position_point * (3.), 500), 3*delta)
-			if camera_position.position.y > 100:
+		if full_idle or run_counter <= 0.1:
+			camera_position.position = lerp(camera_position.position, look_direction * Vector2(3.*camera_position_point, look_addition) + Vector2(camera_position_point * face_direction, 0), 3*delta)
+			if camera_position.position.y > look_addition/3:
 				animation_player.play("look_down")
-			elif camera_position.position.y < -100:
+			elif camera_position.position.y < -look_addition/3:
 				animation_player.play("look_up")
 	
 	
