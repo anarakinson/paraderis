@@ -250,7 +250,7 @@ position = Vector2(4980, 36)
 idle_stand = true
 
 [node name="Shady" parent="." node_paths=PackedStringArray("step_dust") instance=ExtResource("9_ul232")]
-position = Vector2(1764, -302)
+position = Vector2(7137, -738)
 scale = Vector2(0.5, 0.5)
 step_dust = NodePath("../Technical/StepDust")
 
@@ -315,6 +315,14 @@ scale = Vector2(0.5, 0.5)
 
 [node name="DungeonPlatform_12" parent="Environment" instance=ExtResource("10_0ig0v")]
 position = Vector2(6618, -33)
+scale = Vector2(0.5, 0.5)
+
+[node name="DungeonPlatform_23" parent="Environment" instance=ExtResource("10_0ig0v")]
+position = Vector2(6906, -302)
+scale = Vector2(0.5, 0.5)
+
+[node name="DungeonPlatform_24" parent="Environment" instance=ExtResource("10_0ig0v")]
+position = Vector2(7158, -560)
 scale = Vector2(0.5, 0.5)
 
 [node name="DungeonPlatform_16" parent="Environment" instance=ExtResource("10_0ig0v")]

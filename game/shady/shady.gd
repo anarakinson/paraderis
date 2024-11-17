@@ -311,13 +311,18 @@ func _physics_process(delta):
 		return
 	
 	if velocity.y > 0: 
+		$CameraPosition.position.y = lerp($CameraPosition.position.y, 1000., 1*delta)
 		if state != ATTACK_PROCESS:
 			state = FALL
 		fall_counter += 1 * delta
 	elif velocity.y == 0:
+		$CameraPosition.position.y = 0
 		if fall_counter >= critical_fall_lenght:
 			fall_hit_state()
 		fall_counter = 0
+	else:
+		$CameraPosition.position.y = 0
+
 	
 
 	# DISABLE INPUT
@@ -451,9 +456,12 @@ func move_state(delta):
 				full_idle = true
 
 	if direction == 0 and Input.is_action_pressed("look_up"):
+		timer.stop()
+		timer.start(1)
 		state = LOOK_UP
-		flickering()
 	elif direction == 0 and Input.is_action_pressed("look_down"):
+		timer.stop()
+		timer.start(1)
 		state = LOOK_DOWN
 		
 
@@ -609,17 +617,25 @@ func rest_state():
 
 
 func look_up_state():
+	if timer.timeout:
+		$CameraPosition.position.y = -450
 	animation_player.play("look_up")
 	if Input.is_action_just_released("look_up"):
+		$CameraPosition.position.y = 0
 		state = MOVE
 	if direction or is_any_button_pressed():
+		$CameraPosition.position.y = 0
 		state = MOVE
 
 func look_down_state():
+	if timer.timeout:
+		$CameraPosition.position.y = 450
 	animation_player.play("look_down")
 	if Input.is_action_just_released("look_down"):
+		$CameraPosition.position.y = 0
 		state = MOVE
 	if direction or is_any_button_pressed():
+		$CameraPosition.position.y = 0
 		state = MOVE
 
 func sit_down():
