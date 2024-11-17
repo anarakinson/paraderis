@@ -15,14 +15,14 @@ extends Camera2D
 @export_category("Camera Smoothing")
 #@export var smoothing_enabled : bool
 @export_range(0, 50) var basic_smoothing_distance : float = 2.
-@export_range(100, 700) var speedup_threshold : float = 250
+@export_range(100, 700) var speedup_threshold : float = 350
 var smoothing_distance = basic_smoothing_distance
 var speed_coeff : float = 1
 var camera_position_point = 0
 
 
 var is_dead = false
-@export var basic_offset_y = -250. 
+@export var basic_offset_y = -210. 
 
 
 # Called when the node enters the scene tree for the first time.
@@ -70,13 +70,13 @@ func _physics_process(delta):
 	#speed_coeff = abs(global_position.distance_to(player.camera_position.global_position)) / 250
 	var player_camera_position = player.camera_position.global_position + Vector2(camera_position_point * player.face_direction, 0)
 	if global_position.distance_to(player_camera_position) > speedup_threshold * zoom.x:
-		speed_coeff = lerp(speed_coeff, 5., 0.05 * delta)
+		speed_coeff = lerp(speed_coeff, 4., 1. * delta)
 	else:
-		speed_coeff = lerp(speed_coeff, 1., 0.05 * delta)
+		speed_coeff = lerp(speed_coeff, 1., 1. * delta)
 	#print(speed_coeff)
 	camera_pos = lerp(global_position, player_camera_position, weight * delta * speed_coeff)
 	global_position = camera_pos.floor()
-	$CanvasLayer/ColorRect/Label.text = "%.3f" % global_position.distance_to(player_camera_position)
+	$CanvasLayer/ColorRect/Label.text = "%.3f" % global_position.distance_to(player_camera_position) + " " + str(speed_coeff)
 	#print(global_position, vignette_hitted.global_position)
 
 

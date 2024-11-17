@@ -3111,7 +3111,6 @@ disabled = true
 one_shot = true
 
 [node name="CameraPosition" type="Node2D" parent="."]
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="CameraPosition"]
 anchors_preset = 8
