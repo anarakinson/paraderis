@@ -14,20 +14,22 @@ extends Camera2D
 
 @export_category("Camera Smoothing")
 #@export var smoothing_enabled : bool
-@export_range(0, 50) var basic_smoothing_distance : float = 3.
-@export_range(100, 700) var speedup_threshold : float = 400
+@export_range(0, 50) var basic_smoothing_distance : float = 2.
+@export_range(100, 700) var speedup_threshold : float = 250
 var smoothing_distance = basic_smoothing_distance
 var speed_coeff : float = 1
 var camera_position_point = 0
 
 
 var is_dead = false
+@export var basic_offset_y = -250. 
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	GlobalParams.connect("hitted", _on_hitted)
 	GlobalParams.connect("death", _on_death)
+	visible = true
 	vignette_hitted.visible = false
 	pause_menu.visible = false
 	zoom_label.text = "zoom: %.2f" % zoom.x
@@ -47,8 +49,9 @@ func _ready():
 		global_position = player.camera_position.global_position
 		print(zoom, vignette_rect.scale, vignette_rect.position, drag_right_margin)
 		camera_position_point = player.camera_position_point * (1-zoom.x)
-		#drag_top_margin = 0.1 * (1-zoom.y)
-		#drag_bottom_margin = 0.1 * (1-zoom.y)
+		#offset.y += basic_offset_y * zoom.y
+		drag_top_margin = 0.05 * (zoom.y)
+		drag_bottom_margin = 0.05 * (zoom.y)
 		drag_left_margin = 0.1 * (zoom.x)
 		drag_right_margin = 0.1 * (zoom.x)
 		smoothing_distance = basic_smoothing_distance * zoom.x
@@ -66,14 +69,14 @@ func _physics_process(delta):
 	
 	#speed_coeff = abs(global_position.distance_to(player.camera_position.global_position)) / 250
 	var player_camera_position = player.camera_position.global_position + Vector2(camera_position_point * player.face_direction, 0)
-	if global_position.distance_to(player_camera_position) > speedup_threshold:
-		speed_coeff = lerp(speed_coeff, 3., 0.5 * delta)
+	if global_position.distance_to(player_camera_position) > speedup_threshold * zoom.x:
+		speed_coeff = lerp(speed_coeff, 5., 0.05 * delta)
 	else:
-		speed_coeff = lerp(speed_coeff, 1., 0.5 * delta)
+		speed_coeff = lerp(speed_coeff, 1., 0.05 * delta)
 	#print(speed_coeff)
 	camera_pos = lerp(global_position, player_camera_position, weight * delta * speed_coeff)
 	global_position = camera_pos.floor()
-	
+	$CanvasLayer/ColorRect/Label.text = "%.3f" % global_position.distance_to(player_camera_position)
 	#print(global_position, vignette_hitted.global_position)
 
 
@@ -97,9 +100,11 @@ func _input(event: InputEvent) -> void:
 	if (event is InputEventKey or event is InputEventJoypadButton) and event.pressed:
 		if event.as_text() == "K":
 			zoom -= Vector2(0.005, 0.005)
+			#offset.y -= basic_offset_y * zoom.y
 			zoom_label.text = "zoom: %.2f" % zoom.x
 		if event.as_text() == "L":
 			zoom += Vector2(0.005, 0.005)
+			#offset.y += basic_offset_y * zoom.y
 			zoom_label.text = "zoom: %.2f" % zoom.x
 		#if event.keycode == KEY_ESCAPE:
 		if event.is_action("pause"):

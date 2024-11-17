@@ -39,6 +39,8 @@ drag_top_margin = 0.0
 drag_right_margin = 0.0
 drag_bottom_margin = 0.0
 script = ExtResource("1_b434i")
+basic_smoothing_distance = null
+speedup_threshold = null
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 128
@@ -73,11 +75,6 @@ offset_bottom = -304.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.113725, 0.356863, 1, 0.517647)
-
-[node name="Label" type="Label" parent="CanvasLayer/ColorRect"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
 
 [node name="Blur" type="ColorRect" parent="CanvasLayer"]
 material = SubResource("ShaderMaterial_qk83y")

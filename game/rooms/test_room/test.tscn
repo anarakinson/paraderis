@@ -23,11 +23,11 @@
 [ext_resource type="PackedScene" uid="uid://cs1mj6piosccg" path="res://game/environment/door/room_connection.tscn" id="18_4auv5"]
 [ext_resource type="PackedScene" uid="uid://dfubt4v77owcf" path="res://game/environment/moving_platform/moving_platform.tscn" id="19_r0622"]
 
-[sub_resource type="Gradient" id="Gradient_bupfj"]
+[sub_resource type="Gradient" id="Gradient_jy5ss"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_a4dxu"]
-gradient = SubResource("Gradient_bupfj")
+gradient = SubResource("Gradient_jy5ss")
 fill = 1
 fill_from = Vector2(0.555046, 0.509174)
 fill_to = Vector2(1, 0.463303)
@@ -551,6 +551,7 @@ offset_right = -842.0
 offset_bottom = -777.0
 grow_horizontal = 1
 grow_vertical = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="Spikes-swords12" type="Sprite2D" parent="Spikes"]
 position = Vector2(-2007, -847)
@@ -707,6 +708,3 @@ player = NodePath("../../Shady")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_tvhgi")
-
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false

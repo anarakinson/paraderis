@@ -12,9 +12,9 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	world_environment.environment.glow_enabled = true
+	#world_environment.environment.glow_enabled = true
 	
-	directional_light_2d.visible = true
+	#directional_light_2d.visible = true
 	parallax_dust.visible = true
 	background_rect.visible = true
 

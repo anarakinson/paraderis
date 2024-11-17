@@ -4,17 +4,14 @@ extends Node2D
 @onready var camera_2d = $Camera/SmartCamera2D
 @onready var camera_2d_2 = $Camera/SmartCamera2D2
 @onready var directional_light_2d: DirectionalLight2D = $Light/DirectionalLight2D
-@onready var point_light_2d_2: PointLight2D = $Shady/PointLight2D2
-#@onready var background_rect: ColorRect = $Background/BackgroundRect
-#@onready var background_rect = $Background/ParallaxBackground/BackgroundRect
 @onready var background_rect = $Background/ParallaxBackground/ParallaxLayer1/BackgroundRect
-@onready var ingame_interface: Control = $IngameInterface
 @onready var parallax_dust: Control = $Background/ParallaxDust
 @onready var world_environment: WorldEnvironment = $WorldEnvironment
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+ 
 	world_environment.environment.glow_enabled = true
 	
 	directional_light_2d.visible = true
