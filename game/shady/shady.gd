@@ -68,8 +68,6 @@ enum {
 	LYING,
 	FADING,
 	WAKE_UP,
-	LOOK_UP,
-	LOOK_DOWN,
 	WALL_CLIMB,
 	WALL_CLIMB_PROCESS,
 	WALL_BOUNCING,
@@ -105,8 +103,6 @@ var state_dict = {
 	LYING : "LYING",
 	FADING : "FADING",
 	WAKE_UP : "WAKE_UP",
-	LOOK_UP : "LOOK_UP",
-	LOOK_DOWN : "LOOK_DOWN",
 	WALL_CLIMB : "WALL_CLIMB",
 	WALL_CLIMB_PROCESS : "WALL_CLIMB_PROCESS",
 	WALL_BOUNCING : "WALL_BOUNCING",
@@ -273,12 +269,6 @@ func _physics_process(delta):
 		WAKE_UP:
 			set_collision_shape(collider_shape["sit"])
 			wake_up_state()
-		LOOK_UP:
-			set_collision_shape(collider_shape["basic"])
-			look_up_state()
-		LOOK_DOWN:
-			set_collision_shape(collider_shape["basic"])
-			look_down_state()
 		WALL_CLIMB:
 			#set_collision_shape(collider_shape["on_wall"])
 			climb_ledge_state(delta)
@@ -317,7 +307,7 @@ func _physics_process(delta):
 			state = FALL
 		fall_counter += 1 * delta
 	elif velocity.y == 0:
-		if state != LOOK_DOWN and state != LOOK_UP and state != MOVE and state != BORED:
+		if state != MOVE and state != BORED:
 			$CameraPosition.position.y = 0
 		if fall_counter >= critical_fall_lenght:
 			fall_hit_state()
@@ -332,8 +322,7 @@ func _physics_process(delta):
 		look_direction = Input.get_vector("look_left", "look_right", "look_up", "look_down")
 	
 	if is_on_floor() and ceiling_raycast.is_colliding() and state != ATTACK_PROCESS:
-		if (state == IDLE or state == MOVE or state == BORED or
-			state == LOOK_DOWN or state == LOOK_UP):
+		if (state == IDLE or state == MOVE or state == BORED):
 			sit_down()
 		else:
 			state = SIT
@@ -341,8 +330,7 @@ func _physics_process(delta):
 	##########################
 	### Handle actions
 	##########################
-	if (state == MOVE or state == BORED or
-		state == LOOK_DOWN or state == LOOK_UP):
+	if (state == MOVE or state == BORED):
 		if Input.is_action_just_pressed("l2_button"):
 			disappear()
 		if Input.is_action_just_pressed("y_button"):
@@ -356,16 +344,6 @@ func _physics_process(delta):
 		if Input.is_action_pressed("fading"):
 			state = FADING
 			
-		#if direction == 0 and Input.is_action_pressed("look_right"):
-			#camera_position.position.x = lerp(camera_position.position.x*1., (3. + face_direction)*camera_position_point, 3*delta)
-		#elif direction == 0 and Input.is_action_pressed("look_left"):
-			#camera_position.position.x = lerp(camera_position.position.x*1., (-3. + face_direction)*camera_position_point, 3*delta)
-		#else:
-			#camera_position.position.x = camera_position_point * face_direction
-		#if direction == 0 and Input.is_action_pressed("look_up"):
-			#state = LOOK_UP
-		#elif direction == 0 and Input.is_action_pressed("look_down"):
-			#state = LOOK_DOWN
 		if direction == 0:
 			camera_position.position = lerp(camera_position.position, look_direction * Vector2(camera_position_point * (3.), 500), 3*delta)
 			if camera_position.position.y > 100:
@@ -377,8 +355,7 @@ func _physics_process(delta):
 	# Handle jump.
 	if Input.is_action_just_pressed("jump"):
 		if is_on_floor() and (state == MOVE or 
-			state == STAND_UP or state == BORED or
-			state == LOOK_DOWN or state == LOOK_UP):
+			state == STAND_UP or state == BORED):
 			state = JUMP_START
 			jump_start()
 		# wall bouncing
@@ -398,7 +375,6 @@ func _physics_process(delta):
 	# handle attack
 	if Input.is_action_just_pressed("attack"):
 		if (state == MOVE or state == BORED or
-			state == LOOK_DOWN or state == LOOK_UP or
 			state == FALL or state == JUMP):
 			state = ATTACK
 		
@@ -626,25 +602,6 @@ func rest_state():
 			state = MOVE
 
 
-func look_up_state():
-	camera_position.position.y = -450
-	animation_player.play("look_up")
-	if Input.is_action_just_released("look_up"):
-		camera_position.position.y = 0
-		state = MOVE
-	if direction or is_any_button_pressed():
-		camera_position.position.y = 0
-		state = MOVE
-
-func look_down_state():
-	camera_position.position.y = 450
-	animation_player.play("look_down")
-	if Input.is_action_just_released("look_down"):
-		camera_position.position.y = 0
-		state = MOVE
-	if direction or is_any_button_pressed():
-		camera_position.position.y = 0
-		state = MOVE
 
 func sit_down():
 	state = DO_NOTHIG
