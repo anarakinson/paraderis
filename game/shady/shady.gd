@@ -25,7 +25,7 @@ class_name Shady
 
 @onready var wall_ray_cast_lenght = wall_ray_cast.target_position.x
 @onready var climb_shape_cast_x = climb_shape_cast.position.x
-@onready var camera_position = $CameraPosition
+@onready var camera_position: Node2D = $CameraPosition
 
 @export_category("Global metrics")
 @export_range(0, 5) var critical_fall_lenght = 0.99
@@ -123,6 +123,7 @@ var state = MOVE
 # direction metrics
 var face_direction = 1
 var direction = 0
+var look_direction = Vector2(0, 0)
 var time_to_turn = false
 var time_to_climb_up = 0
 
@@ -316,18 +317,19 @@ func _physics_process(delta):
 			state = FALL
 		fall_counter += 1 * delta
 	elif velocity.y == 0:
-		$CameraPosition.position.y = 0
+		if state != LOOK_DOWN and state != LOOK_UP and state != MOVE and state != BORED:
+			$CameraPosition.position.y = 0
 		if fall_counter >= critical_fall_lenght:
 			fall_hit_state()
 		fall_counter = 0
 	else:
 		$CameraPosition.position.y = 0
-
 	
-
+	
 	# DISABLE INPUT
 	if state != IDLE:
 		direction = Input.get_axis("left", "right")
+		look_direction = Input.get_vector("look_left", "look_right", "look_up", "look_down")
 	
 	if is_on_floor() and ceiling_raycast.is_colliding() and state != ATTACK_PROCESS:
 		if (state == IDLE or state == MOVE or state == BORED or
@@ -353,6 +355,23 @@ func _physics_process(delta):
 			sit_down()
 		if Input.is_action_pressed("fading"):
 			state = FADING
+			
+		#if direction == 0 and Input.is_action_pressed("look_right"):
+			#camera_position.position.x = lerp(camera_position.position.x*1., (3. + face_direction)*camera_position_point, 3*delta)
+		#elif direction == 0 and Input.is_action_pressed("look_left"):
+			#camera_position.position.x = lerp(camera_position.position.x*1., (-3. + face_direction)*camera_position_point, 3*delta)
+		#else:
+			#camera_position.position.x = camera_position_point * face_direction
+		#if direction == 0 and Input.is_action_pressed("look_up"):
+			#state = LOOK_UP
+		#elif direction == 0 and Input.is_action_pressed("look_down"):
+			#state = LOOK_DOWN
+		if direction == 0:
+			camera_position.position = lerp(camera_position.position, look_direction * Vector2(camera_position_point * (3.), 500), 3*delta)
+			if camera_position.position.y > 100:
+				animation_player.play("look_down")
+			elif camera_position.position.y < -100:
+				animation_player.play("look_up")
 	
 	
 	# Handle jump.
@@ -455,15 +474,6 @@ func move_state(delta):
 				await animation_player.animation_finished
 				full_idle = true
 
-	if direction == 0 and Input.is_action_pressed("look_up"):
-		timer.stop()
-		timer.start(1)
-		state = LOOK_UP
-	elif direction == 0 and Input.is_action_pressed("look_down"):
-		timer.stop()
-		timer.start(1)
-		state = LOOK_DOWN
-		
 
 
 func idle_state():
@@ -617,25 +627,23 @@ func rest_state():
 
 
 func look_up_state():
-	if timer.timeout:
-		$CameraPosition.position.y = -450
+	camera_position.position.y = -450
 	animation_player.play("look_up")
 	if Input.is_action_just_released("look_up"):
-		$CameraPosition.position.y = 0
+		camera_position.position.y = 0
 		state = MOVE
 	if direction or is_any_button_pressed():
-		$CameraPosition.position.y = 0
+		camera_position.position.y = 0
 		state = MOVE
 
 func look_down_state():
-	if timer.timeout:
-		$CameraPosition.position.y = 450
+	camera_position.position.y = 450
 	animation_player.play("look_down")
 	if Input.is_action_just_released("look_down"):
-		$CameraPosition.position.y = 0
+		camera_position.position.y = 0
 		state = MOVE
 	if direction or is_any_button_pressed():
-		$CameraPosition.position.y = 0
+		camera_position.position.y = 0
 		state = MOVE
 
 func sit_down():
