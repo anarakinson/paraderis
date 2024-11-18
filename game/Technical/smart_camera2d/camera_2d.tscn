@@ -33,10 +33,12 @@ shader_parameter/amount = 0.1
 position_smoothing_speed = 3.0
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
-drag_left_margin = 1.0
+drag_left_margin = 0.0
 drag_top_margin = 0.0
 drag_right_margin = 0.0
 drag_bottom_margin = 0.0
+editor_draw_limits = true
+editor_draw_drag_margin = true
 script = ExtResource("1_b434i")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -86,10 +88,9 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="IngameInterface" parent="CanvasLayer" instance=ExtResource("2_5u0xy")]
-visible = false
-top_level = true
 
 [node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("2_mqlpe")]
+top_level = true
 
 [node name="Zoom" type="Label" parent="CanvasLayer"]
 offset_left = 977.0
@@ -100,6 +101,14 @@ text = "zoom: "
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Button" type="Button" parent="CanvasLayer"]
+visible = false
+offset_left = 301.0
+offset_top = 413.0
+offset_right = 350.0
+offset_bottom = 444.0
+text = "FUCK"
+
 [node name="Label" type="Label" parent="."]
 visible = false
 z_index = 1026
@@ -107,3 +116,4 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="pressed" from="CanvasLayer/Button" to="." method="_on_button_pressed"]

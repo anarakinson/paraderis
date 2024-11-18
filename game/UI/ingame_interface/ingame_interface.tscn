@@ -46,10 +46,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qm365")
 
-[node name="Interface" type="CanvasLayer" parent="."]
-layer = 128
-
-[node name="HP" type="Label" parent="Interface"]
+[node name="HP" type="Label" parent="."]
+layout_mode = 0
 offset_left = 26.0
 offset_top = 25.0
 offset_right = 83.0
@@ -57,16 +55,19 @@ offset_bottom = 67.0
 theme_override_font_sizes/font_size = 30
 text = "HP: "
 
-[node name="BloodRect" type="TextureRect" parent="Interface"]
+[node name="BloodRect" type="TextureRect" parent="."]
 visible = false
+layout_mode = 0
 offset_left = -96.0
 offset_top = -72.0
 offset_right = 1243.0
 offset_bottom = 722.0
 texture = SubResource("GradientTexture2D_3gi5o")
 
-[node name="Blur" type="ColorRect" parent="Interface"]
+[node name="Blur" type="ColorRect" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_2pgci")
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

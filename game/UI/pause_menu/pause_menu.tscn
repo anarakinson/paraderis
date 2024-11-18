@@ -1,8 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://hofe54ar0o34"]
+[gd_scene load_steps=4 format=3 uid="uid://hofe54ar0o34"]
 
 [ext_resource type="Script" path="res://game/UI/pause_menu/pause_menu.gd" id="1_dsjmm"]
+[ext_resource type="Shader" path="res://game/shaders/blur_shader.gdshader" id="2_18sve"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gbf5h"]
+shader = ExtResource("2_18sve")
+shader_parameter/amount = 2.0
 
 [node name="PauseMenu" type="Control"]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,13 +18,24 @@ grow_vertical = 2
 script = ExtResource("1_dsjmm")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.187, 0.187, 0.187, 0.481)
+color = Color(0.0705882, 0.0705882, 0.0705882, 0.392157)
+
+[node name="Blur" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_gbf5h")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="Resume" type="Button" parent="."]
 layout_mode = 0

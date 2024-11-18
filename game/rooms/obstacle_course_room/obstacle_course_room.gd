@@ -17,7 +17,7 @@ func _ready() -> void:
 	directional_light_2d.visible = true
 	parallax_dust.visible = true
 	background_rect.visible = true
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+#
+## Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta: float) -> void:
+	#pass

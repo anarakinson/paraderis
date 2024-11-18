@@ -13,27 +13,35 @@ extends Node2D
 func _ready():
  
 	world_environment.environment.glow_enabled = true
-	
 	directional_light_2d.visible = true
+
 	parallax_dust.visible = true
 	background_rect.visible = true
 	
-	camera_2d.visible = true
-	camera_2d.enabled = true
-	camera_2d_2.visible = false
-	camera_2d_2.enabled = false
+	camera_list[camera_number].set_deferred("enabled", true)
+	camera_list[camera_number].set_deferred("visible", true)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+## Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+	#pass
 
-
+var camera_number: int = 0
+@onready var camera_list : Array = [
+	$Camera/SmartCamera2D,
+	$Camera/SmartCamera2D2,
+	$Camera/SmartCamera2D3,
+	$Camera/SmartCamera2D4,
+]
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		#if event.as_text() == InputMap.action_get_events("camera_change"):
 		if event.as_text() == "P":
-			camera_2d.enabled = !camera_2d.enabled
-			camera_2d.visible = !camera_2d.visible
-			camera_2d_2.enabled = !camera_2d_2.enabled
-			camera_2d_2.visible = !camera_2d_2.visible
-	
+			camera_list[camera_number].set_deferred("enabled", false)
+			camera_list[camera_number].set_deferred("visible", false)
+			camera_number += 1
+			if camera_number >= len(camera_list):
+				camera_number = 0
+			camera_list[camera_number].set_deferred("enabled", true)
+			camera_list[camera_number].set_deferred("visible", true)
+			#for camera in camera_list:
+				#print(camera, " ", camera.enabled, " ", camera.is_canvas_layer_visible())

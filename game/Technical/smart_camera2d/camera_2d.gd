@@ -36,7 +36,11 @@ func _ready():
 	GlobalParams.connect("hitted", _on_hitted)
 	GlobalParams.connect("death", _on_death)
 	GlobalParams.connect("screenshake", _on_screenshake)
-	visible = true
+	if self.is_current():
+		visible = true
+	else:
+		visible = false
+	$CanvasLayer.visible = visible
 	vignette_hitted.visible = false
 	pause_menu.visible = false
 	zoom_label.text = "zoom: %.2f" % zoom.x
@@ -112,7 +116,7 @@ func _on_hitted():
 func _input(event: InputEvent) -> void:
 	if !self.is_current() or is_dead:
 		return
-	if (event is InputEventKey or event is InputEventJoypadButton) and event.pressed:
+	elif (event is InputEventKey or event is InputEventJoypadButton) and event.pressed:
 		if event.as_text() == "K":
 			zoom -= Vector2(0.005, 0.005)
 			#offset.y -= basic_offset_y * zoom.y
@@ -147,3 +151,15 @@ func random_offset() -> Vector2:
 		rng.randf_range(-shake_strength, shake_strength), 
 		rng.randf_range(-shake_strength, shake_strength)
 	)
+
+
+
+@onready var button: Button = $CanvasLayer/Button
+
+var button_flag = true
+func _on_button_pressed() -> void:
+	if button_flag:
+		button.set_deferred("text", "aaaaaaa")
+	else:
+		button.set_deferred("text", "FUCK")
+	button_flag = !button_flag

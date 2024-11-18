@@ -700,7 +700,7 @@ next_room = "res://game/rooms/obstacle_course_room/obstacle_course_room.tscn"
 show_behind_parent = true
 
 [node name="SmartCamera2D" parent="Camera" node_paths=PackedStringArray("player") instance=ExtResource("15_t4qcq")]
-visible = false
+position = Vector2(2242, -505)
 zoom = Vector2(0.6, 0.6)
 limit_left = -375
 limit_top = -600
@@ -708,11 +708,21 @@ limit_right = 10850
 limit_bottom = 2200
 player = NodePath("../../Shady")
 
-[node name="SmartCamera2D2" parent="Camera" node_paths=PackedStringArray("player") instance=ExtResource("15_t4qcq")]
+[node name="SmartCamera2D2" parent="Camera" instance=ExtResource("15_t4qcq")]
+position = Vector2(7895, 752)
+enabled = false
+zoom = Vector2(0.6, 0.6)
+
+[node name="SmartCamera2D3" parent="Camera" instance=ExtResource("15_t4qcq")]
+position = Vector2(6186, -1082)
+enabled = false
+zoom = Vector2(0.6, 0.6)
+
+[node name="SmartCamera2D4" parent="Camera" instance=ExtResource("15_t4qcq")]
 visible = false
-position = Vector2(3033, -304)
-zoom = Vector2(0.4, 0.4)
-player = NodePath("../../Shady")
+position = Vector2(2469, 298)
+enabled = false
+zoom = Vector2(0.6, 0.6)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_tvhgi")

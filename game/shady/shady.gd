@@ -16,7 +16,6 @@ class_name Shady
 @onready var edge_detection: RayCast2D = $RayCasts/EdgeDetection
 @onready var edge_detection_2: RayCast2D = $RayCasts/EdgeDetection2
 @onready var wall_ray_cast: RayCast2D = $RayCasts/WallRayCast
-@onready var wall_ray_cast_2: RayCast2D = $RayCasts/WallRayCast2
 @onready var climb_ray_cast: RayCast2D = $RayCasts/ClimbRayCast
 @onready var climb_ray_cast_2: RayCast2D = $RayCasts/ClimbRayCast2
 @onready var climb_shape_cast: ShapeCast2D = $RayCasts/ClimbShapeCast
@@ -168,7 +167,7 @@ func set_collision_shape(shape):
 	#point_light_2d.position.y = move_toward(point_light_2d.position.y, position.y, 5)
 
 
-func set_direction(coeff = 1, with_sprite=true):
+func set_direction(coeff = 1., with_sprite=true):
 	#print(direction)
 	# Get the input direction and handle the movement/deceleration.
 	if ((direction > 0 and face_direction == -1) or
@@ -276,7 +275,7 @@ func _physics_process(delta):
 			climb_ledge_state(delta)
 		WALL_CLIMB_PROCESS:
 			set_collision_shape(collider_shape["on_wall"])
-			climb_ledge_process(delta)
+			climb_ledge_process()
 		WALL_BOUNCING:
 			set_collision_shape(collider_shape["on_wall"])
 			wall_bouncing_state()
@@ -352,9 +351,9 @@ func _physics_process(delta):
 		camera_position.position = lerp(camera_position.position, look_direction * Vector2(3.*camera_position_point, look_addition) + Vector2(camera_position_point * face_direction, 0), 3*delta)
 		if (not time_to_turn and state == MOVE and 
 			(full_idle or run_counter <= 0.1)):
-			if camera_position.position.y > look_addition/3:
+			if camera_position.position.y > look_addition/3.:
 				animation_player.play("look_down")
-			elif camera_position.position.y < -look_addition/3:
+			elif camera_position.position.y < -look_addition/3.:
 				animation_player.play("look_up")
 
 	
@@ -770,7 +769,7 @@ func climb_ledge_state(delta):
 		time_to_climb_up = 0
 
 
-func climb_ledge_process(delta):
+func climb_ledge_process():
 		#$ClimbCollision.disabled = true
 		climb_ray_cast.target_position.x = 0
 		climb_ray_cast_2.target_position.x = 0
@@ -961,6 +960,7 @@ func return_to_checkpoint(shake=false):
 
 func _on_hitpoints_hitted() -> void:
 	#print("HIT!")
+	camera_position.position.y = 0
 	if is_fall_hitted:
 		return
 	state = IDLE

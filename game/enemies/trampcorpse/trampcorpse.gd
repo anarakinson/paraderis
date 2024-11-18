@@ -80,11 +80,11 @@ var state : int = IDLE:
 		if state == HIT:
 			modulate.g = 0.75
 			modulate.b = 0.75
-			$EnemyDamage/Hurtbox/CollisionShape2D.disabled = true
+			$EnemyDamage/Hurtbox/CollisionShape2D.set_deferred("disabled", true)
 		elif state != HIT:
 			modulate.g = 1
 			modulate.b = 1
-			$EnemyDamage/Hurtbox/CollisionShape2D.disabled = false
+			$EnemyDamage/Hurtbox/CollisionShape2D.set_deferred("disabled", false)
 
 
 func _ready() -> void:
@@ -306,7 +306,7 @@ func died():
 	corpse_sprite.velocity = (GlobalParams.shady_params.knockback_force * 
 				direction * Vector2(1, 0.25))
 	corpse_sprite.die()
-	queue_free()
+	call_deferred("queue_free")
 
 
 func _on_enemy_damage_death() -> void:
@@ -324,9 +324,11 @@ func instant_death():
 
 
 func get_tracked_character():
-	if forward_vision_ray.get_collider(0) != null:
+	if forward_vision_ray.is_colliding():
+		#if forward_vision_ray.get_collider(0) != null:
 		tracked_character = forward_vision_ray.get_collider(0)
-	elif back_vision_ray.get_collider(0) != null:
+	elif back_vision_ray.is_colliding():
+		#if back_vision_ray.get_collider(0) != null:
 		tracked_character = back_vision_ray.get_collider(0)
 	else:
 		tracked_character = null
