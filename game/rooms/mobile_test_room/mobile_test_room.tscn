@@ -1,9 +1,8 @@
-[gd_scene load_steps=24 format=4 uid="uid://de0fui2sodx58"]
+[gd_scene load_steps=23 format=4 uid="uid://de0fui2sodx58"]
 
 [ext_resource type="Script" path="res://game/rooms/mobile_test_room/mobile_test_room.gd" id="1_j1j2h"]
 [ext_resource type="PackedScene" uid="uid://bgqfwlym3rc0" path="res://game/effects/step_dust/step_dust.tscn" id="2_gt21i"]
 [ext_resource type="Texture2D" uid="uid://tngmwfuj1sdv" path="res://assets/9oq74slw3dc01.jpg" id="3_uaoiw"]
-[ext_resource type="PackedScene" uid="uid://ds1euiiacrf38" path="res://game/environment/spruces.tscn" id="4_6um0w"]
 [ext_resource type="PackedScene" uid="uid://djlolnfn241sq" path="res://game/technical/environmental_dust/parallax_dust.tscn" id="5_6mjmx"]
 [ext_resource type="Texture2D" uid="uid://c8pruu2l6ws21" path="res://assets/environment_altar1.png" id="6_a0n00"]
 [ext_resource type="PackedScene" uid="uid://dstmf1qriwhwk" path="res://game/effects/magic_place.tscn" id="7_kcj1g"]
@@ -70,23 +69,12 @@ offset_right = 11642.0
 offset_bottom = 3350.0
 color = Color(0.305882, 0.305882, 0.305882, 1)
 
-[node name="Spruces" parent="Background/ParallaxBackground/ParallaxLayer1" instance=ExtResource("4_6um0w")]
-position = Vector2(3554, 1207)
-scale = Vector2(0.5, 0.5)
-
 [node name="ParallaxForeground" type="ParallaxBackground" parent="Background"]
 layer = 50
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="Background/ParallaxForeground"]
 position = Vector2(2413, 1516)
 motion_scale = Vector2(1.2, 1.1)
-
-[node name="Spruces2" parent="Background/ParallaxForeground/ParallaxLayer2" instance=ExtResource("4_6um0w")]
-modulate = Color(1.5, 1.5, 1.5, 1)
-position = Vector2(4178, 1264)
-rotation = -0.119269
-scale = Vector2(0.5, 0.5)
-frame = 1
 
 [node name="ParallaxDust" parent="Background" instance=ExtResource("5_6mjmx")]
 visible = false

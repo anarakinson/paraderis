@@ -1,8 +1,6 @@
-[gd_scene load_steps=12 format=4 uid="uid://yrh34uw2guxw"]
+[gd_scene load_steps=11 format=4 uid="uid://dmyyhtp1s5wna"]
 
-[ext_resource type="Script" path="res://game/rooms/template_room/template.gd" id="1_wbgbl"]
 [ext_resource type="PackedScene" uid="uid://dstmf1qriwhwk" path="res://game/effects/magic_place.tscn" id="3_3n12q"]
-[ext_resource type="PackedScene" uid="uid://ds1euiiacrf38" path="res://game/environment/spruces.tscn" id="3_fm1q6"]
 [ext_resource type="PackedScene" uid="uid://bqeid55f53bl2" path="res://game/technical/smart_point_light/smart_point_light_2d.tscn" id="7_xqjnl"]
 [ext_resource type="PackedScene" uid="uid://clc02tsxv7afg" path="res://game/shady/shady.tscn" id="9_l1opg"]
 [ext_resource type="PackedScene" uid="uid://6wryaalvwy7q" path="res://game/technical/environmental_dust/environmental_dust.tscn" id="14_a5bh2"]
@@ -12,9 +10,45 @@
 [ext_resource type="PackedScene" uid="uid://cnv38iiucgso1" path="res://game/technical/checkpoint/checkpoint.tscn" id="19_f5pe7"]
 [ext_resource type="PackedScene" uid="uid://cs1mj6piosccg" path="res://game/environment/door/room_connection.tscn" id="20_aev60"]
 
+[sub_resource type="GDScript" id="GDScript_0ofr4"]
+script/source = "extends Node2D
+
+
+@onready var camera_2d = $Camera/SmartCamera2D
+@onready var camera_2d_2: Camera2D = $Camera/SmartCamera2D2
+@onready var directional_light_2d: DirectionalLight2D = $Light/DirectionalLight2D
+@onready var point_light_2d_2: PointLight2D = $Shady/PointLight2D2
+@onready var background_rect: ColorRect = $Background/BackgroundRect
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	camera_2d.visible = true
+	camera_2d_2.visible = false
+	directional_light_2d.visible = true
+	camera_2d.visible = true
+	camera_2d_2.visible = false
+	background_rect.visible = true
+	$Interface/IngameInterface.visible = true
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed:
+		#if event.as_text() == InputMap.action_get_events(\"camera_change\"):
+		if event.as_text() == \"P\":
+			camera_2d.enabled = !camera_2d.enabled
+			camera_2d_2.enabled = !camera_2d_2.enabled
+			camera_2d.visible = !camera_2d.visible
+			camera_2d_2.visible = !camera_2d_2.visible
+"
+
 [node name="Template" type="Node2D"]
 position = Vector2(2050, 982)
-script = ExtResource("1_wbgbl")
+script = SubResource("GDScript_0ofr4")
 metadata/_edit_vertical_guides_ = [10849.0]
 metadata/_edit_horizontal_guides_ = [2200.0]
 
@@ -46,10 +80,6 @@ init_amount = 6
 scale_coeff = 0.5
 metadata/_edit_use_anchors_ = true
 
-[node name="Spruces" parent="Background/ParallaxBackground/ParallaxLayer1" instance=ExtResource("3_fm1q6")]
-position = Vector2(3554, 1207)
-scale = Vector2(0.5, 0.5)
-
 [node name="ParallaxForeground" type="ParallaxBackground" parent="Background"]
 layer = 100
 
@@ -60,12 +90,6 @@ motion_scale = Vector2(1.2, 1)
 init_amount = 4
 scale_coeff = 2.0
 metadata/_edit_use_anchors_ = true
-
-[node name="Spruces2" parent="Background/ParallaxForeground/ParallaxLayer2" instance=ExtResource("3_fm1q6")]
-position = Vector2(4178, 1264)
-rotation = -0.119269
-scale = Vector2(0.5, 0.5)
-frame = 1
 
 [node name="Decor" type="Node2D" parent="."]
 position = Vector2(3746, 53)

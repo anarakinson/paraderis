@@ -1,6 +1,5 @@
-[gd_scene load_steps=29 format=4 uid="uid://ml43ca51jhhi"]
+[gd_scene load_steps=28 format=4 uid="uid://ml43ca51jhhi"]
 
-[ext_resource type="PackedScene" uid="uid://ds1euiiacrf38" path="res://game/environment/spruces.tscn" id="1_6dfa4"]
 [ext_resource type="Script" path="res://game/rooms/test_room/test.gd" id="1_yckt4"]
 [ext_resource type="PackedScene" uid="uid://bgqfwlym3rc0" path="res://game/effects/step_dust/step_dust.tscn" id="2_1abno"]
 [ext_resource type="PackedScene" uid="uid://djlolnfn241sq" path="res://game/technical/environmental_dust/parallax_dust.tscn" id="2_637b3"]
@@ -92,24 +91,11 @@ offset_right = 11642.0
 offset_bottom = 3350.0
 color = Color(0.305882, 0.305882, 0.305882, 1)
 
-[node name="Spruces" parent="Background/ParallaxBackground/ParallaxLayer1" instance=ExtResource("1_6dfa4")]
-visible = false
-position = Vector2(3554, 1207)
-scale = Vector2(0.5, 0.5)
-
 [node name="ParallaxForeground" type="ParallaxBackground" parent="Background"]
 layer = 50
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="Background/ParallaxForeground"]
 motion_scale = Vector2(1.2, 1.1)
-
-[node name="Spruces2" parent="Background/ParallaxForeground/ParallaxLayer2" instance=ExtResource("1_6dfa4")]
-visible = false
-modulate = Color(1.5, 1.5, 1.5, 1)
-position = Vector2(4178, 1264)
-rotation = -0.119269
-scale = Vector2(0.5, 0.5)
-frame = 1
 
 [node name="ParallaxDust" parent="Background" instance=ExtResource("2_637b3")]
 visible = false
