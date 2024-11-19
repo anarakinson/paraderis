@@ -125,7 +125,6 @@ func _input(event: InputEvent) -> void:
 			zoom += Vector2(0.005, 0.005)
 			#offset.y += basic_offset_y * zoom.y
 			zoom_label.text = "zoom: %.2f" % zoom.x
-		#if event.keycode == KEY_ESCAPE:
 		if event.is_action("pause"):
 			#print("escape")
 			pause_menu.activate()
@@ -136,7 +135,7 @@ func _on_visibility_changed() -> void:
 
 func _on_death():
 	is_dead = true
-	
+
 func _on_screenshake(duration, strenght):
 	print("screenshake %f" % duration)
 	Input.vibrate_handheld(duration / 10)

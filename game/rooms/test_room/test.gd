@@ -43,5 +43,8 @@ func _input(event: InputEvent) -> void:
 				camera_number = 0
 			camera_list[camera_number].set_deferred("enabled", true)
 			camera_list[camera_number].set_deferred("visible", true)
-			#for camera in camera_list:
-				#print(camera, " ", camera.enabled, " ", camera.is_canvas_layer_visible())
+
+
+
+	#for camera in camera_list:
+		#print(camera, " ", camera.enabled, " ", camera.pause_menu.is_active)

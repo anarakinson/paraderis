@@ -6,11 +6,11 @@ var is_active = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#process_mode = Node.PROCESS_MODE_WHEN_PAUSED
-	pass # Replace with function body.
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 
 func activate():
-	#print("activate", self)
+	#print("activate ", self)
 	if is_active == true:
 		visible = false
 		is_active = false
@@ -36,7 +36,7 @@ func _on_quit_pressed() -> void:
 
 func _input(event: InputEvent) -> void:
 	if (event is InputEventKey or event is InputEventJoypadButton) and event.pressed:
-		if event.is_action("pause"):
+		if get_tree().paused and event.is_action("pause"):
 			visible = false
 			is_active = false
 			get_tree().paused = false
