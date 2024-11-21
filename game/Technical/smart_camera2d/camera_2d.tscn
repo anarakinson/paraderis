@@ -61,6 +61,7 @@ offset_bottom = 790.0
 texture = SubResource("GradientTexture2D_bhdqc")
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -93,6 +94,7 @@ grow_vertical = 2
 top_level = true
 
 [node name="Zoom" type="Label" parent="CanvasLayer"]
+visible = false
 offset_left = 977.0
 offset_top = 605.0
 offset_right = 1138.0

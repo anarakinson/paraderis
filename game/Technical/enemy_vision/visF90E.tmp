@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcmypsow4rnjk"]
+
+[ext_resource type="Script" path="res://game/technical/enemy_vision/vision.gd" id="1_ve2jo"]
+
+[node name="Vision" type="Node2D"]
+modulate = Color(1, 1, 1, 0.32549)
+script = ExtResource("1_ve2jo")
+
+[node name="VisionRay" type="RayCast2D" parent="."]
+rotation = 6.28319
+target_position = Vector2(-512, 0)
+collision_mask = 3
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0

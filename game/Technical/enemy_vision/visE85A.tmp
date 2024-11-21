@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcmypsow4rnjk"]
+
+[ext_resource type="Script" path="res://game/technical/enemy_vision/vision.gd" id="1_ve2jo"]
+
+[sub_resource type="Gradient" id="Gradient_haffe"]
+offsets = PackedFloat32Array(0.883117, 1)
+colors = PackedColorArray(0, 1, 0, 0.0588235, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3ct40"]
+gradient = SubResource("Gradient_haffe")
+width = 1024
+height = 1024
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="Vision" type="Node2D"]
+script = ExtResource("1_ve2jo")
+
+[node name="VisionRay" type="RayCast2D" parent="."]
+target_position = Vector2(512, -128)
+collision_mask = 3
+
+[node name="VisionZone" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_3ct40")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.6, 0.6)
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0

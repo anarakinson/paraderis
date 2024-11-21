@@ -44,9 +44,9 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-	#pass
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
 	
 
 
@@ -64,3 +64,22 @@ func _ready() -> void:
 	#print(Input.get_joy_name(0))
 	#print(Input.get_joy_name(1))
 	#print(Input.get_joy_name(2))
+
+
+var time_counter : float = 0
+var hour_counter : float = 0
+var minute_counter : float = 0
+var second_counter : float = 0
+
+func update_timer(delta):
+	time_counter += delta
+	#var msec = fmod(time_counter, 1) * 100
+	var second_counter = fmod(time_counter, 60)
+	var minute_counter = fmod(time_counter, 3600) / 60
+	if minute_counter >= 60:
+		hour_counter += 1
+		time_counter = 0
+	
+func get_time_str() -> String:
+	return ("%02d" % hour_counter) + (":%02d" % minute_counter) + (":%02d." % second_counter)# + ("%03d" % msec)
+	

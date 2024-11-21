@@ -55,17 +55,23 @@ func _ready():
 	vignette_rect.position = Vector2(0, 0)
 	color_rect.position = win_size / 2
 	pause_menu.position = Vector2(0, 0)
+	
+	offset.y = basic_offset_y
+	drag_top_margin = 0.01 * (zoom.y)
+	drag_bottom_margin = 0.01 * (zoom.y)
+	drag_left_margin = 0.1 * (zoom.x)
+	drag_right_margin = 0.1 * (zoom.x)
+
+	limit_left += int(offset.x)
+	limit_right += int(offset.x)
+	limit_top -= int(offset.y)
+	limit_bottom -= int(offset.y)
 
 	if player != null:
 		#force_update_scroll()
 		global_position = player.camera_position.global_position
 		print(zoom, vignette_rect.scale, vignette_rect.position, drag_right_margin)
 		camera_position_point = player.camera_position_point * (1-zoom.x)
-		offset.y = basic_offset_y
-		drag_top_margin = 0.01 * (zoom.y)
-		drag_bottom_margin = 0.01 * (zoom.y)
-		drag_left_margin = 0.1 * (zoom.x)
-		drag_right_margin = 0.1 * (zoom.x)
 		smoothing_distance = basic_smoothing_distance * zoom.x
 		print(smoothing_distance, " ", (1-zoom.x))
 	else:
@@ -137,7 +143,7 @@ func _on_death():
 	is_dead = true
 
 func _on_screenshake(duration, strenght):
-	print("screenshake %f" % duration)
+	#print("screenshake %f" % duration)
 	Input.vibrate_handheld(duration / 10)
 	Input.start_joy_vibration(0, 0.9 , 0.9 , duration)
 	Input.start_joy_vibration(1, 0.6 , 0.8 , duration)

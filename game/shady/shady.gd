@@ -141,6 +141,7 @@ var bored_counter = 0
 var fall_counter = 0
 var run_counter = 0
 var combo_counter = 0
+var attack_counter = 0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * GlobalParams.gravity_coeff
@@ -198,6 +199,7 @@ func set_face_direction(with_sprite=true):
 		climb_ray_cast.target_position.x = -wall_ray_cast_lenght
 		climb_ray_cast_2.target_position.x = -wall_ray_cast_lenght
 		climb_shape_cast.position.x = -climb_shape_cast_x
+		#$CameraPosition.position.x = -camera_position_point
 	elif face_direction == 1:
 		if with_sprite:
 			animated_sprite_2d.flip_h = false 
@@ -205,6 +207,7 @@ func set_face_direction(with_sprite=true):
 		climb_ray_cast.target_position.x = wall_ray_cast_lenght
 		climb_ray_cast_2.target_position.x = wall_ray_cast_lenght
 		climb_shape_cast.position.x = climb_shape_cast_x
+		#$CameraPosition.position.x = camera_position_point
 
 
 func apply_gravity(delta):
@@ -375,7 +378,7 @@ func _physics_process(delta):
 		elif (state == FALL and fall_counter < koyotee_time and is_koyotee_awailable):
 			state = JUMP_KOYOTEE
 			koyotee_jump_start()
-
+	
 	
 	# handle attack
 	if Input.is_action_just_pressed("attack"):
@@ -405,7 +408,6 @@ func _physics_process(delta):
 	if state == FALL or state == MOVE:
 		$ClimbCollision.disabled = true
 	elif state == WALL_CLIMB:
-	#else:
 		$ClimbCollision.disabled = false
 	
 	
@@ -418,6 +420,11 @@ func _physics_process(delta):
 		edge_detection.is_colliding() != edge_detection_2.is_colliding()):
 		velocity.x += speed * delta * face_direction
 	
+	
+	attack_counter += delta
+	if attack_counter > 0.8 or combo_counter == 0:
+		attack_counter = 0
+		combo_counter = 0
 	
 	move_and_slide()
 
@@ -827,7 +834,6 @@ func attack_state():
 		else:
 			attack_animation(attack_variants.JUMP)
 		damage.attack_start("basic", face_direction)
-	
 	await animation_player.animation_finished
 	state = MOVE
 
@@ -975,7 +981,8 @@ func _on_hitpoints_hitted() -> void:
 	animation_player.play("hit")
 	await get_tree().create_timer(0.25).timeout
 	fall_counter = 0
-	full_stop()
+	velocity.x = 0 
+	full_idle = true
 	state = MOVE
 
 

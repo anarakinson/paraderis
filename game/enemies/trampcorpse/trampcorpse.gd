@@ -14,8 +14,7 @@ extends CharacterBody2D
 @onready var hitbox_collision: CollisionShape2D = $EnemyDamage/Hitbox/CollisionShape2D
 @onready var attack_collision: CollisionShape2D = $EnemyDamage/AttackArea/CollisionShape2D
 
-@onready var forward_vision_ray: ShapeCast2D = $Vision/ForwardVisionRay
-@onready var back_vision_ray: ShapeCast2D = $Vision/BackVisionRay
+@onready var vision: Node2D = $Vision
 
 
 @export_group("Parameters")
@@ -72,11 +71,14 @@ var state : int = IDLE:
 			HIT:
 				hitted_state()
 			DO_NOTHING:
-				back_vision_ray.target_position.x = 50
+				vision.back = -300
+				pass
 
 		if state != PATROL:
 			is_awaiting = false
-			
+		if state != DO_NOTHING:
+			vision.back = -1000
+		
 		if state == HIT:
 			modulate.g = 0.75
 			modulate.b = 0.75
@@ -88,7 +90,6 @@ var state : int = IDLE:
 
 
 func _ready() -> void:
-	$Vision.visible = true
 	set_collision_direction()
 	enemy_damage.hitpoints = hitpoints
 	enemy_damage.damage = damage
@@ -145,12 +146,12 @@ func _physics_process(delta: float) -> void:
 
 func check_visions():
 	# check visions
-	get_tracked_character()
+	tracked_character = $Vision.get_tracked_character()
 	if tracked_character != null and (state == PATROL or state == DO_NOTHING):
 		awared()
 	elif tracked_character == null and state == CHASE:
 		distracted()
-
+	
 
 
 func make_move(delta):
@@ -167,11 +168,10 @@ func set_collision_direction():
 	edge_detection.position.x = 55 * face_direction
 	attack_collision.position.x = 100 * face_direction
 	hitbox_collision.position.x = 100 * face_direction
-	forward_vision_ray.target_position.x = 1024 * face_direction
-	back_vision_ray.target_position.x = -512 * face_direction
 	$PointLight2D.position.x = -1 * face_direction
 	$PointLight2D2.position.x = -45 * face_direction
-	animated_sprite_2d.flip_h = face_direction < 0
+	animated_sprite_2d.flip_h = face_direction < 0	
+	$Vision.scale.x = face_direction
 
 
 func change_direction():
@@ -274,7 +274,7 @@ func _on_enemy_damage_hitted() -> void:
 		state = HIT
 	
 func hitted_state():
-	print("AAAA")
+	#print("AAAA")
 	full_stop()
 	animation_player.play("hit")
 	direction = -GlobalParams.shady_params.attack_direction.x
@@ -294,7 +294,7 @@ func hitted_state():
 func died():
 	#GlobalParams.screenshake.emit(0.1, 10)
 	full_stop()
-	print("NOOOOOOOO")
+	#print("NOOOOOOOO")
 	#animation_player.play("die")
 	var corpse_sprite = preload("res://game/enemies/trampcorpse/trampcorpse_dead.tscn").instantiate()
 	get_parent().add_child(corpse_sprite)
@@ -316,19 +316,8 @@ func _on_enemy_damage_death() -> void:
 
 func _on_enemy_damage_target_detected() -> void:
 	if state == CHASE or state == PATROL:
-		print("attack")
+		("attack")
 
 
 func instant_death():
 	state = DEATH
-
-
-func get_tracked_character():
-	if forward_vision_ray.is_colliding():
-		#if forward_vision_ray.get_collider(0) != null:
-		tracked_character = forward_vision_ray.get_collider(0)
-	elif back_vision_ray.is_colliding():
-		#if back_vision_ray.get_collider(0) != null:
-		tracked_character = back_vision_ray.get_collider(0)
-	else:
-		tracked_character = null

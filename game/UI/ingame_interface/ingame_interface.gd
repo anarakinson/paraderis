@@ -31,7 +31,7 @@ func _on_death():
 	blur_rect.material.set("shader_parameter/amount", 0.);
 	blur_rect.visible = true
 	var tween = get_tree().create_tween()
-	tween.tween_property(blur_rect, "material:shader_parameter/amount", 5., 7.5)
+	tween.tween_property(blur_rect, "material:shader_parameter/amount", 2.5, 8.5)
 	var tween2 = get_tree().create_tween()
 	tween2.tween_property(blood_rect, "modulate:a", 0.5, 7.5)
 	

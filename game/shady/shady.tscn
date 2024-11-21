@@ -3111,6 +3111,7 @@ disabled = true
 one_shot = true
 
 [node name="CameraPosition" type="Node2D" parent="."]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="CameraPosition"]
 anchors_preset = 8
@@ -3171,6 +3172,7 @@ shape = SubResource("RectangleShape2D_bpqpf")
 disabled = true
 
 [node name="Label" type="Label" parent="."]
+visible = false
 z_index = 3
 offset_left = -205.0
 offset_top = -330.0

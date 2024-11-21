@@ -37,7 +37,8 @@ func _on_hurtbox_area_entered(area: Area2D) -> void:
 				GlobalParams.shady_params.hazard_direction = -1
 			elif owner.global_position.x < global_position.x:
 				GlobalParams.shady_params.hazard_direction = 1
-			owner.hitpoints.decrease(1)
+			if not owner.hitpoints.is_invincible:
+				owner.hitpoints.decrease(1)
 
 
 #func _on_hitbox_body_entered(body: Node2D) -> void:

@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://848gyhnxccti"]
+
+[node name="Vision" type="Node2D"]
+modulate = Color(1, 1, 1, 0.32549)
+
+[node name="VisionRay15" type="RayCast2D" parent="."]
+target_position = Vector2(1024, 0)
+collision_mask = 3
+
+[node name="VisionRay14" type="RayCast2D" parent="."]
+target_position = Vector2(959, 178)
+collision_mask = 3
+
+[node name="VisionRay13" type="RayCast2D" parent="."]
+target_position = Vector2(956, -192)
+collision_mask = 3
+
+[node name="VisionRay12" type="RayCast2D" parent="."]
+target_position = Vector2(765, -278)
+collision_mask = 3
+
+[node name="VisionRay10" type="RayCast2D" parent="."]
+target_position = Vector2(-425, 114)
+collision_mask = 3
+
+[node name="VisionRay9" type="RayCast2D" parent="."]
+target_position = Vector2(362, -275)
+collision_mask = 3
+
+[node name="VisionRay8" type="RayCast2D" parent="."]
+target_position = Vector2(130, -267)
+collision_mask = 3
+
+[node name="VisionRay7" type="RayCast2D" parent="."]
+target_position = Vector2(-244, -244)
+collision_mask = 3
+
+[node name="VisionRay6" type="RayCast2D" parent="."]
+target_position = Vector2(-170, 159)
+collision_mask = 3
+
+[node name="VisionRay5" type="RayCast2D" parent="."]
+target_position = Vector2(227, 178)
+collision_mask = 3
+
+[node name="VisionRay4" type="RayCast2D" parent="."]
+target_position = Vector2(0, 167)
+collision_mask = 3
+
+[node name="VisionRay3" type="RayCast2D" parent="."]
+target_position = Vector2(0, -284)
+collision_mask = 3
+
+[node name="VisionRay11" type="RayCast2D" parent="."]
+target_position = Vector2(-425, -114)
+collision_mask = 3
+
+[node name="VisionRay" type="RayCast2D" parent="."]
+target_position = Vector2(-512, 0)
+collision_mask = 3
+
+[node name="VisionRay16" type="RayCast2D" parent="."]
+target_position = Vector2(-190, 0)
+collision_mask = 3
+
+[node name="VisionRay17" type="RayCast2D" parent="."]
+target_position = Vector2(-130, -74)
+collision_mask = 3
+
+[node name="VisionRay18" type="RayCast2D" parent="."]
+target_position = Vector2(-130, 74)
+collision_mask = 3

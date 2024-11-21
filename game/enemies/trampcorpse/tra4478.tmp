@@ -23,7 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://uharae033rdi" path="res://assets/enemies/trampcorpse/walk/frame0006.png" id="20_xr56l"]
 [ext_resource type="Texture2D" uid="uid://d6nxqesknp38" path="res://assets/enemies/trampcorpse/walk/frame0007.png" id="21_c3vnp"]
 [ext_resource type="Texture2D" uid="uid://btt10e0cp4mam" path="res://assets/enemies/trampcorpse/walk/frame0008.png" id="22_rfefu"]
-[ext_resource type="PackedScene" uid="uid://bcmypsow4rnjk" path="res://game/technical/enemy_vision/vision.tscn" id="23_uyosw"]
+[ext_resource type="PackedScene" uid="uid://bcmypsow4rnjk" path="res://game/technical/enemy_vision/vision2.tscn" id="23_uyosw"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ku3s7"]
 animations = [{
@@ -272,7 +272,7 @@ script = ExtResource("1_uf2bf")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -21)
 sprite_frames = SubResource("SpriteFrames_ku3s7")
-animation = &"idle"
+animation = &"die"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -299,7 +299,6 @@ wait_time = 0.5
 one_shot = true
 
 [node name="Label" type="Label" parent="."]
-visible = false
 offset_left = -110.0
 offset_top = -207.0
 offset_right = 109.0
@@ -330,14 +329,12 @@ shape = SubResource("CapsuleShape2D_f6w02")
 shape = SubResource("CapsuleShape2D_a3771")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-visible = false
 position = Vector2(-1, -115)
 scale = Vector2(1.59375, 1.59375)
 energy = 0.1
 texture = SubResource("GradientTexture2D_cb1jb")
 
 [node name="PointLight2D2" type="PointLight2D" parent="."]
-visible = false
 position = Vector2(-45, -45)
 scale = Vector2(1.54688, 1.54688)
 energy = 0.1
