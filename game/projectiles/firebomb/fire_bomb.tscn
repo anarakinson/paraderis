@@ -1,0 +1,82 @@
+[gd_scene load_steps=15 format=3 uid="uid://c0g2q32e3rdwx"]
+
+[ext_resource type="Texture2D" uid="uid://ci0bnyoiicf1m" path="res://assets/projectiles/firebomb/frame0001.png" id="1_bplgc"]
+[ext_resource type="Script" path="res://game/projectiles/firebomb/fire_bomb.gd" id="1_ovsxt"]
+[ext_resource type="Texture2D" uid="uid://bek57b52eapra" path="res://assets/projectiles/firebomb/frame0002.png" id="2_ag6hh"]
+[ext_resource type="Texture2D" uid="uid://d1yvi4wj8joaf" path="res://assets/projectiles/firebomb/frame0003.png" id="3_7w6gi"]
+[ext_resource type="Texture2D" uid="uid://xnig4q8gxn0q" path="res://assets/projectiles/firebomb/frame0004.png" id="4_j3fgy"]
+[ext_resource type="Texture2D" uid="uid://dnhmxqcl87qij" path="res://assets/projectiles/firebomb/frame0005.png" id="5_ymo80"]
+[ext_resource type="Texture2D" uid="uid://csgj86ise4msi" path="res://assets/projectiles/firebomb/frame0006.png" id="6_345lo"]
+[ext_resource type="Texture2D" uid="uid://c0aaj6gyq665g" path="res://assets/projectiles/firebomb/frame0007.png" id="7_qi2jp"]
+[ext_resource type="Texture2D" uid="uid://b8234krfcry6c" path="res://assets/projectiles/firebomb/frame0008.png" id="8_digma"]
+[ext_resource type="Texture2D" uid="uid://crgth0n0xv5g2" path="res://assets/projectiles/firebomb/frame0009.png" id="9_7rtby"]
+[ext_resource type="Texture2D" uid="uid://dxec2gtixai57" path="res://assets/projectiles/firebomb/frame0000.png" id="10_d3gib"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_dbnt0"]
+bounce = 0.1
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qc277"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_bplgc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ag6hh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_7w6gi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_j3fgy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ymo80")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_345lo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_qi2jp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_digma")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_7rtby")
+}],
+"loop": true,
+"name": &"active",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_d3gib")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wayp2"]
+radius = 8.06226
+
+[node name="FireBomb" type="RigidBody2D"]
+collision_layer = 128
+collision_mask = 7
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_dbnt0")
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_ovsxt")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_qc277")
+autoplay = "default"
+frame_progress = 0.654437
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wayp2")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -305,6 +305,7 @@ position = Vector2(2413, 1516)
 visible = false
 zoom = Vector2(0.6, 0.6)
 player = NodePath("../../Shady")
+display_fps = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_w4tnk")

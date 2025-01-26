@@ -1,31 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dgtlhvj2shwu6"]
+[gd_scene load_steps=2 format=3 uid="uid://dgtlhvj2shwu6"]
 
 [ext_resource type="Script" path="res://game/shady/damage.gd" id="1_yqj8n"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_obxwo"]
-radius = 75.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b2j1c"]
-
 [node name="Damage" type="Node2D"]
 script = ExtResource("1_yqj8n")
-
-[node name="Hitbox" type="Area2D" parent="."]
-collision_layer = 16
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(70, 0)
-shape = SubResource("CircleShape2D_obxwo")
-disabled = true
-debug_color = Color(1, 0, 0, 0.419608)
-
-[node name="Hurtbox" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 36
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-shape = SubResource("CapsuleShape2D_b2j1c")
-debug_color = Color(0, 1, 0, 0.419608)
-
-[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

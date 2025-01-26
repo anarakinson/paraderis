@@ -152,7 +152,6 @@ idle_stand = true
 
 [node name="Shady" parent="." instance=ExtResource("3_tlemg")]
 position = Vector2(4240, 2090)
-scale = Vector2(0.5, 0.5)
 
 [node name="Environment" type="Node2D" parent="."]
 position = Vector2(2413, 1516)

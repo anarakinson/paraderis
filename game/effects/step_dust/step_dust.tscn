@@ -5,8 +5,9 @@
 
 [node name="StepDust" type="CPUParticles2D"]
 emitting = false
-amount = 16
+amount = 4
 one_shot = true
+explosiveness = 0.5
 texture = ExtResource("1_h6t67")
 emission_shape = 1
 emission_sphere_radius = 1.0

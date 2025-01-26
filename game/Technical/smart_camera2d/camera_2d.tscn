@@ -42,13 +42,22 @@ editor_draw_drag_margin = true
 script = ExtResource("1_b434i")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 128
+layer = 110
 
 [node name="Corpserobber" type="Sprite2D" parent="CanvasLayer"]
 visible = false
 position = Vector2(260, 542)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_jfnuo")
+
+[node name="ColorModulation" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.226349, 0.517547, 0.913212, 0.00784314)
 
 [node name="VignetteHitted" type="TextureRect" parent="CanvasLayer"]
 offset_right = 1274.0
@@ -89,6 +98,16 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="IngameInterface" parent="CanvasLayer" instance=ExtResource("2_5u0xy")]
+top_level = true
+
+[node name="FPSLabel" type="Label" parent="CanvasLayer"]
+offset_left = 1052.0
+offset_top = 11.0
+offset_right = 1140.0
+offset_bottom = 34.0
+text = "10 fps"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("2_mqlpe")]
 top_level = true

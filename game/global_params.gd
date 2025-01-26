@@ -5,6 +5,9 @@ signal hitted
 signal death
 signal screenshake(duration : float)
 
+
+@onready var world_environment: WorldEnvironment = $WorldEnvironment
+
 var last_checkpoint : Node2D = null
 var last_savekpoint : Node2D = null
 
@@ -12,7 +15,7 @@ var gravity_coeff = 1.75
 
 
 class ShadyParams:
-	var speed = 500.0
+	var speed = 550.0
 	var jump_velocity = -775.0
 
 	var hitpoints : int = 5
@@ -30,6 +33,14 @@ class ShadyParams:
 	var attack_direction = Vector2(0, 0)
 	var hazard_direction = 0
 	
+	#var current_item = ItemManager.NONE
+	var current_item_id = 0
+	var current_item = ItemManager.NONE
+	var available_items : Array = [
+		ItemManager.NONE,
+		ItemManager.FIREBOMB, 
+		ItemManager.THROWING_KNIFE, 
+	]
 
 var shady_params : ShadyParams
 
@@ -40,7 +51,9 @@ func _ready() -> void:
 	var resolution = Vector2(1920, 1080)
 	DisplayServer.window_set_size(resolution)
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
-	
+
+	world_environment.environment.glow_enabled = true
+
 	pass # Replace with function body.
 
 

@@ -6,13 +6,12 @@ extends Node2D
 @onready var directional_light_2d: DirectionalLight2D = $Light/DirectionalLight2D
 @onready var background_rect = $Background/ParallaxBackground/ParallaxLayer1/BackgroundRect
 @onready var parallax_dust: Control = $Background/ParallaxDust
-@onready var world_environment: WorldEnvironment = $WorldEnvironment
+#@onready var world_environment: WorldEnvironment = $WorldEnvironment
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
  
-	world_environment.environment.glow_enabled = true
 	directional_light_2d.visible = true
 
 	parallax_dust.visible = true
@@ -43,6 +42,13 @@ func _input(event: InputEvent) -> void:
 				camera_number = 0
 			camera_list[camera_number].set_deferred("enabled", true)
 			camera_list[camera_number].set_deferred("visible", true)
+		if event.as_text() == "O":
+			var explosion = preload("res://game/effects/fireburst/fireburst.tscn").instantiate()
+			get_parent().add_child(explosion)
+			#await animation_player.animation_finished
+			explosion.position = $Shady.global_position
+			explosion.explode()
+	
 
 
 

@@ -40,5 +40,5 @@ angle_max = 180.0
 scale_amount_min = 0.1
 scale_amount_max = 0.3
 scale_amount_curve = SubResource("Curve_xdf3w")
-color = Color(1, 1, 1, 0.501961)
+color = Color(1, 1, 1, 0.502)
 color_ramp = SubResource("Gradient_qd2io")

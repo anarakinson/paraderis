@@ -1,8 +1,7 @@
-[gd_scene load_steps=39 format=3 uid="uid://b3orl1o8o2xbh"]
+[gd_scene load_steps=37 format=3 uid="uid://b3orl1o8o2xbh"]
 
 [ext_resource type="Script" path="res://game/enemies/trampcorpse/trampcorpse.gd" id="1_uf2bf"]
 [ext_resource type="Texture2D" uid="uid://wwclh2upfjdr" path="res://assets/enemies/trampcorpse/death/frame0001.png" id="2_q2uw1"]
-[ext_resource type="PackedScene" uid="uid://chlijv5hltxrj" path="res://game/technical/enemy_damage/enemy_damage.tscn" id="3_dscf6"]
 [ext_resource type="Texture2D" uid="uid://c1bu8tnce1dfe" path="res://assets/enemies/trampcorpse/death/frame0002.png" id="3_kk8xd"]
 [ext_resource type="Texture2D" uid="uid://dacmscrop3wr1" path="res://assets/enemies/trampcorpse/death/frame0003.png" id="4_7mvts"]
 [ext_resource type="Texture2D" uid="uid://djj2pn1ghcyq5" path="res://assets/enemies/trampcorpse/death/frame0004.png" id="5_sov52"]
@@ -24,6 +23,8 @@
 [ext_resource type="Texture2D" uid="uid://d6nxqesknp38" path="res://assets/enemies/trampcorpse/walk/frame0007.png" id="21_c3vnp"]
 [ext_resource type="Texture2D" uid="uid://btt10e0cp4mam" path="res://assets/enemies/trampcorpse/walk/frame0008.png" id="22_rfefu"]
 [ext_resource type="PackedScene" uid="uid://bcmypsow4rnjk" path="res://game/technical/enemy_vision/vision.tscn" id="23_uyosw"]
+[ext_resource type="PackedScene" uid="uid://cq3t4v3sscktm" path="res://game/hitbox/hitbox.tscn" id="25_jji1p"]
+[ext_resource type="PackedScene" uid="uid://6c0j8fpmufor" path="res://game/hurtbox/hurtbox.tscn" id="26_6jhbj"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ku3s7"]
 animations = [{
@@ -236,24 +237,12 @@ _data = {
 "walk": SubResource("Animation_h5k1x")
 }
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4fal8"]
-radius = 144.0
-height = 2048.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bvba2"]
+radius = 111.0
+height = 222.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4buw0"]
 height = 190.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0r3va"]
-radius = 42.0
-height = 216.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f6w02"]
-radius = 76.0
-height = 152.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a3771"]
-radius = 76.0
-height = 152.0
 
 [sub_resource type="Gradient" id="Gradient_pjyda"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -274,6 +263,7 @@ position = Vector2(0, -21)
 sprite_frames = SubResource("SpriteFrames_ku3s7")
 animation = &"idle"
 autoplay = "idle"
+frame_progress = 0.250092
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_g7p8w")
@@ -283,16 +273,15 @@ libraries = {
 "": SubResource("AnimationLibrary_2jweo")
 }
 
-[node name="SightArea2D" type="Area2D" parent="."]
-visible = false
-collision_layer = 4
-collision_mask = 6
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SightArea2D"]
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_4fal8")
-
 [node name="Vision" parent="." instance=ExtResource("23_uyosw")]
+
+[node name="Hitbox" parent="." instance=ExtResource("25_jji1p")]
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2(94, 1)
+shape = SubResource("CapsuleShape2D_bvba2")
+
+[node name="Hurtbox" parent="." instance=ExtResource("26_6jhbj")]
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5
@@ -318,17 +307,6 @@ target_position = Vector2(80, 0)
 position = Vector2(55, 0)
 target_position = Vector2(0, 125)
 
-[node name="EnemyDamage" parent="." groups=["enemies"] instance=ExtResource("3_dscf6")]
-
-[node name="CollisionShape2D" parent="EnemyDamage/Hurtbox" index="0"]
-shape = SubResource("CapsuleShape2D_0r3va")
-
-[node name="CollisionShape2D" parent="EnemyDamage/Hitbox" index="0"]
-shape = SubResource("CapsuleShape2D_f6w02")
-
-[node name="CollisionShape2D" parent="EnemyDamage/AttackArea" index="0"]
-shape = SubResource("CapsuleShape2D_a3771")
-
 [node name="PointLight2D" type="PointLight2D" parent="."]
 visible = false
 position = Vector2(-1, -115)
@@ -343,10 +321,9 @@ scale = Vector2(1.54688, 1.54688)
 energy = 0.1
 texture = SubResource("GradientTexture2D_cb1jb")
 
-[connection signal="body_entered" from="SightArea2D" to="." method="_on_sight_area_2d_body_entered"]
-[connection signal="body_exited" from="SightArea2D" to="." method="_on_sight_area_2d_body_exited"]
-[connection signal="death" from="EnemyDamage" to="." method="_on_enemy_damage_death"]
-[connection signal="hitted" from="EnemyDamage" to="." method="_on_enemy_damage_hitted"]
-[connection signal="target_detected" from="EnemyDamage" to="." method="_on_enemy_damage_target_detected"]
+[connection signal="death" from="." to="." method="_on_death"]
+[connection signal="hitted" from="." to="." method="_on_hitted"]
+[connection signal="target_detected" from="." to="." method="_on_target_detected"]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
 
-[editable path="EnemyDamage"]
+[editable path="Hitbox"]

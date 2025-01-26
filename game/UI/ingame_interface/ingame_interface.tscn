@@ -46,8 +46,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qm365")
 
-[node name="HP" type="Label" parent="."]
-layout_mode = 0
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 120
+
+[node name="HP" type="Label" parent="CanvasLayer"]
 offset_left = 26.0
 offset_top = 25.0
 offset_right = 83.0
@@ -55,10 +57,17 @@ offset_bottom = 67.0
 theme_override_font_sizes/font_size = 30
 text = "HP: "
 
-[node name="Blur" type="ColorRect" parent="."]
+[node name="Item" type="Label" parent="CanvasLayer"]
+offset_left = 31.0
+offset_top = 81.0
+offset_right = 76.0
+offset_bottom = 109.0
+theme_override_font_sizes/font_size = 20
+text = "Item"
+
+[node name="BlurRect" type="ColorRect" parent="CanvasLayer"]
 visible = false
 material = SubResource("ShaderMaterial_2pgci")
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -69,10 +78,12 @@ offset_bottom = 293.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BloodRect" type="TextureRect" parent="."]
-layout_mode = 0
+[node name="BloodRect" type="TextureRect" parent="CanvasLayer"]
+visible = false
 offset_left = -96.0
 offset_top = -72.0
 offset_right = 1243.0
 offset_bottom = 722.0
 texture = SubResource("GradientTexture2D_3gi5o")
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=300 format=3 uid="uid://clc02tsxv7afg"]
+[gd_scene load_steps=320 format=3 uid="uid://clc02tsxv7afg"]
 
 [ext_resource type="Script" path="res://game/shady/shady.gd" id="1_rfscw"]
 [ext_resource type="Shader" path="res://game/shaders/flickering_damage.gdshader" id="2_7cgup"]
@@ -31,12 +31,19 @@
 [ext_resource type="Texture2D" uid="uid://cnge36ckox5yx" path="res://assets/shady/frames/attack_jump/frame0009.png" id="26_1pgyt"]
 [ext_resource type="Texture2D" uid="uid://cyf1rvmwogd0n" path="res://assets/shady/frames/attack_jump/frame0021.png" id="26_wcag3"]
 [ext_resource type="Texture2D" uid="uid://b31y0whpdhah2" path="res://assets/shady/frames/climb/frame0015.png" id="27_vgd7m"]
+[ext_resource type="Texture2D" uid="uid://b072g2fmxeafm" path="res://assets/shady/frames/attack_sit/frame0001.png" id="28_db3qk"]
 [ext_resource type="Texture2D" uid="uid://cckbqg153kf3y" path="res://assets/shady/frames/climb/frame0016.png" id="28_iba7v"]
+[ext_resource type="Texture2D" uid="uid://dqv0kc02t3uxs" path="res://assets/shady/frames/attack_sit/frame0002.png" id="29_76kxx"]
 [ext_resource type="Texture2D" uid="uid://b5ryomu2exnaq" path="res://assets/shady/frames/climb/frame0017.png" id="29_gh1jk"]
 [ext_resource type="Texture2D" uid="uid://cvgrh3myppak2" path="res://assets/shady/frames/back/frame0003.png" id="30_ko0ak"]
+[ext_resource type="Texture2D" uid="uid://bgcpr7m7kprdm" path="res://assets/shady/frames/attack_sit/frame0003.png" id="30_u1nrt"]
+[ext_resource type="Texture2D" uid="uid://srpk7nq85yci" path="res://assets/shady/frames/attack_sit/frame0004.png" id="31_cgtml"]
 [ext_resource type="Texture2D" uid="uid://byjqtefbkgi" path="res://assets/shady/frames/back/frame0004.png" id="31_fw78l"]
+[ext_resource type="Texture2D" uid="uid://bm4hrxsav3jpe" path="res://assets/shady/frames/attack_sit/frame0005.png" id="32_f06tr"]
 [ext_resource type="Texture2D" uid="uid://cmh3ri4alssf4" path="res://assets/shady/frames/back/frame0005.png" id="32_tlmjs"]
 [ext_resource type="Texture2D" uid="uid://dxqkgm4ur6tae" path="res://assets/shady/frames/back/frame0006.png" id="33_442xd"]
+[ext_resource type="Texture2D" uid="uid://t25qk7x3po8w" path="res://assets/shady/frames/attack_sit/frame0006.png" id="33_dkt3a"]
+[ext_resource type="Texture2D" uid="uid://bqoyb8akjr746" path="res://assets/shady/frames/attack_sit/frame0007.png" id="34_6u4bd"]
 [ext_resource type="Texture2D" uid="uid://ct3n01ip8f03f" path="res://assets/shady/frames/back/frame0007.png" id="34_l7pbb"]
 [ext_resource type="Texture2D" uid="uid://dqs5yv522gciv" path="res://assets/shady/frames/back/frame0008.png" id="35_22wh6"]
 [ext_resource type="Texture2D" uid="uid://1exjfus02jki" path="res://assets/shady/frames/back/frame0009.png" id="36_16qo0"]
@@ -190,10 +197,14 @@
 [ext_resource type="Texture2D" uid="uid://bvjrplfah1ras" path="res://assets/shady/frames/throw/frame0001.png" id="188_l2e0s"]
 [ext_resource type="Texture2D" uid="uid://bd2a1rg6mr2he" path="res://assets/shady/frames/throw/frame0002.png" id="189_xdibw"]
 [ext_resource type="Texture2D" uid="uid://cp847bby2g40n" path="res://assets/shady/frames/throw/frame0003.png" id="190_k4il1"]
+[ext_resource type="Texture2D" uid="uid://desghskl3pcof" path="res://assets/shady/frames/throw_jump/frame0001.png" id="191_qvv3b"]
 [ext_resource type="Texture2D" uid="uid://j24f6a5nq46o" path="res://assets/shady/frames/throw/frame0004.png" id="191_tr28a"]
+[ext_resource type="Texture2D" uid="uid://shmo2nnikhei" path="res://assets/shady/frames/throw_jump/frame0002.png" id="192_aqxjw"]
 [ext_resource type="Texture2D" uid="uid://cyakc1x0x2j4q" path="res://assets/shady/frames/stand/frame0001.png" id="192_wjeit"]
+[ext_resource type="Texture2D" uid="uid://ecc1kagujegq" path="res://assets/shady/frames/throw_jump/frame0003.png" id="193_etnnd"]
 [ext_resource type="Texture2D" uid="uid://bfs7tj5p1imm" path="res://assets/shady/frames/stand/frame0002.png" id="193_iltbl"]
 [ext_resource type="Texture2D" uid="uid://nt54w77ljxg0" path="res://assets/shady/frames/stand/frame0003.png" id="194_mxeba"]
+[ext_resource type="Texture2D" uid="uid://go1f1wnqbcgi" path="res://assets/shady/frames/throw_jump/frame0004.png" id="194_stpx7"]
 [ext_resource type="Texture2D" uid="uid://cwgm4lrxgypwu" path="res://assets/shady/frames/stand/frame0004.png" id="195_a476t"]
 [ext_resource type="Texture2D" uid="uid://beklyjsoleuxh" path="res://assets/shady/frames/stand/frame0005.png" id="196_rcljb"]
 [ext_resource type="Texture2D" uid="uid://db1gh8mcvv0xs" path="res://assets/shady/frames/stand/frame0006.png" id="197_illre"]
@@ -222,8 +233,14 @@
 [ext_resource type="Texture2D" uid="uid://cf25ptrn5mh61" path="res://assets/shady/frames/attack_slash_wall/frame0001.png" id="219_1j3c8"]
 [ext_resource type="Texture2D" uid="uid://cesb0f4sqsb42" path="res://assets/shady/frames/attack_slash_wall/frame0002.png" id="220_tqx24"]
 [ext_resource type="Texture2D" uid="uid://cnw03hv3h7nf" path="res://assets/shady/frames/attack_slash_wall/frame0003.png" id="221_s8bbi"]
+[ext_resource type="PackedScene" uid="uid://cq3t4v3sscktm" path="res://game/hitbox/hitbox.tscn" id="224_dqiqu"]
+[ext_resource type="PackedScene" uid="uid://bqeid55f53bl2" path="res://game/technical/smart_point_light/smart_point_light_2d.tscn" id="225_0j4db"]
+[ext_resource type="PackedScene" uid="uid://6c0j8fpmufor" path="res://game/hurtbox/hurtbox.tscn" id="225_e4s4e"]
 [ext_resource type="PackedScene" uid="uid://dfo76dtuybq5s" path="res://game/shady/hitpoints.tscn" id="226_mtdaa"]
-[ext_resource type="PackedScene" uid="uid://dgtlhvj2shwu6" path="res://game/shady/damage.tscn" id="227_aoeof"]
+[ext_resource type="Texture2D" uid="uid://daxxjenrbpvhk" path="res://assets/shady/frames/attack_sit_slash/frame0000.png" id="228_h5ntp"]
+[ext_resource type="Texture2D" uid="uid://c2f3f3dse71lq" path="res://assets/shady/frames/attack_sit_slash/frame0002.png" id="229_kyupk"]
+[ext_resource type="Texture2D" uid="uid://cwyk70b7wrj8e" path="res://assets/shady/frames/attack_sit_slash/frame0003.png" id="230_5t6o4"]
+[ext_resource type="Texture2D" uid="uid://jq27x30h8rit" path="res://assets/shady/frames/attack_sit_slash/frame0004.png" id="231_1ymx2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hlg2r"]
 shader = ExtResource("2_7cgup")
@@ -340,6 +357,32 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_jump2",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("28_db3qk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_76kxx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_u1nrt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_cgtml")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_f06tr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_dkt3a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_6u4bd")
+}],
+"loop": false,
+"name": &"attack_sit",
 "speed": 15.0
 }, {
 "frames": [{
@@ -1129,6 +1172,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("191_qvv3b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("192_aqxjw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("193_etnnd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("194_stpx7")
+}],
+"loop": false,
+"name": &"throw_jump",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("91_5uj2m")
 }, {
 "duration": 1.0,
@@ -1252,6 +1312,23 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_down",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("228_h5ntp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("229_kyupk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("230_5t6o4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("231_1ymx2")
+}],
+"loop": false,
+"name": &"attack_sit",
 "speed": 15.0
 }, {
 "frames": [{
@@ -1475,6 +1552,33 @@ tracks/1/keys = {
 "values": ["attack_jump2"]
 }
 
+[sub_resource type="Animation" id="Animation_7qygt"]
+length = 0.466667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["attack_sit"]
+}
+
 [sub_resource type="Animation" id="Animation_jhjuy"]
 length = 0.2
 tracks/0/type = "value"
@@ -1613,7 +1717,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_ke28d"]
-length = 0.3
+length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1640,7 +1744,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_nflks"]
-length = 0.3
+length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -2735,6 +2839,33 @@ tracks/1/keys = {
 "values": ["throw"]
 }
 
+[sub_resource type="Animation" id="Animation_lisa8"]
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["throw_jump"]
+}
+
 [sub_resource type="Animation" id="Animation_k8wi4"]
 length = 0.8
 tracks/0/type = "value"
@@ -2826,6 +2957,7 @@ _data = {
 "attack_finished": SubResource("Animation_nbnii"),
 "attack_jump1": SubResource("Animation_54lcs"),
 "attack_jump2": SubResource("Animation_i2a7p"),
+"attack_sit": SubResource("Animation_7qygt"),
 "attack_up": SubResource("Animation_jhjuy"),
 "attack_wall": SubResource("Animation_2njk4"),
 "back": SubResource("Animation_60sug"),
@@ -2872,6 +3004,7 @@ _data = {
 "sit_state": SubResource("Animation_gr0yu"),
 "sit_walk": SubResource("Animation_tlte4"),
 "throw": SubResource("Animation_xnoij"),
+"throw_jump": SubResource("Animation_lisa8"),
 "wake_up": SubResource("Animation_k8wi4"),
 "wall_jump": SubResource("Animation_xe8r8"),
 "wall_jump_start": SubResource("Animation_6kln6")
@@ -3069,7 +3202,12 @@ size = Vector2(120, 0)
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_rrx7w"]
 polygon = PackedVector2Array(-1, 5.3, 1, 5.3, 1.1, 5.5, -1.1, 5.5)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dcb08"]
+radius = 150.0
+height = 300.0
+
 [node name="Shady" type="CharacterBody2D"]
+scale = Vector2(0.5, 0.5)
 collision_layer = 2
 floor_max_angle = 0.349066
 script = ExtResource("1_rfscw")
@@ -3078,7 +3216,7 @@ script = ExtResource("1_rfscw")
 material = SubResource("ShaderMaterial_hlg2r")
 position = Vector2(0, -21)
 sprite_frames = SubResource("SpriteFrames_flbuy")
-animation = &"bored"
+animation = &"attack1"
 autoplay = "idle"
 frame = 2
 
@@ -3166,6 +3304,9 @@ target_position = Vector2(0, -110)
 [node name="FloorRaycast" type="RayCast2D" parent="RayCasts"]
 target_position = Vector2(0, 115)
 
+[node name="ThrowRayCast" type="RayCast2D" parent="RayCasts"]
+target_position = Vector2(144, 0)
+
 [node name="ClimbCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -105)
 shape = SubResource("RectangleShape2D_bpqpf")
@@ -3191,15 +3332,25 @@ occluder = SubResource("OccluderPolygon2D_rrx7w")
 
 [node name="Hitpoints" parent="." instance=ExtResource("226_mtdaa")]
 
-[node name="Damage" parent="." instance=ExtResource("227_aoeof")]
+[node name="Hitbox" parent="." instance=ExtResource("224_dqiqu")]
+collision_mask = 135
 
-[node name="CollisionShape2D" parent="Damage/Hitbox" index="0"]
-position = Vector2(64, -35)
-rotation = 1.5708
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2(70, -35)
+shape = SubResource("CapsuleShape2D_dcb08")
+
+[node name="Hurtbox" parent="." instance=ExtResource("225_e4s4e")]
+
+[node name="SmartPointLight2D" parent="." node_paths=PackedStringArray("player") instance=ExtResource("225_0j4db")]
+visible = false
+scale = Vector2(12, 10)
+energy = 0.98
+player = NodePath("..")
 
 [connection signal="hitted" from="Hitpoints" to="." method="_on_hitpoints_hitted"]
 [connection signal="invincibility_start" from="Hitpoints" to="." method="_on_hitpoints_invincibility_start"]
 [connection signal="invincibility_stop" from="Hitpoints" to="." method="_on_hitpoints_invincibility_stop"]
 [connection signal="time_to_die" from="Hitpoints" to="." method="_on_hitpoints_time_to_die"]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
 
-[editable path="Damage"]
+[editable path="Hitbox"]

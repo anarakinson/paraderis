@@ -1,48 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://chlijv5hltxrj"]
+[gd_scene load_steps=4 format=3 uid="uid://chlijv5hltxrj"]
 
 [ext_resource type="Script" path="res://game/technical/enemy_damage/enemy_damage.gd" id="1_m1cjg"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p44v6"]
-radius = 51.0
-height = 216.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s6cvy"]
-radius = 76.0
-height = 152.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mvumh"]
-radius = 76.0
-height = 152.0
+[ext_resource type="PackedScene" uid="uid://cq3t4v3sscktm" path="res://game/hitbox/hitbox.tscn" id="2_t12gf"]
+[ext_resource type="PackedScene" uid="uid://6c0j8fpmufor" path="res://game/hurtbox/hurtbox.tscn" id="3_gjtpq"]
 
 [node name="EnemyDamage" type="Node2D"]
 script = ExtResource("1_m1cjg")
 
-[node name="Hurtbox" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 18
+[node name="Hitbox" parent="." instance=ExtResource("2_t12gf")]
+position = Vector2(5905.37, 191.393)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-shape = SubResource("CapsuleShape2D_p44v6")
-debug_color = Color(0, 1, 0, 0.419608)
-
-[node name="Hitbox" type="Area2D" parent="."]
-collision_layer = 32
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(100, 0)
-shape = SubResource("CapsuleShape2D_s6cvy")
-disabled = true
-debug_color = Color(1, 0, 0, 0.419608)
-
-[node name="AttackArea" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(100, 0)
-shape = SubResource("CapsuleShape2D_mvumh")
+[node name="Hurtbox" parent="." instance=ExtResource("3_gjtpq")]
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
-[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
-[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]

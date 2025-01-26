@@ -2,6 +2,14 @@ extends CharacterBody2D
 
 class_name Shady
 
+#signal hitted
+
+
+
+
+
+@onready var hitbox: Area2D = $Hitbox
+@onready var hurtbox: Area2D = $Hurtbox
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var slash_sprite_2d: AnimatedSprite2D = $SlashSprite2D
@@ -9,7 +17,6 @@ class_name Shady
 @onready var basic_collision_shape_2d = $BasicCollisionShape2D
 
 @onready var hitpoints: Node2D = $Hitpoints
-@onready var damage: Node2D = $Damage
 
 @onready var timer: Timer = $Timer
 
@@ -21,8 +28,10 @@ class_name Shady
 @onready var climb_shape_cast: ShapeCast2D = $RayCasts/ClimbShapeCast
 @onready var ceiling_raycast: RayCast2D = $RayCasts/CeilingRaycast
 @onready var floor_raycast: RayCast2D = $RayCasts/FloorRaycast
+@onready var throw_ray_cast: RayCast2D = $RayCasts/ThrowRayCast
 
 @onready var wall_ray_cast_lenght = wall_ray_cast.target_position.x
+@onready var throw_ray_cast_lenght = throw_ray_cast.target_position.x
 @onready var climb_shape_cast_x = climb_shape_cast.position.x
 @onready var camera_position: Node2D = $CameraPosition
 
@@ -35,6 +44,7 @@ class_name Shady
 @export var koyotee_time = 0.15
 @export var camera_position_point = 250
 @export var look_addition = 750
+
 
 @onready var speed = GlobalParams.shady_params.speed
 @onready var jump_velocity = GlobalParams.shady_params.jump_velocity
@@ -76,6 +86,8 @@ enum {
 	ATTACK_SIT,
 	ATTACK_WALL,
 	ATTACK_END,
+	USE_ITEM,
+	USE_ITEM_SIT,
 }
 
 enum attack_variants {
@@ -111,6 +123,8 @@ var state_dict = {
 	ATTACK_SIT : "ATTACK_SIT",
 	ATTACK_WALL : "ATTACK_WALL",
 	ATTACK_END : "ATTACK_END",
+	USE_ITEM : "USE_ITEM",
+	USE_ITEM_SIT : "USE_ITEM_SIT",
 }
 
 
@@ -122,6 +136,7 @@ var direction = 0
 var look_direction = Vector2(0, 0)
 var time_to_turn = false
 var time_to_climb_up = 0
+var jump_hspeed_coeff = 0.9
 
 # conditions
 var is_in_attack_cooldown = false
@@ -142,13 +157,26 @@ var fall_counter = 0
 var run_counter = 0
 var combo_counter = 0
 var attack_counter = 0
+@onready var current_item_id = GlobalParams.shady_params.current_item_id
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * GlobalParams.gravity_coeff
 
 
+
+#################
+### r, h, pos_x, pos_y
+var attack_shapes : Dictionary = {
+	"basic" : [150, 300, 70, -35],
+	"sit" : [30, 170, 155, 30],
+	"up" : [150, 300, -5, -75],
+	"down" : [150, 300, 20, 15],
+	"wall" : [150, 300, -75, -75],
+}
+
+#########################################
+### radius, height, rotation, position_y
 var collider_shape : Dictionary = {
-# radius, height, rotation, position_y
 	"basic" : [21, 214, 0, 0],
 	"run" : [35, 214, 0, 0],
 	"lying" : [15, 175, 90, 92],
@@ -163,7 +191,7 @@ func set_collision_shape(shape):
 	basic_collision_shape_2d.shape.height = move_toward(basic_collision_shape_2d.shape.height, shape[1], 100)
 	basic_collision_shape_2d.rotation_degrees = move_toward(basic_collision_shape_2d.rotation_degrees, shape[2], 100)
 	basic_collision_shape_2d.position.y = move_toward(basic_collision_shape_2d.position.y, shape[3], 100)
-	damage.set_hurtbox_shape(shape)
+	set_hurtbox_shape(shape)
 	#point_light_2d.global_position = basic_collision_shape_2d.global_position
 	#point_light_2d.position.y = move_toward(point_light_2d.position.y, position.y, 5)
 
@@ -199,6 +227,7 @@ func set_face_direction(with_sprite=true):
 		climb_ray_cast.target_position.x = -wall_ray_cast_lenght
 		climb_ray_cast_2.target_position.x = -wall_ray_cast_lenght
 		climb_shape_cast.position.x = -climb_shape_cast_x
+		throw_ray_cast.position.x = -throw_ray_cast_lenght
 		#$CameraPosition.position.x = -camera_position_point
 	elif face_direction == 1:
 		if with_sprite:
@@ -207,6 +236,7 @@ func set_face_direction(with_sprite=true):
 		climb_ray_cast.target_position.x = wall_ray_cast_lenght
 		climb_ray_cast_2.target_position.x = wall_ray_cast_lenght
 		climb_shape_cast.position.x = climb_shape_cast_x
+		throw_ray_cast.position.x = throw_ray_cast_lenght
 		#$CameraPosition.position.x = camera_position_point
 
 
@@ -220,7 +250,13 @@ func apply_gravity(delta):
 
 
 func _ready() -> void:
+	hitbox.damage = GlobalParams.shady_params.damage
+	hitbox.knockback_force = GlobalParams.shady_params.knockback_force
 	slash_sprite_2d.material.set_shader_parameter("glow_power", slash_glowing)
+	
+	animation_player.get_animation("climb").length -= 0.1
+	animation_player.get_animation("climb2").length -= 0.1
+	
 
 func _physics_process(delta):
 	#print(state_dict[state], " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
@@ -298,12 +334,31 @@ func _physics_process(delta):
 		ATTACK_END:
 			set_collision_shape(collider_shape["basic"])
 			attack_end_state()
+		USE_ITEM:
+			use_item()
+		USE_ITEM_SIT:
+			use_item_sit()
 	
 	# Apply gravity
 	apply_gravity(delta)
 	if is_fall_hitted:
 		move_and_slide()
 		return
+	
+	
+	# Handle PREV-NEXT buttons
+	if Input.is_action_just_pressed("next"):
+		current_item_id += 1
+		if (current_item_id >= 
+			len(GlobalParams.shady_params.available_items)):
+			current_item_id = 0
+		chose_item()
+	elif Input.is_action_just_pressed("prev"):
+		current_item_id -= 1
+		if (current_item_id < 0):
+			current_item_id = len(GlobalParams.shady_params.available_items) - 1
+		chose_item()
+	
 	
 	if velocity.y > 0: 
 		$CameraPosition.position.y = lerp($CameraPosition.position.y, 1000., 1*delta)
@@ -336,7 +391,7 @@ func _physics_process(delta):
 	### Handle actions
 	##########################
 	if (state == MOVE or state == BORED):
-		if Input.is_action_just_pressed("l2_button"):
+		if Input.is_action_just_pressed("dash"):
 			disappear()
 		if Input.is_action_just_pressed("y_button"):
 			interaction_state()
@@ -391,6 +446,12 @@ func _physics_process(delta):
 		elif state == SIT:
 			state = ATTACK_SIT
 	
+	# Use item
+	if Input.is_action_just_pressed("use_item"):
+		if (state == MOVE or state == BORED or
+			state == FALL or state == JUMP):
+			state = USE_ITEM
+
 	
 	# ledge climb
 	if (
@@ -482,7 +543,7 @@ func bored_state():
 
 
 func jump_state():
-	set_direction()
+	set_direction(jump_hspeed_coeff)
 	if not Input.is_action_pressed("jump"):
 		velocity.y = move_toward(velocity.y, 0, -jump_velocity / 2)
 		state = FALL
@@ -545,7 +606,7 @@ func fall_state():
 		else:
 			fall_hit_state()
 	elif velocity.y > 0:
-		set_direction()
+		set_direction(jump_hspeed_coeff)
 		animation_player.play("fall")
 
 
@@ -649,6 +710,8 @@ func sit_state():
 		#stand_up()
 		#await animation_player.animation_finished
 		state = ATTACK_SIT
+	if Input.is_action_just_pressed("use_item"):
+		state = USE_ITEM_SIT
 
 	if not ceiling_raycast.is_colliding():
 		if Input.is_action_just_pressed("jump"):
@@ -661,7 +724,7 @@ func sit_state():
 			await animation_player.animation_finished
 			conjure_state()
 			state = CONJURE
-		if Input.is_action_just_pressed("l2_button"):
+		if Input.is_action_just_pressed("dash"):
 			stand_up()
 			await animation_player.animation_finished
 			disappear()
@@ -689,8 +752,8 @@ func is_any_button_pressed():
 		Input.is_action_just_pressed("jump") or 
 		Input.is_action_just_pressed("y_button") or 
 		Input.is_action_just_pressed("trick") or 
-		Input.is_action_just_pressed("r2_button") or 
-		Input.is_action_just_pressed("l2_button")
+		Input.is_action_just_pressed("dash") or 
+		Input.is_action_just_pressed("use_item")
 	)
 
 
@@ -821,10 +884,10 @@ func attack_state():
 
 	if Input.is_action_pressed("up"):
 		attack_animation(attack_variants.UP)
-		damage.attack_start("up", face_direction)
+		attack_start("up", face_direction)
 	elif Input.is_action_pressed("down") and not is_on_floor():
 		attack_animation(attack_variants.DOWN)
-		damage.attack_start("down", face_direction)
+		attack_start("down", face_direction)
 	else:
 		if is_on_floor():
 			#position.x = move_toward(position.x, position.x + face_direction * speed / 15, speed)
@@ -833,7 +896,7 @@ func attack_state():
 			attack_animation(attack_variants.FLOOR)
 		else:
 			attack_animation(attack_variants.JUMP)
-		damage.attack_start("basic", face_direction)
+		attack_start("basic", face_direction)
 	await animation_player.animation_finished
 	state = MOVE
 
@@ -874,11 +937,11 @@ func attack_animation(attack_variant):
 			animation_player.play("attack_wall")
 			GlobalParams.shady_params.attack_direction = Vector2(face_direction, 0)
 		attack_variants.SIT:
-			slash_sprite_2d.play("attack2")
-			animation_player.play("attack2")
+			slash_sprite_2d.play("attack_sit")
+			animation_player.play("attack_sit")
 			GlobalParams.shady_params.attack_direction = Vector2(face_direction, 0)
 	await slash_sprite_2d.animation_finished
-	damage.attack_end()
+	attack_end()
 	attack_cooldown()
 	slash_sprite_2d.visible = false
 
@@ -897,7 +960,7 @@ func attack_wall_state():
 		return
 	state = ATTACK_PROCESS
 	attack_animation(attack_variants.WALL)
-	damage.attack_start("basic", -face_direction)
+	attack_start("basic", -face_direction)
 	await animation_player.animation_finished
 	state = WALL_CLIMB
 
@@ -906,9 +969,12 @@ func attack_sit_state():
 		state = SIT
 		return
 	state = ATTACK_PROCESS
+	var temp_recoil_force = GlobalParams.shady_params.recoil_force
+	GlobalParams.shady_params.recoil_force = 0
 	attack_animation(attack_variants.SIT)
-	damage.attack_start("sit", face_direction)
+	attack_start("sit", face_direction)
 	await animation_player.animation_finished
+	GlobalParams.shady_params.recoil_force = temp_recoil_force
 	state = SIT
 
 func attack_process_state():
@@ -930,6 +996,70 @@ func attack_recoil():
 	is_recoiled = true
 	fall_counter = 0
 	velocity = GlobalParams.shady_params.recoil_force * GlobalParams.shady_params.attack_direction
+
+
+#####################################################################
+
+func use_item():
+	if is_in_attack_cooldown:
+		state = MOVE
+		return
+	state = ATTACK_PROCESS
+	var position_addition = Vector2(75 * face_direction, -15)
+	if throw_ray_cast.is_colliding():
+		position_addition = Vector2(35 * face_direction, -15)
+	if wall_ray_cast.is_colliding():
+		position_addition = Vector2(-1 * face_direction, -15)
+	match GlobalParams.shady_params.current_item:
+		ItemManager.NONE:
+			pass
+		ItemManager.FIREBOMB:
+			if is_on_floor():
+				full_stop()
+				animation_player.play("throw")
+			elif not is_on_floor():
+				animation_player.play("throw_jump")
+			await get_tree().create_timer(0.1).timeout
+			ItemManager.throw(
+				ItemManager.FIREBOMB,
+				global_position + position_addition,
+				Vector2(face_direction, 0)
+			)
+			await animation_player.animation_finished
+		ItemManager.THROWING_KNIFE:
+			if is_on_floor():
+				full_stop()
+				animation_player.play("throw")
+			elif not is_on_floor():
+				animation_player.play("throw_jump")
+			await get_tree().create_timer(0.1).timeout
+			ItemManager.throw(
+				ItemManager.THROWING_KNIFE,
+				global_position + position_addition,
+				Vector2(face_direction, 0)
+			)
+			await animation_player.animation_finished
+	state = MOVE
+	attack_cooldown()
+
+
+func use_item_sit():
+	print("use_item_sit")
+	state = SIT
+
+
+func chose_item():
+	GlobalParams.shady_params.current_item_id = current_item_id
+	GlobalParams.shady_params.current_item = GlobalParams.shady_params.available_items[current_item_id]
+	GlobalParams.ui_update.emit()
+
+
+
+
+##################################################
+
+
+
 
 
 func full_stop():
@@ -1006,7 +1136,7 @@ func death_process():
 func _on_hitpoints_invincibility_start() -> void:
 	if is_invincible == true: 
 		return
-	damage.hurtbox_deactivate()
+	hurtbox_deactivate()
 	is_invincible = true
 	is_flickering = true
 	flickering()
@@ -1014,7 +1144,7 @@ func _on_hitpoints_invincibility_start() -> void:
 func _on_hitpoints_invincibility_stop() -> void:
 	if is_invincible == false: 
 		return
-	damage.hurtbox_activate()
+	hurtbox_activate()
 	is_invincible = false
 	is_flickering = false
 
@@ -1024,4 +1154,42 @@ func flickering():
 		animated_sprite_2d.material.set("shader_parameter/quantity", 0.5);
 		await get_tree().create_timer(0.2).timeout
 		animated_sprite_2d.material.set("shader_parameter/quantity", 0.);
+	
+
+
+##############################################################
+
+func attack_start(shape: String, direction : int):
+	hitbox.collision.shape.radius = attack_shapes[shape][0]
+	hitbox.collision.shape.height = attack_shapes[shape][1]
+	hitbox.collision.position.x = attack_shapes[shape][2] * direction
+	hitbox.collision.position.y = attack_shapes[shape][3]
+	await get_tree().create_timer(0.1).timeout
+	hitbox.collision.disabled = false
+
+func attack_end():
+	hitbox.collision.disabled = true
+
+func hurtbox_activate():
+	hurtbox.enable()
+
+func hurtbox_deactivate():
+	hurtbox.disable()
+
+func set_hurtbox_shape(params):
+	hurtbox.collision.shape.radius = params[0]
+	hurtbox.collision.shape.height = params[1]
+	hurtbox.collision.rotation_degrees = params[2]
+	hurtbox.collision.position.y = params[3]
+
+
+func _on_hurtbox_area_entered(area: Area2D) -> void:
+	if area.name == "Hitbox":
+		if area.get_parent() == self:
+			pass
+		else:
+			hitpoints.decrease(area.damage)
+	elif area.name == "Hurtbox":
+		hitpoints.decrease(1)
+	
 	

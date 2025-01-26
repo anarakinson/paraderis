@@ -1,0 +1,109 @@
+[gd_scene load_steps=17 format=3 uid="uid://gv11cu434vrf"]
+
+[ext_resource type="Texture2D" uid="uid://lrorc56rxl2t" path="res://assets/projectiles/throwing_knife/frame0001.png" id="1_gy1c4"]
+[ext_resource type="Script" path="res://game/projectiles/throwing_knife/throwing_knife.gd" id="1_msl57"]
+[ext_resource type="Texture2D" uid="uid://cd0goqvpi6ofp" path="res://assets/projectiles/throwing_knife/frame0002.png" id="2_1xhr3"]
+[ext_resource type="Texture2D" uid="uid://d7n38ib2n3ok" path="res://assets/projectiles/throwing_knife/frame0003.png" id="3_ehdav"]
+[ext_resource type="Texture2D" uid="uid://dvnnllailir1n" path="res://assets/projectiles/throwing_knife/frame0004.png" id="4_0uqsx"]
+[ext_resource type="Texture2D" uid="uid://kdjq8ms6qbbg" path="res://assets/projectiles/throwing_knife/frame0005.png" id="5_85jpu"]
+[ext_resource type="Texture2D" uid="uid://csm1bm6akm27l" path="res://assets/projectiles/throwing_knife/frame0006.png" id="6_cmh3a"]
+[ext_resource type="Texture2D" uid="uid://bl7al7qmifh5o" path="res://assets/projectiles/throwing_knife/frame0007.png" id="7_jkqng"]
+[ext_resource type="Texture2D" uid="uid://clihou7phn35b" path="res://assets/projectiles/throwing_knife/frame0008.png" id="8_exi22"]
+[ext_resource type="Texture2D" uid="uid://dcc1d7pxbainm" path="res://assets/projectiles/throwing_knife/frame0000.png" id="9_d8st7"]
+[ext_resource type="PackedScene" uid="uid://cq3t4v3sscktm" path="res://game/hitbox/hitbox.tscn" id="11_vg3c2"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6opsa"]
+friction = 0.1
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_64nfd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_gy1c4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_1xhr3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ehdav")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_0uqsx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_85jpu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_cmh3a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_jkqng")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_exi22")
+}],
+"loop": true,
+"name": &"active",
+"speed": 25.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_d8st7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cnugi"]
+radius = 2.0
+height = 28.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jykr3"]
+radius = 8.0
+height = 36.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vhmyu"]
+height = 40.0
+
+[node name="ThrowingKnife" type="RigidBody2D"]
+collision_layer = 128
+collision_mask = 7
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_6opsa")
+gravity_scale = 0.3
+contact_monitor = true
+max_contacts_reported = 1
+linear_damp = 1.0
+angular_damp = 10.0
+script = ExtResource("1_msl57")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_64nfd")
+animation = &"active"
+frame_progress = 0.61529
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_cnugi")
+
+[node name="Hitbox" parent="." instance=ExtResource("11_vg3c2")]
+collision_mask = 160
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+shape = SubResource("CapsuleShape2D_jykr3")
+
+[node name="BodyDetection" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyDetection"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_vhmyu")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_entered" from="BodyDetection" to="." method="_on_body_detection_body_entered"]
+
+[editable path="Hitbox"]

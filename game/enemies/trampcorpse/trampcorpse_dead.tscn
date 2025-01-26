@@ -98,7 +98,7 @@ fill_from = Vector2(0.527523, 0.536697)
 fill_to = Vector2(1, 0.53211)
 
 [node name="TrampcorpseCorpse" type="CharacterBody2D"]
-collision_layer = 4
+collision_layer = 0
 floor_max_angle = 0.174533
 floor_snap_length = 6.5
 script = SubResource("GDScript_qf8ic")

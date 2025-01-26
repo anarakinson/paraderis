@@ -7,6 +7,7 @@ extends Camera2D
 @onready var color_rect: ColorRect = $CanvasLayer/ColorRect
 @onready var pause_menu: Control = $CanvasLayer/PauseMenu
 @onready var zoom_label: Label = $CanvasLayer/Zoom
+@onready var fps_label: Label = $CanvasLayer/FPSLabel
 
 
 @export_category("Follow character")
@@ -30,6 +31,10 @@ var is_dead = false
 @export var shake_fade: float = 4.0
 var rng = RandomNumberGenerator.new()
 var shake_strength: float = 0.
+
+@export_category("utils")
+@export var display_fps: bool = false
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -103,6 +108,10 @@ func _physics_process(delta):
 	if shake_strength > 0:
 		shake_strength = lerp(shake_strength, 0.0, shake_fade * delta)
 		offset = random_offset() + Vector2(0, basic_offset_y)
+	
+	
+	if display_fps:
+		fps_label.set_text("FPS " + str(Engine.get_frames_per_second()))
 
 
 func _on_hitted():

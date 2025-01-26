@@ -17,18 +17,19 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dsjmm")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 1
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 128
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.0705882, 0.0705882, 0.0705882, 0.392157)
+color = Color(0.1, 0.1, 0.1, 0.392)
 
-[node name="Blur" type="ColorRect" parent="."]
+[node name="Blur" type="ColorRect" parent="CanvasLayer"]
 material = SubResource("ShaderMaterial_gbf5h")
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -36,8 +37,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Resume" type="Button" parent="."]
-layout_mode = 0
+[node name="Resume" type="Button" parent="CanvasLayer"]
 offset_left = 510.0
 offset_top = 240.0
 offset_right = 660.0
@@ -46,8 +46,7 @@ theme_override_font_sizes/font_size = 25
 text = "Resume"
 icon_alignment = 1
 
-[node name="Options" type="Button" parent="."]
-layout_mode = 0
+[node name="Options" type="Button" parent="CanvasLayer"]
 offset_left = 510.0
 offset_top = 300.0
 offset_right = 660.0
@@ -56,8 +55,7 @@ theme_override_font_sizes/font_size = 25
 text = "Options"
 icon_alignment = 1
 
-[node name="Quit" type="Button" parent="."]
-layout_mode = 0
+[node name="Quit" type="Button" parent="CanvasLayer"]
 offset_left = 510.0
 offset_top = 362.0
 offset_right = 660.0
@@ -66,6 +64,7 @@ theme_override_font_sizes/font_size = 25
 text = "Quit"
 icon_alignment = 1
 
-[connection signal="pressed" from="Resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="pressed" from="CanvasLayer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="CanvasLayer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="CanvasLayer/Quit" to="." method="_on_quit_pressed"]

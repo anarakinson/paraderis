@@ -1,33 +1,20 @@
-[gd_scene load_steps=8 format=3 uid="uid://doaheh44n1n2"]
+[gd_scene load_steps=3 format=3 uid="uid://doaheh44n1n2"]
 
 [ext_resource type="Script" path="res://game/technical/env_notice/notice.gd" id="1_npjly"]
-[ext_resource type="Shader" path="res://game/shaders/gaussian_blur.gdshader" id="2_h7qjo"]
-[ext_resource type="Shader" path="res://game/shaders/glowing.gdshader" id="2_sreh2"]
-[ext_resource type="Texture2D" uid="uid://c8pruu2l6ws21" path="res://assets/environment_altar1.png" id="3_n23a5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mldwp"]
 radius = 205.292
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1621v"]
-shader = ExtResource("2_sreh2")
-shader_parameter/glow_color = Color(1, 1, 1, 1)
-shader_parameter/glow_power = 2.0
-shader_parameter/glow_shift = 1.0
-shader_parameter/glow_radius = 1.0
-shader_parameter/glow_enabled = true
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2vfx0"]
-shader = ExtResource("2_h7qjo")
-shader_parameter/radius = 10.0
-
 [node name="Notice" type="Area2D"]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_npjly")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_mldwp")
 
 [node name="Label" type="Label" parent="."]
-material = SubResource("ShaderMaterial_1621v")
+modulate = Color(1.2, 1.2, 1.3, 1)
 offset_left = -162.0
 offset_top = -178.0
 offset_right = 160.0
@@ -37,12 +24,6 @@ text = "Lorem Ipsum blablablablabla"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
-
-[node name="EnvironmentAltar1" type="Sprite2D" parent="."]
-visible = false
-material = SubResource("ShaderMaterial_2vfx0")
-position = Vector2(15, -71)
-texture = ExtResource("3_n23a5")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

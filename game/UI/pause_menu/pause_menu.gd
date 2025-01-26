@@ -40,3 +40,7 @@ func _input(event: InputEvent) -> void:
 			visible = false
 			is_active = false
 			get_tree().paused = false
+
+
+func _on_visibility_changed() -> void:
+	$CanvasLayer.visible = visible

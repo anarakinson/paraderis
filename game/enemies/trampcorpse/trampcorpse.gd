@@ -1,6 +1,11 @@
 extends CharacterBody2D
 
 
+signal hitted 
+signal death 
+signal target_detected
+
+
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -8,14 +13,19 @@ extends CharacterBody2D
 @onready var label: Label = $Label
 @onready var edge_detection: RayCast2D = $EdgeDetection
 @onready var wall_detection: ShapeCast2D = $WallDetection
-@onready var enemy_damage: Node2D = $EnemyDamage
 
-@onready var hurtbox_collision: CollisionShape2D = $EnemyDamage/Hurtbox/CollisionShape2D
-@onready var hitbox_collision: CollisionShape2D = $EnemyDamage/Hitbox/CollisionShape2D
-@onready var attack_collision: CollisionShape2D = $EnemyDamage/AttackArea/CollisionShape2D
+@onready var hitbox: Area2D = $Hitbox
+@onready var hurtbox: Area2D = $Hurtbox
+#@onready var attack_collision: CollisionShape2D = $EnemyDamage/AttackArea/CollisionShape2D
 
 @onready var vision: Node2D = $Vision
 
+
+@onready var invincibility_time = (
+	GlobalParams.shady_params.attack_cooldown_time * 0.99)
+var is_invincible = false
+var hit_direction = 0
+var knockback_force = 0
 
 @export_group("Parameters")
 @export var damage = 1
@@ -30,6 +40,7 @@ extends CharacterBody2D
 @export var hit_inertion = 1500
 @export var idle_stand : bool = false 
 @export var chase_modifier = 0.5
+
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * GlobalParams.gravity_coeff
@@ -82,17 +93,16 @@ var state : int = IDLE:
 		if state == HIT:
 			modulate.g = 0.75
 			modulate.b = 0.75
-			$EnemyDamage/Hurtbox/CollisionShape2D.set_deferred("disabled", true)
+			hurtbox.disable
 		elif state != HIT:
 			modulate.g = 1
 			modulate.b = 1
-			$EnemyDamage/Hurtbox/CollisionShape2D.set_deferred("disabled", false)
+			hurtbox.enable()
 
 
 func _ready() -> void:
 	set_collision_direction()
-	enemy_damage.hitpoints = hitpoints
-	enemy_damage.damage = damage
+	hitbox.damage = damage
 	animation_player.play("idle")
 	state = PATROL
 	if idle_stand:
@@ -111,14 +121,7 @@ func _physics_process(delta: float) -> void:
 	elif state == HIT:
 		velocity.x = move_toward(velocity.x, 0, hit_inertion * delta)
 		#velocity.y = move_toward(velocity.y, 0, hit_inertion * delta)
-	#if state == HIT:
-		#modulate.g = 0.75
-		#modulate.b = 0.75
-		#$EnemyDamage/Hurtbox/CollisionShape2D.disabled = true
-	#else:
-		#modulate.g = 1
-		#modulate.b = 1
-		#$EnemyDamage/Hurtbox/CollisionShape2D.disabled = false
+
 	
 	# Add the gravity.
 	if not is_on_floor():
@@ -166,8 +169,8 @@ func set_collision_direction():
 		face_direction = direction
 	wall_detection.target_position.x = 80 * face_direction
 	edge_detection.position.x = 55 * face_direction
-	attack_collision.position.x = 100 * face_direction
-	hitbox_collision.position.x = 100 * face_direction
+	#attack_collision.position.x = 100 * face_direction
+	hitbox.collision.position.x = 100 * face_direction
 	$PointLight2D.position.x = -1 * face_direction
 	$PointLight2D2.position.x = -45 * face_direction
 	animated_sprite_2d.flip_h = face_direction < 0	
@@ -250,45 +253,25 @@ func distracted():
 	patrol_state()
 
 
-#func _on_sight_area_2d_body_entered(body: Node2D) -> void:
-	#if state == CHASE or state == PATROL:
-		#if body.name == "Shady":
-				#awared()
-				#tracked_character = body
-#
-#func _on_sight_area_2d_body_exited(body: Node2D) -> void:
-	#if state == CHASE or state == PATROL:
-		#if body.name == "Shady":
-			#distracted()
-			#tracked_character = null
-
 
 func full_stop():
 	velocity.x = 0
 	is_walking = false
 	set_collision_direction()
 
-func _on_enemy_damage_hitted() -> void:
-	#GlobalParams.screenshake.emit(0.1, 5)
-	if state != DEATH:
-		state = HIT
 	
 func hitted_state():
-	#print("AAAA")
 	full_stop()
 	animation_player.play("hit")
-	direction = -GlobalParams.shady_params.attack_direction.x
-	velocity = (GlobalParams.shady_params.knockback_force * 
+	direction = hit_direction
+	velocity = (knockback_force * 
 				-direction * Vector2(1, 0.25))
+	print(hit_direction, velocity)
 	set_collision_direction()
 	await animation_player.animation_finished
-	if enemy_damage.hitpoints > 0:
+	if hitpoints > 0:
 		awared()
-		#state = PATROL
-		##distracted()
-		#if tracked_character != null:
-			#state = CHASE
-			##awared()
+
 
 
 func died():
@@ -302,22 +285,59 @@ func died():
 	corpse_sprite.position = position
 	corpse_sprite.animated_sprite_2d.flip_h = animated_sprite_2d.flip_h
 	corpse_sprite.visible = true
-	direction = GlobalParams.shady_params.attack_direction.x
-	corpse_sprite.velocity = (GlobalParams.shady_params.knockback_force * 
-				direction * Vector2(1, 0.25))
+	corpse_sprite.direction = hit_direction
+	corpse_sprite.velocity = (knockback_force * 
+				-corpse_sprite.direction * Vector2(1, 0.25))
 	corpse_sprite.die()
 	call_deferred("queue_free")
 
 
-func _on_enemy_damage_death() -> void:
-	state = DEATH
-	#pass
-
-
-func _on_enemy_damage_target_detected() -> void:
-	if state == CHASE or state == PATROL:
-		("attack")
 
 
 func instant_death():
 	state = DEATH
+
+
+
+
+func _on_hurtbox_area_entered(area: Area2D) -> void:
+	var owner = area.get_parent()
+	if area.name == "Hitbox" and not is_invincible:
+		hitpoints -= area.damage
+		knockback_force = area.knockback_force
+		hurtbox.invincibility()
+		if owner.name == "Shady":
+			hit_direction = -GlobalParams.shady_params.attack_direction.x
+			owner.attack_recoil()
+		else:
+			if global_position < area.global_position:
+				hit_direction = 1
+			else:
+				hit_direction = -1
+		if hitpoints <= 0:
+			GlobalParams.screenshake.emit(0.15, 10)
+			death.emit()
+		else:
+			GlobalParams.screenshake.emit(0.1, 5)
+			hitted.emit()
+			
+	if area.name == "Hurtbox":
+		if owner.name == "Shady":
+			if owner.global_position.x > global_position.x:
+				GlobalParams.shady_params.hazard_direction = -1
+			elif owner.global_position.x < global_position.x:
+				GlobalParams.shady_params.hazard_direction = 1
+			if not owner.hitpoints.is_invincible:
+				owner.hitpoints.decrease(1)
+
+
+func _on_death() -> void:
+	state = DEATH
+
+func _on_hitted() -> void:
+	if state != DEATH:
+		state = HIT
+
+func _on_target_detected() -> void:
+	if state == CHASE or state == PATROL:
+		("attack")

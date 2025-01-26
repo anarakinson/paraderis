@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://6c0j8fpmufor"]
+
+[ext_resource type="Script" path="res://game/hurtbox/hurtbox.gd" id="1_gejic"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b2j1c"]
+
+[node name="Hurtbox" type="Area2D"]
+collision_layer = 32
+collision_mask = 48
+script = ExtResource("1_gejic")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_b2j1c")
+debug_color = Color(0, 1, 0, 0.419608)
