@@ -381,7 +381,8 @@ func _physics_process(delta):
 		direction = Input.get_axis("left", "right")
 		look_direction = Input.get_vector("look_left", "look_right", "look_up", "look_down")
 	
-	if is_on_floor() and ceiling_raycast.is_colliding() and state != ATTACK_PROCESS:
+	if (is_on_floor() and ceiling_raycast.is_colliding() 
+		and state != ATTACK_PROCESS and state != REST and state != DO_NOTHIG):
 		if (state == IDLE or state == MOVE or state == BORED):
 			sit_down()
 		else:
@@ -657,10 +658,10 @@ func interaction_state():
 	##########################
 	state = DO_NOTHIG
 	full_stop()
-	if ceiling_raycast.is_colliding():
-		animation_player.play("sit_rest_transition")
-	else:
+	if not ceiling_raycast.is_colliding():
 		animation_player.play("rest_start")
+	elif ceiling_raycast.is_colliding():
+		animation_player.play("sit_rest_transition")
 	await animation_player.animation_finished 
 	state = REST 
 
@@ -669,7 +670,7 @@ func interaction_state():
 func rest_state():
 	animation_player.play("rest")
 	
-	if Input.is_anything_pressed():
+	if is_any_button_pressed():
 		state = DO_NOTHIG
 
 		if ceiling_raycast.is_colliding():
@@ -707,8 +708,6 @@ func sit_state():
 		velocity.x = move_toward(velocity.x, 0, speed)
 
 	if Input.is_action_just_pressed("attack"):
-		#stand_up()
-		#await animation_player.animation_finished
 		state = ATTACK_SIT
 	if Input.is_action_just_pressed("use_item"):
 		state = USE_ITEM_SIT
@@ -717,8 +716,6 @@ func sit_state():
 		if Input.is_action_just_pressed("jump"):
 			state = JUMP_START
 			jump_start()
-		#if Input.is_action_just_pressed("y_button"):
-			#pass
 		if Input.is_action_pressed("trick"):
 			stand_up()
 			await animation_player.animation_finished
@@ -753,7 +750,12 @@ func is_any_button_pressed():
 		Input.is_action_just_pressed("y_button") or 
 		Input.is_action_just_pressed("trick") or 
 		Input.is_action_just_pressed("dash") or 
-		Input.is_action_just_pressed("use_item")
+		Input.is_action_just_pressed("use_item") or 
+		
+		Input.is_action_just_pressed("up") or 
+		Input.is_action_just_pressed("down") or 
+		Input.is_action_just_pressed("left") or 
+		Input.is_action_just_pressed("right")
 	)
 
 
