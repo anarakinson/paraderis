@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://gv11cu434vrf"]
+[gd_scene load_steps=19 format=3 uid="uid://gv11cu434vrf"]
 
 [ext_resource type="Texture2D" uid="uid://lrorc56rxl2t" path="res://assets/projectiles/throwing_knife/frame0001.png" id="1_gy1c4"]
 [ext_resource type="Script" path="res://game/projectiles/throwing_knife/throwing_knife.gd" id="1_msl57"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://clihou7phn35b" path="res://assets/projectiles/throwing_knife/frame0008.png" id="8_exi22"]
 [ext_resource type="Texture2D" uid="uid://dcc1d7pxbainm" path="res://assets/projectiles/throwing_knife/frame0000.png" id="9_d8st7"]
 [ext_resource type="PackedScene" uid="uid://cq3t4v3sscktm" path="res://game/hitbox/hitbox.tscn" id="11_vg3c2"]
+[ext_resource type="PackedScene" uid="uid://6c0j8fpmufor" path="res://game/hurtbox/hurtbox.tscn" id="12_2c5b0"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6opsa"]
 friction = 0.1
@@ -55,23 +56,27 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cnugi"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8m4db"]
 radius = 2.0
 height = 28.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jykr3"]
-radius = 8.0
+radius = 9.0
 height = 36.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vhmyu"]
-height = 40.0
+radius = 8.0
+height = 34.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ptbor"]
+radius = 9.0
+height = 36.0
 
 [node name="ThrowingKnife" type="RigidBody2D"]
 collision_layer = 128
-collision_mask = 7
 mass = 0.1
 physics_material_override = SubResource("PhysicsMaterial_6opsa")
-gravity_scale = 0.3
+gravity_scale = 0.1
 contact_monitor = true
 max_contacts_reported = 1
 linear_damp = 1.0
@@ -86,7 +91,7 @@ frame_progress = 0.61529
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_cnugi")
+shape = SubResource("CapsuleShape2D_8m4db")
 
 [node name="Hitbox" parent="." instance=ExtResource("11_vg3c2")]
 collision_mask = 160
@@ -96,14 +101,26 @@ shape = SubResource("CapsuleShape2D_jykr3")
 
 [node name="BodyDetection" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 4
+collision_mask = 14
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BodyDetection"]
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_vhmyu")
 
+[node name="Hurtbox" parent="." instance=ExtResource("12_2c5b0")]
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_ptbor")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
 [connection signal="body_entered" from="BodyDetection" to="." method="_on_body_detection_body_entered"]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 
 [editable path="Hitbox"]
+[editable path="Hurtbox"]

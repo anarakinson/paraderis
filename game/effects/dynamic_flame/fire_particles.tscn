@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://cikgcew12ngov"]
+
+[ext_resource type="Texture2D" uid="uid://dsp6ufi5unlbr" path="res://assets/effects/dynamic_flame/fire_particle_anim.png" id="1_ku4oh"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_cx37q"]
+particles_animation = true
+particles_anim_h_frames = 6
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_amc5m"]
+_data = [Vector2(0.0168539, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="Gradient" id="Gradient_0pxgc"]
+colors = PackedColorArray(1, 1, 1, 0.1, 0, 0, 0, 0)
+
+[sub_resource type="Curve" id="Curve_aa0hi"]
+min_value = -1.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="FireParticles" type="CPUParticles2D"]
+material = SubResource("CanvasItemMaterial_cx37q")
+amount = 32
+speed_scale = 1.3
+randomness = 0.1
+lifetime_randomness = 0.5
+texture = ExtResource("1_ku4oh")
+emission_shape = 1
+emission_sphere_radius = 4.0
+direction = Vector2(0, -1)
+spread = 0.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 80.0
+initial_velocity_max = 140.0
+angular_velocity_min = -5.0
+angular_velocity_max = 5.0
+orbit_velocity_min = -0.1
+orbit_velocity_max = 0.1
+angle_min = -45.0
+angle_max = 45.0
+scale_amount_min = 0.25
+scale_amount_max = 0.75
+scale_amount_curve = SubResource("Curve_amc5m")
+color_ramp = SubResource("Gradient_0pxgc")
+hue_variation_min = -0.02
+hue_variation_max = 0.02
+hue_variation_curve = SubResource("Curve_aa0hi")
+anim_speed_min = 0.5
+anim_speed_max = 0.9

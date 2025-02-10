@@ -44,6 +44,7 @@ class_name Shady
 @export var koyotee_time = 0.15
 @export var camera_position_point = 250
 @export var look_addition = 750
+@export_enum("dagger", "sword") var main_weapon = "dagger"
 
 
 @onready var speed = GlobalParams.shady_params.speed
@@ -173,6 +174,13 @@ var attack_shapes : Dictionary = {
 	"down" : [150, 300, 20, 15],
 	"wall" : [150, 300, -75, -75],
 }
+var attack_shapes_dagger : Dictionary = {
+	"basic" : [130, 260, 70, -35],
+	"sit" : [30, 170, 155, 30],
+	"up" : [150, 300, -5, -75],
+	"down" : [130, 260, 0, 15],
+	"wall" : [140, 280, -75, -75],
+}
 
 #########################################
 ### radius, height, rotation, position_y
@@ -185,6 +193,7 @@ var collider_shape : Dictionary = {
 	"on_wall" : [35, 214, 0, 0],
 	"on_wall2" : [25, 232, 0, 10],
 }
+
 
 func set_collision_shape(shape):
 	basic_collision_shape_2d.shape.radius = move_toward(basic_collision_shape_2d.shape.radius, shape[0], 100)
@@ -226,8 +235,8 @@ func set_face_direction(with_sprite=true):
 		wall_ray_cast.target_position.x = -wall_ray_cast_lenght
 		climb_ray_cast.target_position.x = -wall_ray_cast_lenght
 		climb_ray_cast_2.target_position.x = -wall_ray_cast_lenght
+		throw_ray_cast.target_position.x = -throw_ray_cast_lenght
 		climb_shape_cast.position.x = -climb_shape_cast_x
-		throw_ray_cast.position.x = -throw_ray_cast_lenght
 		#$CameraPosition.position.x = -camera_position_point
 	elif face_direction == 1:
 		if with_sprite:
@@ -235,8 +244,8 @@ func set_face_direction(with_sprite=true):
 		wall_ray_cast.target_position.x = wall_ray_cast_lenght
 		climb_ray_cast.target_position.x = wall_ray_cast_lenght
 		climb_ray_cast_2.target_position.x = wall_ray_cast_lenght
+		throw_ray_cast.target_position.x = throw_ray_cast_lenght
 		climb_shape_cast.position.x = climb_shape_cast_x
-		throw_ray_cast.position.x = throw_ray_cast_lenght
 		#$CameraPosition.position.x = camera_position_point
 
 
@@ -250,6 +259,9 @@ func apply_gravity(delta):
 
 
 func _ready() -> void:
+	slash_sprite_2d.visible = false
+	#if main_weapon == "dagger":
+		#attack_shapes = attack_shapes_dagger
 	hitbox.damage = GlobalParams.shady_params.damage
 	hitbox.knockback_force = GlobalParams.shady_params.knockback_force
 	slash_sprite_2d.material.set_shader_parameter("glow_power", slash_glowing)
@@ -394,7 +406,7 @@ func _physics_process(delta):
 	if (state == MOVE or state == BORED):
 		if Input.is_action_just_pressed("dash"):
 			disappear()
-		if Input.is_action_just_pressed("y_button"):
+		if Input.is_action_just_pressed("interact"):
 			interaction_state()
 		
 		# Conjuring 
@@ -656,14 +668,23 @@ func interaction_state():
 	##########################
 	# !!!if restplace near!!!
 	##########################
-	state = DO_NOTHIG
-	full_stop()
-	if not ceiling_raycast.is_colliding():
-		animation_player.play("rest_start")
-	elif ceiling_raycast.is_colliding():
-		animation_player.play("sit_rest_transition")
-	await animation_player.animation_finished 
-	state = REST 
+	if InteractionManager.interaction_point == InteractionManager.points.RESTPLACE:
+		state = DO_NOTHIG
+		full_stop()
+		if not ceiling_raycast.is_colliding():
+			animation_player.play("rest_start")
+		elif ceiling_raycast.is_colliding():
+			animation_player.play("sit_rest_transition")
+		await animation_player.animation_finished 
+		state = REST 
+	elif InteractionManager.interaction_point == InteractionManager.points.ITEM:
+		pass
+	elif InteractionManager.interaction_point == InteractionManager.points.LEVER:
+		pass
+	elif InteractionManager.interaction_point == InteractionManager.points.BUTTON:
+		pass
+	elif InteractionManager.interaction_point == InteractionManager.points.PERSON:
+		pass
 
 
 
@@ -725,13 +746,13 @@ func sit_state():
 			stand_up()
 			await animation_player.animation_finished
 			disappear()
-		if Input.is_action_just_pressed("y_button"):
+		if Input.is_action_just_pressed("interact"):
 			stand_up()
 			await animation_player.animation_finished
 			interaction_state()
 
 	elif ceiling_raycast.is_colliding():
-		if Input.is_action_just_pressed("y_button"):
+		if Input.is_action_just_pressed("interact"):
 			interaction_state()
 
 
@@ -747,7 +768,7 @@ func is_any_button_pressed():
 	return (
 		Input.is_action_just_pressed("attack") or 
 		Input.is_action_just_pressed("jump") or 
-		Input.is_action_just_pressed("y_button") or 
+		Input.is_action_just_pressed("interact") or 
 		Input.is_action_just_pressed("trick") or 
 		Input.is_action_just_pressed("dash") or 
 		Input.is_action_just_pressed("use_item") or 
@@ -908,35 +929,70 @@ func attack_animation(attack_variant):
 	match attack_variant:
 		attack_variants.FLOOR:
 			if combo_counter == 0:
-				slash_sprite_2d.play("attack1")
-				animation_player.play("attack1")
+				if main_weapon == "dagger":
+					slash_sprite_2d.play("attack_d1")
+					#slash_sprite_2d.play("attack1")
+					animation_player.play("attack_d1")
+				if main_weapon == "sword":
+					slash_sprite_2d.play("attack1")
+					animation_player.play("attack1")
 				combo_counter = 1
 			elif combo_counter == 1:
-				slash_sprite_2d.play("attack2")
-				animation_player.play("attack2")
+				if main_weapon == "dagger":
+					slash_sprite_2d.play("attack_d2")
+					#slash_sprite_2d.play("attack2")
+					animation_player.play("attack_d2")
+				if main_weapon == "sword":
+					slash_sprite_2d.play("attack2")
+					animation_player.play("attack2")
 				combo_counter = 0
 			GlobalParams.shady_params.attack_direction = Vector2(face_direction, 0)
 		attack_variants.JUMP:
 			if combo_counter == 0:
-				slash_sprite_2d.play("attack1")
-				animation_player.play("attack_jump1")
+				if main_weapon == "dagger":
+					slash_sprite_2d.play("attack_d1")
+					#slash_sprite_2d.play("attack1")
+					animation_player.play("attack_d_jump1")
+				if main_weapon == "sword":
+					slash_sprite_2d.play("attack1")
+					animation_player.play("attack_jump1")
 				combo_counter = 1
 			elif combo_counter == 1:
-				slash_sprite_2d.play("attack2")
-				animation_player.play("attack_jump2")
+				if main_weapon == "dagger":
+					slash_sprite_2d.play("attack_d2")
+					#slash_sprite_2d.play("attack2")
+					animation_player.play("attack_d_jump2")
+				if main_weapon == "sword":
+					slash_sprite_2d.play("attack2")
+					animation_player.play("attack_jump2")
 				combo_counter = 0
 			GlobalParams.shady_params.attack_direction = Vector2(face_direction, 0)
 		attack_variants.UP:
-			slash_sprite_2d.play("attack_up")
-			animation_player.play("attack_up")
+			if main_weapon == "dagger":
+				slash_sprite_2d.play("attack_d_up")
+				#slash_sprite_2d.play("attack_up")
+				animation_player.play("attack_d_up")
+			if main_weapon == "sword":
+				slash_sprite_2d.play("attack_up")
+				animation_player.play("attack_up")
 			GlobalParams.shady_params.attack_direction = Vector2(0, -1)
 		attack_variants.DOWN:
-			slash_sprite_2d.play("attack_down")
-			animation_player.play("attack_down")
+			if main_weapon == "dagger":
+				slash_sprite_2d.play("attack_d_down")
+				#slash_sprite_2d.play("attack_down")
+				animation_player.play("attack_d_down")
+			if main_weapon == "sword":
+				slash_sprite_2d.play("attack_down")
+				animation_player.play("attack_down")
 			GlobalParams.shady_params.attack_direction = Vector2(0, 1)
 		attack_variants.WALL:
-			slash_sprite_2d.play("attack_wall")
-			animation_player.play("attack_wall")
+			if main_weapon == "dagger":
+				slash_sprite_2d.play("attack_d_wall")
+				#slash_sprite_2d.play("attack_wall")
+				animation_player.play("attack_d_wall")
+			if main_weapon == "sword":
+				slash_sprite_2d.play("attack_wall")
+				animation_player.play("attack_wall")
 			GlobalParams.shady_params.attack_direction = Vector2(face_direction, 0)
 		attack_variants.SIT:
 			slash_sprite_2d.play("attack_sit")
@@ -1007,24 +1063,24 @@ func use_item():
 		state = MOVE
 		return
 	state = ATTACK_PROCESS
-	var position_addition = Vector2(75 * face_direction, -15)
+	var position_addition = Vector2(throw_ray_cast_lenght * 0.5 * face_direction, -15)
 	if throw_ray_cast.is_colliding():
-		position_addition = Vector2(35 * face_direction, -15)
-	if wall_ray_cast.is_colliding():
-		position_addition = Vector2(-1 * face_direction, -15)
+		position_addition = Vector2(0 * face_direction, -15)
 	match GlobalParams.shady_params.current_item:
 		ItemManager.NONE:
 			pass
-		ItemManager.FIREBOMB:
+		ItemManager.BOMB:
 			if is_on_floor():
 				full_stop()
 				animation_player.play("throw")
 			elif not is_on_floor():
 				animation_player.play("throw_jump")
 			await get_tree().create_timer(0.1).timeout
-			ItemManager.throw(
-				ItemManager.FIREBOMB,
-				global_position + position_addition,
+			var new_projectile = ItemManager.get_new_item(
+				ItemManager.BOMB,
+				global_position + position_addition
+			)
+			new_projectile.throw(
 				Vector2(face_direction, 0)
 			)
 			await animation_player.animation_finished
@@ -1035,10 +1091,12 @@ func use_item():
 			elif not is_on_floor():
 				animation_player.play("throw_jump")
 			await get_tree().create_timer(0.1).timeout
-			ItemManager.throw(
+			var new_projectile = ItemManager.get_new_item(
 				ItemManager.THROWING_KNIFE,
-				global_position + position_addition,
-				Vector2(face_direction, 0)
+				global_position + position_addition
+			)
+			new_projectile.throw(
+				Vector2(face_direction, 0),
 			)
 			await animation_player.animation_finished
 	state = MOVE
@@ -1161,10 +1219,10 @@ func flickering():
 
 ##############################################################
 
-func attack_start(shape: String, direction : int):
+func attack_start(shape: String, new_dir : int):
 	hitbox.collision.shape.radius = attack_shapes[shape][0]
 	hitbox.collision.shape.height = attack_shapes[shape][1]
-	hitbox.collision.position.x = attack_shapes[shape][2] * direction
+	hitbox.collision.position.x = attack_shapes[shape][2] * new_dir
 	hitbox.collision.position.y = attack_shapes[shape][3]
 	await get_tree().create_timer(0.1).timeout
 	hitbox.collision.disabled = false
@@ -1191,7 +1249,7 @@ func _on_hurtbox_area_entered(area: Area2D) -> void:
 			pass
 		else:
 			hitpoints.decrease(area.damage)
-	elif area.name == "Hurtbox":
-		hitpoints.decrease(1)
+	#elif area.name == "Hurtbox":
+		#hitpoints.decrease(1)
 	
 	

@@ -5,6 +5,7 @@ extends Node2D
 @onready var vision_ray_3: RayCast2D = $RayCasts/VisionRay3
 @onready var vision_ray_4: RayCast2D = $RayCasts/VisionRay4
 
+@export var is_active = true
 @export_category("Vision parameters")
 @export var chase_time = 5
 @export var frequency = 3
@@ -32,6 +33,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if not is_active:
+		return
 	counter += 1
 	lost_counter += delta
 	if counter >= frequency:

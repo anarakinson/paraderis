@@ -4,7 +4,8 @@ extends Node2D
 @onready var camera_2d = $Camera/SmartCamera2D
 @onready var camera_2d_2 = $Camera/SmartCamera2D2
 @onready var directional_light_2d: DirectionalLight2D = $Light/DirectionalLight2D
-@onready var background_rect = $Background/ParallaxBackground/ParallaxLayer1/BackgroundRect
+#@onready var background_rect: Sprite2D = $"Background/CanvasLayer-50/BackgroundRect"
+@onready var background_rect: ColorRect = $Background/CanvasLayer/BackgroundRect
 @onready var parallax_dust: Control = $Background/ParallaxDust
 #@onready var world_environment: WorldEnvironment = $WorldEnvironment
 
@@ -48,7 +49,7 @@ func _input(event: InputEvent) -> void:
 			#await animation_player.animation_finished
 			explosion.position = $Shady.global_position
 			explosion.explode()
-	
+
 
 
 

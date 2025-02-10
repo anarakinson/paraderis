@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://bxku5r7f8viho"]
+
+[ext_resource type="Script" path="res://game/effects/dynamic_flame/dynamic_flame_gpu.gd" id="1_2ameo"]
+[ext_resource type="PackedScene" uid="uid://ck2jicq1uq68p" path="res://game/effects/dynamic_flame/fire_particles_gpu.tscn" id="2_6p8vr"]
+[ext_resource type="PackedScene" uid="uid://b76knm728ghkk" path="res://game/effects/dynamic_flame/smoke_particles_gpu.tscn" id="3_lgh8d"]
+
+[sub_resource type="Curve" id="Curve_2nee1"]
+_data = [Vector2(0.011236, 1), 0.0, 0.0, 0, 0, Vector2(0.449438, 0), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_kvk53"]
+offsets = PackedFloat32Array(0, 0.433333)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="DynamicFlameGPU" type="Node2D"]
+script = ExtResource("1_2ameo")
+
+[node name="FireParticlesGPU" parent="." instance=ExtResource("2_6p8vr")]
+
+[node name="SmokeParticlesGPU" parent="." instance=ExtResource("3_lgh8d")]
+
+[node name="SpartkParticles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 4
+one_shot = true
+explosiveness = 0.9
+randomness = 0.9
+lifetime_randomness = 0.8
+direction = Vector2(0, -1)
+spread = 150.0
+initial_velocity_min = 300.0
+initial_velocity_max = 600.0
+damping_min = 100.0
+damping_max = 200.0
+scale_amount_curve = SubResource("Curve_2nee1")
+color_ramp = SubResource("Gradient_kvk53")
+hue_variation_min = -0.1
+hue_variation_max = 0.1
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

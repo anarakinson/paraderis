@@ -7,8 +7,29 @@ radius = 22.0
 height = 74.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_85bye"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"die",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"look_left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"look_right",
+"speed": 5.0
+}]
 
-[node name="Almscorpse" type="CharacterBody2D"]
+[node name="Almscorpse1" type="CharacterBody2D"]
 script = ExtResource("1_2v4bc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -16,5 +37,6 @@ shape = SubResource("CapsuleShape2D_dt5se")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_85bye")
+animation = &"die"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

@@ -1,0 +1,78 @@
+[gd_scene load_steps=10 format=3 uid="uid://ci5oo27wj14j7"]
+
+[ext_resource type="Script" path="res://game/enemies/almscorpse/almscorpse_skull.gd" id="1_06o01"]
+[ext_resource type="Texture2D" uid="uid://cn71fensrlqef" path="res://assets/enemies/almscorpse/frames/sculls/almscorpse_sculls.png" id="1_we6wk"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_q4dvi"]
+bounce = 0.6
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3vx1l"]
+atlas = ExtResource("1_we6wk")
+region = Rect2(170, 85, 85, 85)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_63l3j"]
+atlas = ExtResource("1_we6wk")
+region = Rect2(85, 0, 85, 85)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_poyy8"]
+atlas = ExtResource("1_we6wk")
+region = Rect2(85, 85, 85, 85)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wi36c"]
+atlas = ExtResource("1_we6wk")
+region = Rect2(0, 85, 85, 85)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pyt2d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3vx1l")
+}],
+"loop": true,
+"name": &"blue",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_63l3j")
+}],
+"loop": true,
+"name": &"cracked",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_poyy8")
+}],
+"loop": true,
+"name": &"orange",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wi36c")
+}],
+"loop": true,
+"name": &"yellow",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2cs5v"]
+radius = 10.198
+
+[node name="AlmscorpseSkull" type="RigidBody2D"]
+collision_layer = 0
+mass = 0.5
+physics_material_override = SubResource("PhysicsMaterial_q4dvi")
+linear_damp = 1.0
+angular_damp = 2.0
+script = ExtResource("1_06o01")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_pyt2d")
+animation = &"yellow"
+autoplay = "cracked"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_2cs5v")

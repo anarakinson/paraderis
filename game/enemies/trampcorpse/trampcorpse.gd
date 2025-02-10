@@ -6,6 +6,8 @@ signal death
 signal target_detected
 
 
+var corpse_sprite_preload = preload("res://game/enemies/trampcorpse/trampcorpse_dead.tscn")
+
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -93,7 +95,7 @@ var state : int = IDLE:
 		if state == HIT:
 			modulate.g = 0.75
 			modulate.b = 0.75
-			hurtbox.disable
+			hurtbox.disable()
 		elif state != HIT:
 			modulate.g = 1
 			modulate.b = 1
@@ -105,6 +107,7 @@ func _ready() -> void:
 	hitbox.damage = damage
 	animation_player.play("idle")
 	state = PATROL
+	hurtbox.set_shape(collision_shape_2d.shape.radius, collision_shape_2d.shape.height)
 	if idle_stand:
 		state = DO_NOTHING
 
@@ -275,11 +278,9 @@ func hitted_state():
 
 
 func died():
-	#GlobalParams.screenshake.emit(0.1, 10)
 	full_stop()
-	#print("NOOOOOOOO")
-	#animation_player.play("die")
-	var corpse_sprite = preload("res://game/enemies/trampcorpse/trampcorpse_dead.tscn").instantiate()
+	await get_tree().create_timer(0.001).timeout
+	var corpse_sprite = corpse_sprite_preload.instantiate()
 	get_parent().add_child(corpse_sprite)
 	#await animation_player.animation_finished
 	corpse_sprite.position = position

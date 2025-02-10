@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://djlolnfn241sq" path="res://game/technical/environmental_dust/parallax_dust.tscn" id="5_82v67"]
 [ext_resource type="PackedScene" uid="uid://7qqerdt571s7" path="res://game/technical/smart_camera2d/camera_2d.tscn" id="6_a7qj1"]
 [ext_resource type="Texture2D" uid="uid://c8pruu2l6ws21" path="res://assets/environment_altar1.png" id="6_m44gy"]
-[ext_resource type="PackedScene" uid="uid://dstmf1qriwhwk" path="res://game/effects/magic_place.tscn" id="7_gpf7c"]
+[ext_resource type="PackedScene" uid="uid://dstmf1qriwhwk" path="res://game/interaction_places/magic_place.tscn" id="7_gpf7c"]
 [ext_resource type="PackedScene" uid="uid://ca5d47lixhsj0" path="res://game/effects/flies/flies.tscn" id="8_iknko"]
 [ext_resource type="Texture2D" uid="uid://ck71piigf1bjb" path="res://game/effects/flies/shit.png" id="9_njlb2"]
 [ext_resource type="PackedScene" uid="uid://bfym2768mi2sg" path="res://game/environment/warpgates/warp_gate.tscn" id="10_a42p6"]

@@ -1,0 +1,70 @@
+[gd_scene load_steps=9 format=3 uid="uid://chh85payasdch"]
+
+[ext_resource type="Script" path="res://game/effects/magic/magic_trail/magic_trail.gd" id="1_7rfdq"]
+
+[sub_resource type="Curve" id="Curve_73cm4"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_nibcr"]
+colors = PackedColorArray(1, 1, 1, 1, 0.5, 0.5, 0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_l1hmm"]
+offsets = PackedFloat32Array(0, 0.704225, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qo5xf"]
+gradient = SubResource("Gradient_l1hmm")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Curve" id="Curve_weeto"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_ir35x"]
+offsets = PackedFloat32Array(0.313333, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Curve" id="Curve_5q6bn"]
+min_value = -1.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="MagicTrail" type="Node2D"]
+script = ExtResource("1_7rfdq")
+
+[node name="Trail" type="Line2D" parent="."]
+width_curve = SubResource("Curve_73cm4")
+gradient = SubResource("Gradient_nibcr")
+texture = SubResource("GradientTexture2D_qo5xf")
+texture_mode = 2
+
+[node name="SparkParticles" type="CPUParticles2D" parent="."]
+amount = 12
+lifetime = 0.5
+explosiveness = 0.05
+randomness = 0.7
+lifetime_randomness = 0.6
+emission_shape = 1
+emission_sphere_radius = 8.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 40.0
+angular_velocity_min = -10.0
+angular_velocity_max = 10.0
+damping_min = 20.0
+damping_max = 30.0
+angle_min = -90.0
+angle_max = 90.0
+scale_amount_min = 3.0
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_weeto")
+color = Color(0.8, 1, 11, 0.065)
+color_ramp = SubResource("Gradient_ir35x")
+hue_variation_min = -0.03
+hue_variation_max = 0.03
+hue_variation_curve = SubResource("Curve_5q6bn")

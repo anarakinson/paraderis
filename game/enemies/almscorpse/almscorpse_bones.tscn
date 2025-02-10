@@ -1,0 +1,92 @@
+[gd_scene load_steps=11 format=3 uid="uid://b1g51tdppjy2k"]
+
+[ext_resource type="Script" path="res://game/enemies/almscorpse/almscorpse_bones.gd" id="1_3c6ve"]
+[ext_resource type="Texture2D" uid="uid://cn71fensrlqef" path="res://assets/enemies/almscorpse/frames/sculls/almscorpse_sculls.png" id="1_t4oev"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ido2g"]
+bounce = 0.6
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ufmlb"]
+atlas = ExtResource("1_t4oev")
+region = Rect2(0, 170, 85, 85)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v4oci"]
+atlas = ExtResource("1_t4oev")
+region = Rect2(85, 170, 85, 85)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sthjh"]
+atlas = ExtResource("1_t4oev")
+region = Rect2(170, 0, 85, 85)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tj8ew"]
+atlas = ExtResource("1_t4oev")
+region = Rect2(170, 170, 85, 85)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_36sa6"]
+atlas = ExtResource("1_t4oev")
+region = Rect2(0, 0, 85, 85)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pyt2d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ufmlb")
+}],
+"loop": true,
+"name": &"bone1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v4oci")
+}],
+"loop": true,
+"name": &"bone2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sthjh")
+}],
+"loop": true,
+"name": &"cap",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tj8ew")
+}],
+"loop": true,
+"name": &"ribs",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36sa6")
+}],
+"loop": true,
+"name": &"skull_cracked",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8oqml"]
+radius = 2.0
+height = 22.0
+
+[node name="AlmscorpseBones" type="RigidBody2D"]
+collision_layer = 0
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_ido2g")
+linear_damp = 1.0
+angular_damp = 1.0
+script = ExtResource("1_3c6ve")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -4)
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_pyt2d")
+animation = &"cap"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8oqml")

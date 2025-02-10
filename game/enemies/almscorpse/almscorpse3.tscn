@@ -1,0 +1,108 @@
+[gd_scene load_steps=15 format=3 uid="uid://djgdk6fa6y25e"]
+
+[ext_resource type="Script" path="res://game/enemies/almscorpse/almscorpse.gd" id="1_fret2"]
+[ext_resource type="Texture2D" uid="uid://crfpgyas1dtho" path="res://assets/enemies/almscorpse/frames/almscorpse3/frame0004.png" id="2_2mg0k"]
+[ext_resource type="Texture2D" uid="uid://dj4rq2xjqeur4" path="res://assets/enemies/almscorpse/frames/almscorpse3/frame0005.png" id="3_l6kss"]
+[ext_resource type="Texture2D" uid="uid://d2iby8qf753af" path="res://assets/enemies/almscorpse/frames/almscorpse3/frame0006.png" id="4_iei5s"]
+[ext_resource type="Texture2D" uid="uid://b2dbg6omh0ejw" path="res://assets/enemies/almscorpse/frames/almscorpse3/frame0007.png" id="5_0ugcc"]
+[ext_resource type="Texture2D" uid="uid://d1471ck6ypc0k" path="res://assets/enemies/almscorpse/frames/almscorpse3/frame0000.png" id="6_ceffv"]
+[ext_resource type="Texture2D" uid="uid://dc688dmawper4" path="res://assets/enemies/almscorpse/frames/almscorpse3/frame0003.png" id="7_3qyn7"]
+[ext_resource type="Texture2D" uid="uid://bqmndyupaul6o" path="res://assets/enemies/almscorpse/frames/almscorpse3/frame0002.png" id="8_lf2t2"]
+[ext_resource type="Texture2D" uid="uid://cfeib3fjfoyag" path="res://assets/enemies/almscorpse/frames/almscorpse3/frame0001.png" id="9_575e0"]
+[ext_resource type="PackedScene" uid="uid://6c0j8fpmufor" path="res://game/hurtbox/hurtbox.tscn" id="10_po4hs"]
+[ext_resource type="PackedScene" uid="uid://bcmypsow4rnjk" path="res://game/technical/enemy_vision/vision.tscn" id="11_hnjch"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_85bye"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_2mg0k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_l6kss")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_iei5s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_0ugcc")
+}],
+"loop": false,
+"name": &"die",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_ceffv")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_3qyn7")
+}],
+"loop": true,
+"name": &"look_left",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_lf2t2")
+}],
+"loop": true,
+"name": &"look_right",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_575e0")
+}],
+"loop": true,
+"name": &"sleep",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dt5se"]
+radius = 40.0
+height = 156.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3e0lw"]
+
+[node name="AlmscorpseOrange" type="CharacterBody2D" groups=["enemies", "npc"]]
+collision_layer = 8
+script = ExtResource("1_fret2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -53)
+sprite_frames = SubResource("SpriteFrames_85bye")
+animation = &"sleep"
+autoplay = "idle"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_dt5se")
+
+[node name="Hurtbox" parent="." instance=ExtResource("10_po4hs")]
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource("CapsuleShape2D_3e0lw")
+
+[node name="Vision" parent="." instance=ExtResource("11_hnjch")]
+back = -800
+front = 1000
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -86.0
+offset_top = -138.0
+offset_right = 83.0
+offset_bottom = -115.0
+text = "aaaa"
+horizontal_alignment = 1
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+
+[editable path="Hurtbox"]

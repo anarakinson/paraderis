@@ -38,11 +38,12 @@ class ShadyParams:
 	var current_item = ItemManager.NONE
 	var available_items : Array = [
 		ItemManager.NONE,
-		ItemManager.FIREBOMB, 
+		ItemManager.BOMB, 
 		ItemManager.THROWING_KNIFE, 
 	]
 
 var shady_params : ShadyParams
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -56,11 +57,6 @@ func _ready() -> void:
 
 	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-	
 
 
 #func _input(event)
@@ -87,8 +83,8 @@ var second_counter : float = 0
 func update_timer(delta):
 	time_counter += delta
 	#var msec = fmod(time_counter, 1) * 100
-	var second_counter = fmod(time_counter, 60)
-	var minute_counter = fmod(time_counter, 3600) / 60
+	second_counter = fmod(time_counter, 60)
+	minute_counter = fmod(time_counter, 3600) / 60
 	if minute_counter >= 60:
 		hour_counter += 1
 		time_counter = 0

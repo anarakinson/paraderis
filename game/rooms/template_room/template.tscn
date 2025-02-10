@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=4 uid="uid://dmyyhtp1s5wna"]
 
-[ext_resource type="PackedScene" uid="uid://dstmf1qriwhwk" path="res://game/effects/magic_place.tscn" id="3_3n12q"]
+[ext_resource type="PackedScene" uid="uid://dstmf1qriwhwk" path="res://game/interaction_places/magic_place.tscn" id="3_3n12q"]
 [ext_resource type="PackedScene" uid="uid://bqeid55f53bl2" path="res://game/technical/smart_point_light/smart_point_light_2d.tscn" id="7_xqjnl"]
 [ext_resource type="PackedScene" uid="uid://clc02tsxv7afg" path="res://game/shady/shady.tscn" id="9_l1opg"]
 [ext_resource type="PackedScene" uid="uid://6wryaalvwy7q" path="res://game/technical/environmental_dust/environmental_dust.tscn" id="14_a5bh2"]

@@ -4,8 +4,12 @@ extends Area2D
 
 @export var invincibility_time = 1.
 @export var hitpoints = 5
+#@export var harmless = false
 
 var is_invincible = false
+
+func _ready() -> void:
+	collision.shape = collision.shape.duplicate(true)
 
 func invincibility():
 	is_invincible = true
@@ -18,3 +22,8 @@ func disable():
 	
 func enable():
 	collision.set_deferred("disabled", false)
+
+func set_shape(r : int, h : int):
+	collision.shape.radius = r
+	collision.shape.height = h
+	

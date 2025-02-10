@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://b3orl1o8o2xbh"]
+[gd_scene load_steps=38 format=3 uid="uid://b3orl1o8o2xbh"]
 
 [ext_resource type="Script" path="res://game/enemies/trampcorpse/trampcorpse.gd" id="1_uf2bf"]
 [ext_resource type="Texture2D" uid="uid://wwclh2upfjdr" path="res://assets/enemies/trampcorpse/death/frame0001.png" id="2_q2uw1"]
@@ -237,9 +237,11 @@ _data = {
 "walk": SubResource("Animation_h5k1x")
 }
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bvba2"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7kefv"]
 radius = 111.0
 height = 222.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wnmeg"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4buw0"]
 height = 190.0
@@ -279,9 +281,12 @@ libraries = {
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 position = Vector2(94, 1)
-shape = SubResource("CapsuleShape2D_bvba2")
+shape = SubResource("CapsuleShape2D_7kefv")
 
 [node name="Hurtbox" parent="." instance=ExtResource("26_6jhbj")]
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource("CapsuleShape2D_wnmeg")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5
@@ -327,3 +332,4 @@ texture = SubResource("GradientTexture2D_cb1jb")
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
 
 [editable path="Hitbox"]
+[editable path="Hurtbox"]

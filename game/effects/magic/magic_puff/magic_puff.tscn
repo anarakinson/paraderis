@@ -1,0 +1,133 @@
+[gd_scene load_steps=10 format=3 uid="uid://byjlhyi0nfrj8"]
+
+[ext_resource type="Texture2D" uid="uid://hwgo3s75mioo" path="res://assets/spritesheets/smoke_particles.png" id="1_ahcyk"]
+[ext_resource type="Script" path="res://game/effects/magic/magic_puff/magic_puff.gd" id="1_ba1yi"]
+[ext_resource type="Texture2D" uid="uid://cklyg8134am2o" path="res://assets/effects/step_dust/step_dust.png" id="2_1w1vw"]
+
+[sub_resource type="Curve" id="Curve_lvrim"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_32g5c"]
+offsets = PackedFloat32Array(0, 0.486667, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Curve" id="Curve_115jm"]
+min_value = -1.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_34feg"]
+particles_animation = true
+particles_anim_h_frames = 11
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_ituxo"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_a07le"]
+gradient = SubResource("Gradient_ituxo")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="MagicPuff" type="Node2D"]
+script = ExtResource("1_ba1yi")
+
+[node name="DustParticles" type="CPUParticles2D" parent="."]
+emitting = false
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.8
+randomness = 0.7
+lifetime_randomness = 0.6
+texture = ExtResource("2_1w1vw")
+emission_shape = 1
+emission_sphere_radius = 8.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 50.0
+angular_velocity_min = -10.0
+angular_velocity_max = 10.0
+damping_min = 20.0
+damping_max = 30.0
+angle_min = -90.0
+angle_max = 90.0
+scale_amount_min = 0.2
+scale_amount_max = 0.3
+scale_amount_curve = SubResource("Curve_lvrim")
+color = Color(0.8, 1, 1.1, 0.065)
+color_ramp = SubResource("Gradient_32g5c")
+hue_variation_min = -0.01
+hue_variation_max = 0.01
+hue_variation_curve = SubResource("Curve_115jm")
+
+[node name="CloudParticles" type="CPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_34feg")
+emitting = false
+amount = 3
+lifetime = 0.8
+one_shot = true
+explosiveness = 0.8
+randomness = 0.7
+lifetime_randomness = 0.6
+texture = ExtResource("1_ahcyk")
+emission_shape = 1
+emission_sphere_radius = 8.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 0.5
+angular_velocity_min = -10.0
+angular_velocity_max = 10.0
+angle_min = -90.0
+angle_max = 90.0
+scale_amount_min = 0.4
+scale_amount_max = 0.6
+color = Color(0.8, 1, 1.1, 0.497)
+color_ramp = SubResource("Gradient_32g5c")
+hue_variation_min = -0.01
+hue_variation_max = 0.01
+hue_variation_curve = SubResource("Curve_115jm")
+anim_speed_min = 0.6
+anim_speed_max = 0.9
+
+[node name="SparkParticles" type="CPUParticles2D" parent="."]
+emitting = false
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.9
+randomness = 0.7
+lifetime_randomness = 0.6
+emission_shape = 1
+emission_sphere_radius = 8.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 60.0
+initial_velocity_max = 90.0
+angular_velocity_min = -10.0
+angular_velocity_max = 10.0
+damping_min = 20.0
+damping_max = 30.0
+angle_min = -90.0
+angle_max = 90.0
+scale_amount_min = 2.0
+scale_amount_max = 3.0
+scale_amount_curve = SubResource("Curve_lvrim")
+color = Color(0.8, 1, 11, 0.065)
+color_ramp = SubResource("Gradient_32g5c")
+hue_variation_min = -0.01
+hue_variation_max = 0.01
+hue_variation_curve = SubResource("Curve_115jm")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
+scale = Vector2(2.5, 2.5)
+enabled = false
+color = Color(0.666963, 0.959046, 0.948265, 1)
+energy = 1.4
+texture = SubResource("GradientTexture2D_a07le")

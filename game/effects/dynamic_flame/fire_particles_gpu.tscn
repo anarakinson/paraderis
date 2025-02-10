@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://ck2jicq1uq68p"]
+
+[ext_resource type="Texture2D" uid="uid://dsp6ufi5unlbr" path="res://assets/effects/dynamic_flame/fire_particle_anim.png" id="1_jpql6"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_aw84r"]
+particles_animation = true
+particles_anim_h_frames = 6
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_ppfmq"]
+colors = PackedColorArray(1, 1, 1, 0.1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_pw2l0"]
+gradient = SubResource("Gradient_ppfmq")
+
+[sub_resource type="Curve" id="Curve_7uaij"]
+min_value = -1.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_7o647"]
+curve = SubResource("Curve_7uaij")
+
+[sub_resource type="Curve" id="Curve_8jifr"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_ooxeo"]
+curve = SubResource("Curve_8jifr")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_k03wq"]
+lifetime_randomness = 0.5
+particle_flag_rotate_y = true
+particle_flag_disable_z = true
+angle_min = -180.0
+angle_max = 180.0
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 60.0
+initial_velocity_max = 120.0
+angular_velocity_min = -10.0
+angular_velocity_max = 9.99998
+orbit_velocity_min = -0.0999999
+orbit_velocity_max = 0.1
+radial_velocity_min = -10.0
+radial_velocity_max = 9.99998
+gravity = Vector3(0, 0, 0)
+scale_min = 0.25
+scale_max = 0.75
+scale_curve = SubResource("CurveTexture_ooxeo")
+color_ramp = SubResource("GradientTexture1D_pw2l0")
+hue_variation_min = -0.02
+hue_variation_max = 0.02
+hue_variation_curve = SubResource("CurveTexture_7o647")
+anim_speed_min = 0.5
+anim_speed_max = 0.9
+
+[node name="FireParticlesGPU" type="GPUParticles2D"]
+material = SubResource("CanvasItemMaterial_aw84r")
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_k03wq")
+texture = ExtResource("1_jpql6")
+speed_scale = 1.2
+randomness = 0.1
+fixed_fps = 60

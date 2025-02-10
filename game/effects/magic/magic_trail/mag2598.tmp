@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://chh85payasdch"]
+
+[ext_resource type="Script" path="res://game/effects/magic/magic_trail/magic_trail.gd" id="1_7rfdq"]
+
+[sub_resource type="Curve" id="Curve_73cm4"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_l1hmm"]
+offsets = PackedFloat32Array(0, 0.704225, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qo5xf"]
+gradient = SubResource("Gradient_l1hmm")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="MagicTrail" type="Node2D"]
+script = ExtResource("1_7rfdq")
+
+[node name="Trail" type="Line2D" parent="."]
+width_curve = SubResource("Curve_73cm4")
+texture = SubResource("GradientTexture2D_qo5xf")
+texture_mode = 2
