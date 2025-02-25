@@ -51,7 +51,7 @@ func increase(value : int = 1):
 	
 func invincibility():
 	is_invincible += 1
-	print(is_invincible)
+	#print(is_invincible)
 	invincibility_start.emit()
 	await get_tree().create_timer(invincibility_time).timeout
 	is_invincible -= 1

@@ -1,0 +1,992 @@
+[gd_scene load_steps=41 format=4 uid="uid://b61w5kvdhbjmj"]
+
+[ext_resource type="Script" path="res://game/rooms/shrine_of_sorrows/shrine_of_sorrows.gd" id="1_3aijt"]
+[ext_resource type="PackedScene" uid="uid://djlolnfn241sq" path="res://game/technical/environmental_dust/parallax_dust.tscn" id="2_7xejd"]
+[ext_resource type="PackedScene" uid="uid://clc02tsxv7afg" path="res://game/shady/shady.tscn" id="3_2v4qd"]
+[ext_resource type="Texture2D" uid="uid://dqiq66qihi1i7" path="res://assets/environment/shrine_of_sorrows/wall.png" id="4_lenfa"]
+[ext_resource type="PackedScene" uid="uid://ces6d02e2bqyy" path="res://game/tilemap/basic_tilemap.tscn" id="4_xjvti"]
+[ext_resource type="Texture2D" uid="uid://kgtxoefy4f2r" path="res://assets/environment/shrine_of_sorrows/window.png" id="5_d6uqg"]
+[ext_resource type="Texture2D" uid="uid://c7rghi23qhv6e" path="res://assets/environment/shrine_of_sorrows/cracks/cracks2.png" id="5_qbvx8"]
+[ext_resource type="PackedScene" uid="uid://7qqerdt571s7" path="res://game/technical/smart_camera2d/camera_2d.tscn" id="5_v3pjc"]
+[ext_resource type="Texture2D" uid="uid://c1cgaacy2mvq" path="res://assets/environment/shrine_of_sorrows/akov.png" id="6_d60x0"]
+[ext_resource type="Texture2D" uid="uid://dpl5askxm4c1a" path="res://assets/environment/shrine_of_sorrows/cracks/cracks1.png" id="6_s61rc"]
+[ext_resource type="Texture2D" uid="uid://banu6ixas37jg" path="res://assets/environment/shrine_of_sorrows/cracks/cracks9.png" id="7_0clnc"]
+[ext_resource type="Texture2D" uid="uid://tcecylati4sl" path="res://assets/environment/shrine_of_sorrows/akov_back.png" id="7_palx0"]
+[ext_resource type="Texture2D" uid="uid://dwsk2bnejnatg" path="res://assets/environment/shrine_of_sorrows/cracks/cracks7.png" id="8_gvfr3"]
+[ext_resource type="Texture2D" uid="uid://din3h564uwcf8" path="res://assets/environment/shrine_of_sorrows/cracks/cracks3.png" id="9_c4r5h"]
+[ext_resource type="Texture2D" uid="uid://coufwiaam0o5q" path="res://assets/environment/shrine_of_sorrows/big_column.png" id="9_w00m1"]
+[ext_resource type="Texture2D" uid="uid://jsayrd86iade" path="res://assets/environment/shrine_of_sorrows/ceiling.png" id="10_0f31y"]
+[ext_resource type="Texture2D" uid="uid://dbxrcung78o0s" path="res://assets/environment/shrine_of_sorrows/column.png" id="10_1p31w"]
+[ext_resource type="Texture2D" uid="uid://34lbnkggps2v" path="res://assets/environment/candles/candles/candles1.png" id="10_07fmw"]
+[ext_resource type="Texture2D" uid="uid://fcpefjg3vgws" path="res://assets/environment/shrine_of_sorrows/half_column.png" id="11_kbgh0"]
+[ext_resource type="Texture2D" uid="uid://bv0gnl41xtsrh" path="res://assets/environment/shrine_of_sorrows/window_back.png" id="11_y5dty"]
+[ext_resource type="Texture2D" uid="uid://ba2x2dwh22tkj" path="res://assets/environment/shrine_of_sorrows/scull_pile.png" id="12_3128r"]
+[ext_resource type="Texture2D" uid="uid://byemmv85d7a7w" path="res://assets/environment/shrine_of_sorrows/entrance_ceiling.png" id="12_cw0ec"]
+[ext_resource type="Texture2D" uid="uid://cssof7gtqmhao" path="res://assets/environment/candles/candles/candles6.png" id="15_2p35g"]
+[ext_resource type="Texture2D" uid="uid://t4c84omjd264" path="res://assets/environment/candles/candles/candles4.png" id="16_xh06y"]
+[ext_resource type="Texture2D" uid="uid://6mplayg3yxg7" path="res://assets/environment/candles/scull_candle1.png" id="17_eknnm"]
+[ext_resource type="Texture2D" uid="uid://bpkv6nnpg6ago" path="res://assets/environment/candles/candles/candles5.png" id="18_vtis0"]
+[ext_resource type="Texture2D" uid="uid://c5xq0fnis1lir" path="res://assets/environment/shrine_of_sorrows/banner.png" id="20_3havh"]
+[ext_resource type="Texture2D" uid="uid://tb85a48i8eei" path="res://assets/environment/candles/candles/candles2.png" id="20_ay812"]
+[ext_resource type="Texture2D" uid="uid://c71ii4regnv3v" path="res://assets/environment/candles/candles/candles3.png" id="21_6v1u8"]
+[ext_resource type="Texture2D" uid="uid://bws2qashdjydh" path="res://assets/environment/shrine_of_sorrows/doors.png" id="21_dfc2q"]
+[ext_resource type="PackedScene" uid="uid://15hoo7wmvs6o" path="res://game/effects/candle_flame/candle_flame.tscn" id="24_rkjuc"]
+[ext_resource type="Shader" path="res://game/shaders/blur_shader.gdshader" id="25_wirjp"]
+[ext_resource type="PackedScene" uid="uid://iuul3kmkpnib" path="res://game/rooms/shrine_of_sorrows/statue_of_sorrow.tscn" id="26_jihlk"]
+[ext_resource type="PackedScene" uid="uid://mcqswxmy3xyp" path="res://game/rooms/shrine_of_sorrows/sorrow_altar.tscn" id="27_opfbd"]
+[ext_resource type="Shader" path="res://game/shaders/godrays_shader.gdshader" id="36_a7r5n"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_06ugy"]
+shader = ExtResource("25_wirjp")
+shader_parameter/amount = 0.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_negoo"]
+shader = ExtResource("36_a7r5n")
+shader_parameter/angle = 1.0
+shader_parameter/position = 0.3
+shader_parameter/spread = 0.7
+shader_parameter/cutoff = 0.1
+shader_parameter/falloff = 0.9
+shader_parameter/edge_fade = 0.667
+shader_parameter/speed = 2.0
+shader_parameter/ray1_density = 8.0
+shader_parameter/ray2_density = 30.0
+shader_parameter/ray2_intensity = 0.3
+shader_parameter/color = Color(1.2, 1, 0.8, 0.2)
+shader_parameter/hdr = false
+shader_parameter/seed = 5.0
+
+[sub_resource type="Gradient" id="Gradient_yjeus"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6sjxc"]
+gradient = SubResource("Gradient_yjeus")
+fill_to = Vector2(1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pjugo"]
+shader = ExtResource("36_a7r5n")
+shader_parameter/angle = -0.7
+shader_parameter/position = -4.9
+shader_parameter/spread = 0.7
+shader_parameter/cutoff = 0.1
+shader_parameter/falloff = 0.9
+shader_parameter/edge_fade = 0.667
+shader_parameter/speed = 2.0
+shader_parameter/ray1_density = 8.0
+shader_parameter/ray2_density = 30.0
+shader_parameter/ray2_intensity = 0.3
+shader_parameter/color = Color(1.2, 1, 0.8, 0.2)
+shader_parameter/hdr = false
+shader_parameter/seed = 5.0
+
+[node name="ShrineOfSorrows" type="Node2D"]
+script = ExtResource("1_3aijt")
+metadata/_edit_horizontal_guides_ = [2503.0, -77.0]
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="ParallaxDust" parent="Background" instance=ExtResource("2_7xejd")]
+offset_left = 1027.0
+offset_top = 875.0
+offset_right = 3218.0
+offset_bottom = 2244.0
+init_amount = 12
+
+[node name="CanvasLayer-10" type="CanvasLayer" parent="Background"]
+layer = -10
+follow_viewport_enabled = true
+follow_viewport_scale = 0.97
+
+[node name="ColorRect" type="ColorRect" parent="Background/CanvasLayer-10"]
+offset_left = 511.0
+offset_top = 608.0
+offset_right = 4146.0
+offset_bottom = 2590.0
+color = Color(0, 0, 0, 1)
+
+[node name="DarkenedBackgrounds" type="Node2D" parent="Background/CanvasLayer-10"]
+modulate = Color(0.6, 0.6, 0.6, 1)
+
+[node name="walls" type="Node2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds"]
+position = Vector2(1764, 1554)
+scale = Vector2(0.5, 0.5)
+
+[node name="Wall" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/walls"]
+position = Vector2(-181.608, 40.4535)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall13" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/walls"]
+position = Vector2(-387.794, 40.4535)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall2" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/walls"]
+position = Vector2(91.7727, 40)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall3" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/walls"]
+position = Vector2(344.525, 37)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall4" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/walls"]
+position = Vector2(304.948, -224)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall5" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/walls"]
+position = Vector2(578.948, -224)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall6" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/walls"]
+position = Vector2(851.948, -224)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall7" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/walls"]
+position = Vector2(1125.95, -224)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall8" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/walls"]
+position = Vector2(603.398, 43)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall9" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/walls"]
+position = Vector2(876.02, 43)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall10" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/walls"]
+position = Vector2(1400.95, 43)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall11" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/walls"]
+position = Vector2(1154.95, 43)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall12" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/walls"]
+position = Vector2(1400.95, -223)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall14" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/walls"]
+position = Vector2(1609.2, 43)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall15" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/walls"]
+position = Vector2(1609.2, -223)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_lenfa")
+
+[node name="сracks" type="Node2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds"]
+
+[node name="Cracks2" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/сracks"]
+position = Vector2(2014.43, 1609.28)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_qbvx8")
+
+[node name="Cracks1" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/сracks"]
+position = Vector2(2043, 1492)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_s61rc")
+
+[node name="Cracks6" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/сracks"]
+position = Vector2(2304.12, 1587.63)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_s61rc")
+
+[node name="Cracks9" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/сracks"]
+position = Vector2(2371, 1501)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_0clnc")
+
+[node name="Cracks10" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/сracks"]
+position = Vector2(2007.22, 1396.91)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_0clnc")
+flip_h = true
+
+[node name="Cracks7" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/сracks"]
+position = Vector2(1920.08, 1520.04)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("8_gvfr3")
+
+[node name="Cracks11" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/сracks"]
+position = Vector2(2517.53, 1383.51)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("8_gvfr3")
+
+[node name="Cracks8" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/сracks"]
+position = Vector2(2134.67, 1480.46)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("8_gvfr3")
+flip_h = true
+
+[node name="Cracks3" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/сracks"]
+position = Vector2(2220.63, 1414.13)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9_c4r5h")
+
+[node name="Cracks4" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/сracks"]
+position = Vector2(2052.92, 1602.67)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9_c4r5h")
+
+[node name="Cracks5" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/сracks"]
+position = Vector2(2527.92, 1528.12)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_qbvx8")
+
+[node name="windows" type="Node2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds"]
+position = Vector2(0, 4)
+
+[node name="WindowBack" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/windows"]
+position = Vector2(2041.96, 1423.96)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("11_y5dty")
+
+[node name="WindowBack2" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/windows"]
+position = Vector2(1933.62, 1423.96)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("11_y5dty")
+
+[node name="WindowBack3" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/windows"]
+position = Vector2(2261.75, 1423.96)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("11_y5dty")
+
+[node name="WindowBack4" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/windows"]
+position = Vector2(2149.42, 1423.96)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("11_y5dty")
+
+[node name="WindowBack7" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/windows"]
+position = Vector2(2370.75, 1423.96)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("11_y5dty")
+
+[node name="WindowBack8" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/windows"]
+position = Vector2(2474.75, 1423.96)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("11_y5dty")
+
+[node name="Window" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/windows"]
+position = Vector2(1934, 1423.12)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_d6uqg")
+
+[node name="Window2" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/windows"]
+position = Vector2(2042.33, 1423.13)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_d6uqg")
+
+[node name="Window3" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/windows"]
+position = Vector2(2149.63, 1423.12)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_d6uqg")
+
+[node name="Window4" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/windows"]
+position = Vector2(2262.13, 1423.12)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_d6uqg")
+
+[node name="Window5" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/windows"]
+position = Vector2(2370.46, 1423.12)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_d6uqg")
+
+[node name="Window6" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/windows"]
+position = Vector2(2474.62, 1423.12)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_d6uqg")
+
+[node name="alkovs" type="Node2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds"]
+position = Vector2(0, 5)
+
+[node name="alkov" type="Node2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs"]
+position = Vector2(0, 3)
+
+[node name="AkovBack" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov"]
+position = Vector2(1985, 1546)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_palx0")
+
+[node name="ScullPile" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov"]
+position = Vector2(1987, 1550.17)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("12_3128r")
+
+[node name="Akov" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov"]
+position = Vector2(1985, 1546)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_d60x0")
+
+[node name="alkov2" type="Node2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs"]
+position = Vector2(109, 3)
+
+[node name="AkovBack" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov2"]
+position = Vector2(1985, 1546)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_palx0")
+
+[node name="Candles7" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov2"]
+position = Vector2(1967.92, 1552.29)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("15_2p35g")
+flip_h = true
+
+[node name="Candles2" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov2"]
+position = Vector2(1987.21, 1551.92)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_07fmw")
+
+[node name="Candles4" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov2"]
+position = Vector2(2007, 1552)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("16_xh06y")
+
+[node name="Akov" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov2"]
+position = Vector2(1985, 1546)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_d60x0")
+
+[node name="CandleFlame6" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov2" instance=ExtResource("24_rkjuc")]
+modulate = Color(1.5, 1.5, 1.5, 1)
+position = Vector2(1968.75, 1552.08)
+
+[node name="CandleFlame7" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov2" instance=ExtResource("24_rkjuc")]
+modulate = Color(1.5, 1.5, 1.5, 1)
+position = Vector2(1979.17, 1556.25)
+
+[node name="CandleFlame8" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov2" instance=ExtResource("24_rkjuc")]
+modulate = Color(1.5, 1.5, 1.5, 1)
+position = Vector2(1984.38, 1552.08)
+
+[node name="CandleFlame9" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov2" instance=ExtResource("24_rkjuc")]
+modulate = Color(1.5, 1.5, 1.5, 1)
+position = Vector2(1991.67, 1552.08)
+
+[node name="CandleFlame10" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov2" instance=ExtResource("24_rkjuc")]
+modulate = Color(1.5, 1.5, 1.5, 1)
+position = Vector2(2006.25, 1552.08)
+
+[node name="CandleFlame11" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov2" instance=ExtResource("24_rkjuc")]
+modulate = Color(1.5, 1.5, 1.5, 1)
+position = Vector2(1998.96, 1558.33)
+
+[node name="alkov3" type="Node2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs"]
+position = Vector2(334, 3)
+
+[node name="AkovBack" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov3"]
+position = Vector2(1985, 1546)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_palx0")
+
+[node name="ScullCandle1" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov3"]
+position = Vector2(1986, 1552)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("17_eknnm")
+
+[node name="Candles6" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov3"]
+position = Vector2(1971.04, 1552.29)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("15_2p35g")
+
+[node name="Candles7" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov3"]
+position = Vector2(2002, 1553)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("18_vtis0")
+
+[node name="CandleFlame31" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov3" instance=ExtResource("24_rkjuc")]
+modulate = Color(1.5, 1.5, 1.5, 1)
+position = Vector2(1986, 1542)
+
+[node name="CandleFlame32" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov3" instance=ExtResource("24_rkjuc")]
+modulate = Color(1.5, 1.5, 1.5, 1)
+position = Vector2(1970, 1553)
+
+[node name="CandleFlame33" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov3" instance=ExtResource("24_rkjuc")]
+modulate = Color(1.5, 1.5, 1.5, 1)
+position = Vector2(2001, 1553)
+
+[node name="CandleFlame34" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov3" instance=ExtResource("24_rkjuc")]
+modulate = Color(1.5, 1.5, 1.5, 1)
+position = Vector2(2007, 1556)
+
+[node name="Akov" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov3"]
+position = Vector2(1985, 1546)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_d60x0")
+
+[node name="alkov4" type="Node2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs"]
+position = Vector2(435, 3)
+
+[node name="AkovBack" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov4"]
+position = Vector2(1985, 1546)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_palx0")
+
+[node name="ScullPile2" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov4"]
+position = Vector2(1985.33, 1550.17)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("12_3128r")
+flip_h = true
+
+[node name="Akov" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds/alkovs/alkov4"]
+position = Vector2(1985, 1546)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_d60x0")
+
+[node name="WindowBack" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds"]
+position = Vector2(2206.19, 1505.15)
+scale = Vector2(1, 0.482748)
+texture = ExtResource("11_y5dty")
+flip_v = true
+
+[node name="Doors" type="Sprite2D" parent="Background/CanvasLayer-10/DarkenedBackgrounds"]
+position = Vector2(2205, 1547)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("21_dfc2q")
+
+[node name="Blur" type="ColorRect" parent="Background/CanvasLayer-10/DarkenedBackgrounds"]
+material = SubResource("ShaderMaterial_06ugy")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1504.0
+offset_top = 1217.0
+offset_right = 2941.0
+offset_bottom = 1856.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CanvasLayer-5" type="CanvasLayer" parent="Background"]
+layer = -5
+follow_viewport_enabled = true
+follow_viewport_scale = 0.98
+
+[node name="Darkened" type="Node2D" parent="Background/CanvasLayer-5"]
+modulate = Color(0.75, 0.75, 0.75, 1)
+
+[node name="Banners" type="Node2D" parent="Background/CanvasLayer-5/Darkened"]
+modulate = Color(0.666569, 0.666569, 0.666569, 1)
+
+[node name="Banner" type="Sprite2D" parent="Background/CanvasLayer-5/Darkened/Banners"]
+position = Vector2(1986.46, 1447.92)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("20_3havh")
+
+[node name="Banner2" type="Sprite2D" parent="Background/CanvasLayer-5/Darkened/Banners"]
+position = Vector2(2095.83, 1447.92)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("20_3havh")
+
+[node name="Banner3" type="Sprite2D" parent="Background/CanvasLayer-5/Darkened/Banners"]
+position = Vector2(2315.33, 1448.08)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("20_3havh")
+
+[node name="Banner4" type="Sprite2D" parent="Background/CanvasLayer-5/Darkened/Banners"]
+position = Vector2(2424.71, 1448.08)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("20_3havh")
+
+[node name="Candles" type="Node2D" parent="Background/CanvasLayer-5/Darkened"]
+position = Vector2(0, 4)
+
+[node name="Candles4" type="Sprite2D" parent="Background/CanvasLayer-5/Darkened/Candles"]
+position = Vector2(1952, 1626)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("20_ay812")
+
+[node name="Candles1" type="Sprite2D" parent="Background/CanvasLayer-5/Darkened/Candles"]
+position = Vector2(2110.79, 1624.5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_07fmw")
+
+[node name="Candles6" type="Sprite2D" parent="Background/CanvasLayer-5/Darkened/Candles"]
+position = Vector2(2009, 1624)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("21_6v1u8")
+
+[node name="Candles2" type="Sprite2D" parent="Background/CanvasLayer-5/Darkened/Candles"]
+position = Vector2(2302.04, 1625.04)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_07fmw")
+
+[node name="flames" type="Node2D" parent="Background/CanvasLayer-5"]
+position = Vector2(0, 4)
+
+[node name="CandleFlame" parent="Background/CanvasLayer-5/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(1948.96, 1622.92)
+
+[node name="CandleFlame2" parent="Background/CanvasLayer-5/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(1956.25, 1623.96)
+
+[node name="CandleFlame3" parent="Background/CanvasLayer-5/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2008.33, 1627.08)
+
+[node name="CandleFlame4" parent="Background/CanvasLayer-5/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2014.58, 1625)
+
+[node name="CandleFlame5" parent="Background/CanvasLayer-5/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2019.79, 1627.08)
+
+[node name="CandleFlame12" parent="Background/CanvasLayer-5/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2103.12, 1629.17)
+
+[node name="CandleFlame13" parent="Background/CanvasLayer-5/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2108.33, 1625)
+
+[node name="CandleFlame14" parent="Background/CanvasLayer-5/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2115.63, 1625)
+
+[node name="CandleFlame15" parent="Background/CanvasLayer-5/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2122.92, 1631.25)
+
+[node name="CandleFlame16" parent="Background/CanvasLayer-5/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2293.75, 1629.17)
+
+[node name="CandleFlame17" parent="Background/CanvasLayer-5/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2298.96, 1625)
+
+[node name="CandleFlame18" parent="Background/CanvasLayer-5/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2306.25, 1625)
+
+[node name="CandleFlame19" parent="Background/CanvasLayer-5/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2313.54, 1631.25)
+
+[node name="Blur" type="ColorRect" parent="Background/CanvasLayer-5"]
+material = SubResource("ShaderMaterial_06ugy")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1504.0
+offset_top = 1217.0
+offset_right = 1631.0
+offset_bottom = 1161.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CanvasLayer-1" type="CanvasLayer" parent="Background"]
+layer = 0
+follow_viewport_enabled = true
+
+[node name="Godrays" type="Node2D" parent="Background/CanvasLayer-1"]
+visible = false
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background/CanvasLayer-1/Godrays"]
+material = SubResource("ShaderMaterial_negoo")
+position = Vector2(2484.5, 1472.5)
+scale = Vector2(2.14063, 3.10937)
+texture = SubResource("GradientTexture2D_6sjxc")
+
+[node name="Sprite2D" type="Sprite2D" parent="Background/CanvasLayer-1/Godrays"]
+material = SubResource("ShaderMaterial_pjugo")
+position = Vector2(1894, 1569.75)
+scale = Vector2(9.125, 2.22656)
+texture = SubResource("GradientTexture2D_6sjxc")
+
+[node name="StatueOfSorrows" type="Node2D" parent="Background/CanvasLayer-1"]
+position = Vector2(2441, 1526)
+
+[node name="Candles8" type="Sprite2D" parent="Background/CanvasLayer-1/StatueOfSorrows"]
+position = Vector2(-58, 60)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("15_2p35g")
+flip_h = true
+
+[node name="Candles9" type="Sprite2D" parent="Background/CanvasLayer-1/StatueOfSorrows"]
+position = Vector2(-87, 97)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("15_2p35g")
+
+[node name="Candles5" type="Sprite2D" parent="Background/CanvasLayer-1/StatueOfSorrows"]
+position = Vector2(-31, 34)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("18_vtis0")
+flip_h = true
+
+[node name="SorrowStatue" parent="Background/CanvasLayer-1/StatueOfSorrows" instance=ExtResource("26_jihlk")]
+collision_mask = 0
+
+[node name="Candles2" type="Sprite2D" parent="Background/CanvasLayer-1/StatueOfSorrows"]
+position = Vector2(-69, 102)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("20_ay812")
+
+[node name="Candles3" type="Sprite2D" parent="Background/CanvasLayer-1/StatueOfSorrows"]
+position = Vector2(-50, 97)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("21_6v1u8")
+
+[node name="Candles7" type="Sprite2D" parent="Background/CanvasLayer-1/StatueOfSorrows"]
+position = Vector2(10, 98)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("21_6v1u8")
+flip_h = true
+
+[node name="flames" type="Node2D" parent="Background/CanvasLayer-1/StatueOfSorrows"]
+
+[node name="CandleFlame20" parent="Background/CanvasLayer-1/StatueOfSorrows/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(-87.8745, 96.9165)
+
+[node name="CandleFlame21" parent="Background/CanvasLayer-1/StatueOfSorrows/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(-57, 60)
+
+[node name="CandleFlame22" parent="Background/CanvasLayer-1/StatueOfSorrows/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(-35, 37)
+
+[node name="CandleFlame23" parent="Background/CanvasLayer-1/StatueOfSorrows/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(-30, 34)
+
+[node name="CandleFlame24" parent="Background/CanvasLayer-1/StatueOfSorrows/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(11, 101)
+
+[node name="CandleFlame25" parent="Background/CanvasLayer-1/StatueOfSorrows/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(5, 100)
+
+[node name="CandleFlame26" parent="Background/CanvasLayer-1/StatueOfSorrows/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(0, 102)
+
+[node name="CandleFlame27" parent="Background/CanvasLayer-1/StatueOfSorrows/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(-39, 102)
+
+[node name="CandleFlame28" parent="Background/CanvasLayer-1/StatueOfSorrows/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(-45, 100)
+
+[node name="CandleFlame29" parent="Background/CanvasLayer-1/StatueOfSorrows/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(-51, 100)
+
+[node name="CandleFlame30" parent="Background/CanvasLayer-1/StatueOfSorrows/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(-65, 101)
+
+[node name="CandleFlame31" parent="Background/CanvasLayer-1/StatueOfSorrows/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(-72, 100)
+
+[node name="SorrowAltar" parent="Background/CanvasLayer-1" instance=ExtResource("27_opfbd")]
+position = Vector2(1885, 1446)
+collision_mask = 7
+
+[node name="Floor" type="Node2D" parent="Background/CanvasLayer-1"]
+modulate = Color(0.347817, 0.347817, 0.347817, 1)
+
+[node name="Ceiling4" type="Sprite2D" parent="Background/CanvasLayer-1/Floor"]
+position = Vector2(2074, 1641)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_0f31y")
+
+[node name="Ceiling2" type="Sprite2D" parent="Background/CanvasLayer-1/Floor"]
+position = Vector2(1799, 1641)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_0f31y")
+flip_h = true
+
+[node name="Ceiling3" type="Sprite2D" parent="Background/CanvasLayer-1/Floor"]
+position = Vector2(2405, 1641)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_0f31y")
+
+[node name="CanvasLayer+2" type="CanvasLayer" parent="Background"]
+layer = 2
+follow_viewport_enabled = true
+follow_viewport_scale = 1.01
+
+[node name="walls" type="Node2D" parent="Background/CanvasLayer+2"]
+modulate = Color(0.0768353, 0.0768361, 0.0768355, 1)
+position = Vector2(-50, 0)
+
+[node name="Wall9" type="Sprite2D" parent="Background/CanvasLayer+2/walls"]
+position = Vector2(2189.39, 1307.14)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall10" type="Sprite2D" parent="Background/CanvasLayer+2/walls"]
+position = Vector2(2315.39, 1307.14)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall11" type="Sprite2D" parent="Background/CanvasLayer+2/walls"]
+position = Vector2(2570.39, 1307.14)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall12" type="Sprite2D" parent="Background/CanvasLayer+2/walls"]
+position = Vector2(2442.39, 1307.14)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall13" type="Sprite2D" parent="Background/CanvasLayer+2/walls"]
+position = Vector2(1944.39, 1307.14)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall14" type="Sprite2D" parent="Background/CanvasLayer+2/walls"]
+position = Vector2(2070.39, 1307.14)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall15" type="Sprite2D" parent="Background/CanvasLayer+2/walls"]
+position = Vector2(1715.96, 1439.49)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall16" type="Sprite2D" parent="Background/CanvasLayer+2/walls"]
+position = Vector2(1841.96, 1439.49)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lenfa")
+
+[node name="ColorRect" type="ColorRect" parent="Background/CanvasLayer+2"]
+offset_left = 1567.0
+offset_top = 1503.0
+offset_right = 1603.0
+offset_bottom = 1639.0
+color = Color(0, 0, 0, 1)
+
+[node name="columns" type="Node2D" parent="Background/CanvasLayer+2"]
+
+[node name="Column" type="Sprite2D" parent="Background/CanvasLayer+2/columns"]
+position = Vector2(1864, 1574)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_1p31w")
+
+[node name="Column2" type="Sprite2D" parent="Background/CanvasLayer+2/columns"]
+position = Vector2(1798, 1574)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_1p31w")
+
+[node name="Column3" type="Sprite2D" parent="Background/CanvasLayer+2/columns"]
+position = Vector2(1730, 1574)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_1p31w")
+
+[node name="Column4" type="Sprite2D" parent="Background/CanvasLayer+2/columns"]
+position = Vector2(1663, 1574)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_1p31w")
+
+[node name="EntranceCeiling2" type="Sprite2D" parent="Background/CanvasLayer+2"]
+position = Vector2(1690.1, 1504.95)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("12_cw0ec")
+
+[node name="EntranceCeiling" type="Sprite2D" parent="Background/CanvasLayer+2"]
+position = Vector2(1763.37, 1504.95)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("12_cw0ec")
+
+[node name="HalfColumn" type="Sprite2D" parent="Background/CanvasLayer+2"]
+position = Vector2(1602.97, 1574.26)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("11_kbgh0")
+
+[node name="BigColumn" type="Sprite2D" parent="Background/CanvasLayer+2"]
+position = Vector2(2544, 1509)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9_w00m1")
+
+[node name="BigColumn2" type="Sprite2D" parent="Background/CanvasLayer+2"]
+position = Vector2(1867.33, 1508.91)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9_w00m1")
+
+[node name="Ceiling" type="Sprite2D" parent="Background/CanvasLayer+2"]
+position = Vector2(2394, 1375)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_0f31y")
+
+[node name="Ceiling2" type="Sprite2D" parent="Background/CanvasLayer+2"]
+position = Vector2(2020, 1375)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_0f31y")
+flip_h = true
+
+[node name="CanvasLayer+3" type="CanvasLayer" parent="Background"]
+layer = 10
+follow_viewport_enabled = true
+follow_viewport_scale = 1.02
+
+[node name="walls" type="Node2D" parent="Background/CanvasLayer+3"]
+modulate = Color(0.0519706, 0.0519711, 0.0519707, 1)
+position = Vector2(-50, 0)
+
+[node name="Wall" type="Sprite2D" parent="Background/CanvasLayer+3/walls"]
+position = Vector2(1696, 1701)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall2" type="Sprite2D" parent="Background/CanvasLayer+3/walls"]
+position = Vector2(1822, 1701)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall3" type="Sprite2D" parent="Background/CanvasLayer+3/walls"]
+position = Vector2(2194, 1701)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall4" type="Sprite2D" parent="Background/CanvasLayer+3/walls"]
+position = Vector2(2320, 1701)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall7" type="Sprite2D" parent="Background/CanvasLayer+3/walls"]
+position = Vector2(2575, 1701)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall8" type="Sprite2D" parent="Background/CanvasLayer+3/walls"]
+position = Vector2(2447, 1701)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall5" type="Sprite2D" parent="Background/CanvasLayer+3/walls"]
+position = Vector2(1949, 1701)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lenfa")
+
+[node name="Wall6" type="Sprite2D" parent="Background/CanvasLayer+3/walls"]
+position = Vector2(2075, 1701)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_lenfa")
+
+[node name="Candles" type="Node2D" parent="Background/CanvasLayer+3"]
+position = Vector2(39.2157, 0.0784312)
+
+[node name="Candles4" type="Sprite2D" parent="Background/CanvasLayer+3/Candles"]
+position = Vector2(2050, 1626)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("20_ay812")
+
+[node name="Candles5" type="Sprite2D" parent="Background/CanvasLayer+3/Candles"]
+position = Vector2(1794.75, 1628)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("20_ay812")
+
+[node name="Candles1" type="Sprite2D" parent="Background/CanvasLayer+3/Candles"]
+position = Vector2(2232.98, 1625.06)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_07fmw")
+flip_h = true
+
+[node name="Candles6" type="Sprite2D" parent="Background/CanvasLayer+3/Candles"]
+position = Vector2(1858.47, 1623.1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("21_6v1u8")
+
+[node name="Candles2" type="Sprite2D" parent="Background/CanvasLayer+3/Candles"]
+position = Vector2(2003.57, 1625.06)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_07fmw")
+
+[node name="flames" type="Node2D" parent="Background/CanvasLayer+3"]
+position = Vector2(39.2157, 0.0784312)
+
+[node name="CandleFlame" parent="Background/CanvasLayer+3/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2046.96, 1622.92)
+
+[node name="CandleFlame2" parent="Background/CanvasLayer+3/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2054.25, 1623.96)
+
+[node name="CandleFlame6" parent="Background/CanvasLayer+3/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(1791.71, 1624.92)
+
+[node name="CandleFlame7" parent="Background/CanvasLayer+3/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(1799, 1625.96)
+
+[node name="CandleFlame3" parent="Background/CanvasLayer+3/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(1857.8, 1626.18)
+
+[node name="CandleFlame4" parent="Background/CanvasLayer+3/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(1864.05, 1624.1)
+
+[node name="CandleFlame5" parent="Background/CanvasLayer+3/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(1869.26, 1626.18)
+
+[node name="CandleFlame12" parent="Background/CanvasLayer+3/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2221.57, 1633.25)
+
+[node name="CandleFlame13" parent="Background/CanvasLayer+3/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2228.74, 1625.41)
+
+[node name="CandleFlame14" parent="Background/CanvasLayer+3/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2236.04, 1625.41)
+
+[node name="CandleFlame15" parent="Background/CanvasLayer+3/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2242.16, 1631.29)
+
+[node name="CandleFlame16" parent="Background/CanvasLayer+3/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(1995.28, 1629.19)
+
+[node name="CandleFlame17" parent="Background/CanvasLayer+3/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2000.49, 1625.02)
+
+[node name="CandleFlame18" parent="Background/CanvasLayer+3/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2007.78, 1625.02)
+
+[node name="CandleFlame19" parent="Background/CanvasLayer+3/flames" instance=ExtResource("24_rkjuc")]
+position = Vector2(2015.07, 1631.27)
+
+[node name="Floor" type="Node2D" parent="Background/CanvasLayer+3"]
+modulate = Color(0.347817, 0.347817, 0.347817, 1)
+
+[node name="Ceiling4" type="Sprite2D" parent="Background/CanvasLayer+3/Floor"]
+position = Vector2(2074, 1641)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_0f31y")
+
+[node name="Ceiling2" type="Sprite2D" parent="Background/CanvasLayer+3/Floor"]
+position = Vector2(1768.61, 1641)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_0f31y")
+flip_h = true
+
+[node name="Ceiling3" type="Sprite2D" parent="Background/CanvasLayer+3/Floor"]
+position = Vector2(2405, 1641)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_0f31y")
+
+[node name="Darkened" type="Node2D" parent="Background/CanvasLayer+3"]
+modulate = Color(0.75, 0.75, 0.75, 1)
+
+[node name="Shady" parent="." instance=ExtResource("3_2v4qd")]
+position = Vector2(1695, 1583)
+
+[node name="BasicTilemap" parent="." instance=ExtResource("4_xjvti")]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(2130, 997)
+tile_map_data = PackedByteArray("AAAIABQAAAAAAAAAAAAIABUAAAAAAAAAAAAIABYAAAAAAAAAAAAIABcAAAAAAAAAAAAJABQAAAAAAAAAAAAJABUAAAAAAAAAAAAJABYAAAAAAAAAAAAJABcAAAAAAAAAAAAKABQAAAAAAAAAAAAKABUAAAAAAAAAAAAKABYAAAAAAAAAAAAKABcAAAAAAAAAAAALABQAAAAAAAAAAAALABUAAAAAAAAAAAALABYAAAAAAAAAAAALABcAAAAAAAAAAAAMABQAAAAAAAAAAAAMABUAAAAAAAAAAAAMABYAAAAAAAAAAAAMABcAAAAAAAAAAAANABQAAAAAAAAAAAANABUAAAAAAAAAAAANABYAAAAAAAAAAAANABcAAAAAAAAAAAAOABQAAAAAAAAAAAAOABUAAAAAAAAAAAAOABYAAAAAAAAAAAAOABcAAAAAAAAAAAAPABQAAAAAAAAAAAAPABUAAAAAAAAAAAAPABYAAAAAAAAAAAAPABcAAAAAAAAAAAAQABQAAAAAAAAAAAAQABUAAAAAAAAAAAAQABYAAAAAAAAAAAAQABcAAAAAAAAAAAARABQAAAAAAAAAAAARABUAAAAAAAAAAAARABYAAAAAAAAAAAARABcAAAAAAAAAAAASABQAAAAAAAAAAAASABUAAAAAAAAAAAASABYAAAAAAAAAAAASABcAAAAAAAAAAAATABQAAAAAAAAAAAATABUAAAAAAAAAAAATABYAAAAAAAAAAAATABcAAAAAAAAAAAAUABQAAAAAAAAAAAAUABUAAAAAAAAAAAAUABYAAAAAAAAAAAAUABcAAAAAAAAAAAAVABQAAAAAAAAAAAAVABUAAAAAAAAAAAAVABYAAAAAAAAAAAAVABcAAAAAAAAAAADn/xQAAAAAAAAAAADn/xUAAAAAAAAAAADn/xYAAAAAAAAAAADn/xcAAAAAAAAAAADo/xQAAAAAAAAAAADo/xUAAAAAAAAAAADo/xYAAAAAAAAAAADo/xcAAAAAAAAAAADp/xQAAAAAAAAAAADp/xUAAAAAAAAAAADp/xYAAAAAAAAAAADp/xcAAAAAAAAAAADq/xQAAAAAAAAAAADq/xUAAAAAAAAAAADq/xYAAAAAAAAAAADq/xcAAAAAAAAAAADr/xQAAAAAAAAAAADr/xUAAAAAAAAAAADr/xYAAAAAAAAAAADr/xcAAAAAAAAAAADs/xQAAAAAAAAAAADs/xUAAAAAAAAAAADs/xYAAAAAAAAAAADs/xcAAAAAAAAAAADt/xQAAAAAAAAAAADt/xUAAAAAAAAAAADt/xYAAAAAAAAAAADt/xcAAAAAAAAAAADu/xQAAAAAAAAAAADu/xUAAAAAAAAAAADu/xYAAAAAAAAAAADu/xcAAAAAAAAAAADv/xQAAAAAAAAAAADv/xUAAAAAAAAAAADv/xYAAAAAAAAAAADv/xcAAAAAAAAAAADw/xQAAAAAAAAAAADw/xUAAAAAAAAAAADw/xYAAAAAAAAAAADw/xcAAAAAAAAAAADx/xQAAAAAAAAAAADx/xUAAAAAAAAAAADx/xYAAAAAAAAAAADx/xcAAAAAAAAAAADy/xQAAAAAAAAAAADy/xUAAAAAAAAAAADy/xYAAAAAAAAAAADy/xcAAAAAAAAAAADz/xQAAAAAAAAAAADz/xUAAAAAAAAAAADz/xYAAAAAAAAAAADz/xcAAAAAAAAAAAD0/xQAAAAAAAAAAAD0/xUAAAAAAAAAAAD0/xYAAAAAAAAAAAD0/xcAAAAAAAAAAAD1/xQAAAAAAAAAAAD1/xUAAAAAAAAAAAD1/xYAAAAAAAAAAAD1/xcAAAAAAAAAAAD2/xQAAAAAAAAAAAD2/xUAAAAAAAAAAAD2/xYAAAAAAAAAAAD2/xcAAAAAAAAAAAD3/xQAAAAAAAAAAAD3/xUAAAAAAAAAAAD3/xYAAAAAAAAAAAD3/xcAAAAAAAAAAAD4/xQAAAAAAAAAAAD4/xUAAAAAAAAAAAD4/xYAAAAAAAAAAAD4/xcAAAAAAAAAAAD5/xQAAAAAAAAAAAD5/xUAAAAAAAAAAAD5/xYAAAAAAAAAAAD5/xcAAAAAAAAAAAD6/xQAAAAAAAAAAAD6/xUAAAAAAAAAAAD6/xYAAAAAAAAAAAD6/xcAAAAAAAAAAAD7/xQAAAAAAAAAAAD7/xUAAAAAAAAAAAD7/xYAAAAAAAAAAAD7/xcAAAAAAAAAAAD8/xQAAAAAAAAAAAD8/xUAAAAAAAAAAAD8/xYAAAAAAAAAAAD8/xcAAAAAAAAAAAD9/xQAAAAAAAAAAAD9/xUAAAAAAAAAAAD9/xYAAAAAAAAAAAD9/xcAAAAAAAAAAAD+/xQAAAAAAAAAAAD+/xUAAAAAAAAAAAD+/xYAAAAAAAAAAAD+/xcAAAAAAAAAAAD//xQAAAAAAAAAAAD//xUAAAAAAAAAAAD//xYAAAAAAAAAAAD//xcAAAAAAAAAAAAAABQAAAAAAAAAAAAAABUAAAAAAAAAAAAAABYAAAAAAAAAAAAAABcAAAAAAAAAAAABABQAAAAAAAAAAAABABUAAAAAAAAAAAABABYAAAAAAAAAAAABABcAAAAAAAAAAAACABQAAAAAAAAAAAACABUAAAAAAAAAAAACABYAAAAAAAAAAAACABcAAAAAAAAAAAADABQAAAAAAAAAAAADABUAAAAAAAAAAAADABYAAAAAAAAAAAADABcAAAAAAAAAAAAEABQAAAAAAAAAAAAEABUAAAAAAAAAAAAEABYAAAAAAAAAAAAEABcAAAAAAAAAAAAFABQAAAAAAAAAAAAFABUAAAAAAAAAAAAFABYAAAAAAAAAAAAFABcAAAAAAAAAAAAGABQAAAAAAAAAAAAGABUAAAAAAAAAAAAGABYAAAAAAAAAAAAGABcAAAAAAAAAAAAHABQAAAAAAAAAAAAHABUAAAAAAAAAAAAHABYAAAAAAAAAAAAHABcAAAAAAAAAAAD2/wgAAAAAAAAAAAD2/wkAAAAAAAAAAAD2/woAAAAAAAAAAAD2/wsAAAAAAAAAAAD3/wgAAAAAAAAAAAD3/wkAAAAAAAAAAAD3/woAAAAAAAAAAAD3/wsAAAAAAAAAAAD4/wgAAAAAAAAAAAD4/wkAAAAAAAAAAAD4/woAAAAAAAAAAAD4/wsAAAAAAAAAAAD5/wgAAAAAAAAAAAD5/wkAAAAAAAAAAAD5/woAAAAAAAAAAAD5/wsAAAAAAAAAAAD6/wgAAAAAAAAAAAD6/wkAAAAAAAAAAAD6/woAAAAAAAAAAAD6/wsAAAAAAAAAAAD7/wgAAAAAAAAAAAD7/wkAAAAAAAAAAAD7/woAAAAAAAAAAAD7/wsAAAAAAAAAAAD8/wgAAAAAAAAAAAD8/wkAAAAAAAAAAAD8/woAAAAAAAAAAAD8/wsAAAAAAAAAAAD9/wgAAAAAAAAAAAD9/wkAAAAAAAAAAAD9/woAAAAAAAAAAAD9/wsAAAAAAAAAAAD+/wgAAAAAAAAAAAD+/wkAAAAAAAAAAAD+/woAAAAAAAAAAAD+/wsAAAAAAAAAAAD//wgAAAAAAAAAAAD//wkAAAAAAAAAAAD//woAAAAAAAAAAAD//wsAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAAsAAAAAAAAAAAABAAgAAAAAAAAAAAABAAkAAAAAAAAAAAABAAoAAAAAAAAAAAABAAsAAAAAAAAAAAACAAgAAAAAAAAAAAACAAkAAAAAAAAAAAACAAoAAAAAAAAAAAACAAsAAAAAAAAAAAADAAgAAAAAAAAAAAADAAkAAAAAAAAAAAADAAoAAAAAAAAAAAADAAsAAAAAAAAAAAAEAAgAAAAAAAAAAAAEAAkAAAAAAAAAAAAEAAoAAAAAAAAAAAAEAAsAAAAAAAAAAAAFAAgAAAAAAAAAAAAFAAkAAAAAAAAAAAAFAAoAAAAAAAAAAAAFAAsAAAAAAAAAAAAGAAgAAAAAAAAAAAAGAAkAAAAAAAAAAAAGAAoAAAAAAAAAAAAGAAsAAAAAAAAAAAAHAAgAAAAAAAAAAAAHAAkAAAAAAAAAAAAHAAoAAAAAAAAAAAAHAAsAAAAAAAAAAAAIAAgAAAAAAAAAAAAIAAkAAAAAAAAAAAAIAAoAAAAAAAAAAAAIAAsAAAAAAAAAAAAJAAgAAAAAAAAAAAAJAAkAAAAAAAAAAAAJAAoAAAAAAAAAAAAJAAsAAAAAAAAAAAAKAAgAAAAAAAAAAAAKAAkAAAAAAAAAAAAKAAoAAAAAAAAAAAAKAAsAAAAAAAAAAAALAAgAAAAAAAAAAAALAAkAAAAAAAAAAAALAAoAAAAAAAAAAAALAAsAAAAAAAAAAAAMAAgAAAAAAAAAAAAMAAkAAAAAAAAAAAAMAAoAAAAAAAAAAAAMAAsAAAAAAAAAAAANAAgAAAAAAAAAAAANAAkAAAAAAAAAAAANAAoAAAAAAAAAAAANAAsAAAAAAAAAAADx/wwAAAAAAAAAAADx/w0AAAAAAAAAAADx/w4AAAAAAAAAAADx/w8AAAAAAAAAAADy/wwAAAAAAAAAAADy/w0AAAAAAAAAAADy/w4AAAAAAAAAAADy/w8AAAAAAAAAAADz/wwAAAAAAAAAAADz/w0AAAAAAAAAAADz/w4AAAAAAAAAAADz/w8AAAAAAAAAAAD0/wwAAAAAAAAAAAD0/w0AAAAAAAAAAAD0/w4AAAAAAAAAAAD0/w8AAAAAAAAAAAD1/wwAAAAAAAAAAAD1/w0AAAAAAAAAAAD1/w4AAAAAAAAAAAD1/w8AAAAAAAAAAAD2/wwAAAAAAAAAAAD2/w0AAAAAAAAAAAD2/w4AAAAAAAAAAAD2/w8AAAAAAAAAAAD3/wwAAAAAAAAAAAD3/w0AAAAAAAAAAAD3/w4AAAAAAAAAAAD3/w8AAAAAAAAAAADx/wgAAAAAAAAAAADx/wkAAAAAAAAAAADx/woAAAAAAAAAAADx/wsAAAAAAAAAAADy/wgAAAAAAAAAAADy/wkAAAAAAAAAAADy/woAAAAAAAAAAADy/wsAAAAAAAAAAADz/wgAAAAAAAAAAADz/wkAAAAAAAAAAADz/woAAAAAAAAAAADz/wsAAAAAAAAAAAD0/wgAAAAAAAAAAAD0/wkAAAAAAAAAAAD0/woAAAAAAAAAAAD0/wsAAAAAAAAAAAD1/wgAAAAAAAAAAAD1/wkAAAAAAAAAAAD1/woAAAAAAAAAAAD1/wsAAAAAAAAAAADw/wgAAAAAAAAAAADw/wkAAAAAAAAAAADw/woAAAAAAAAAAADw/wsAAAAAAAAAAADw/wwAAAAAAAAAAADw/w0AAAAAAAAAAADw/w4AAAAAAAAAAADw/w8AAAAAAAAAAAANAAwAAAAAAAAAAAANAA0AAAAAAAAAAAANAA4AAAAAAAAAAAANAA8AAAAAAAAAAAANABAAAAAAAAAAAAANABEAAAAAAAAAAAANABIAAAAAAAAAAAANABMAAAAAAAAAAAAOAAgAAAAAAAAAAAAOAAkAAAAAAAAAAAAOAAoAAAAAAAAAAAAOAAsAAAAAAAAAAAAOAAwAAAAAAAAAAAAOAA0AAAAAAAAAAAAOAA4AAAAAAAAAAAAOAA8AAAAAAAAAAAAOABAAAAAAAAAAAAAOABEAAAAAAAAAAAAOABIAAAAAAAAAAAAOABMAAAAAAAAAAAAPAAgAAAAAAAAAAAAPAAkAAAAAAAAAAAAPAAoAAAAAAAAAAAAPAAsAAAAAAAAAAAAPAAwAAAAAAAAAAAAPAA0AAAAAAAAAAAAPAA4AAAAAAAAAAAAPAA8AAAAAAAAAAAAPABAAAAAAAAAAAAAPABEAAAAAAAAAAAAPABIAAAAAAAAAAAAPABMAAAAAAAAAAAAQAAgAAAAAAAAAAAAQAAkAAAAAAAAAAAAQAAoAAAAAAAAAAAAQAAsAAAAAAAAAAAAQAAwAAAAAAAAAAAAQAA0AAAAAAAAAAAAQAA4AAAAAAAAAAAAQAA8AAAAAAAAAAAAQABAAAAAAAAAAAAAQABEAAAAAAAAAAAAQABIAAAAAAAAAAAAQABMAAAAAAAAAAADv/wgAAAAAAAAAAADv/wkAAAAAAAAAAADv/woAAAAAAAAAAADv/wsAAAAAAAAAAADv/wwAAAAAAAAAAADv/w0AAAAAAAAAAADv/w4AAAAAAAAAAADv/w8AAAAAAAAAAADn/wgAAAAAAAAAAADn/wkAAAAAAAAAAADn/woAAAAAAAAAAADn/wsAAAAAAAAAAADn/wwAAAAAAAAAAADn/w0AAAAAAAAAAADn/w4AAAAAAAAAAADn/w8AAAAAAAAAAADn/xAAAAAAAAAAAADn/xEAAAAAAAAAAADn/xIAAAAAAAAAAADn/xMAAAAAAAAAAADo/wgAAAAAAAAAAADo/wkAAAAAAAAAAADo/woAAAAAAAAAAADo/wsAAAAAAAAAAADo/wwAAAAAAAAAAADo/w0AAAAAAAAAAADo/w4AAAAAAAAAAADo/w8AAAAAAAAAAADo/xAAAAAAAAAAAADo/xEAAAAAAAAAAADo/xIAAAAAAAAAAADo/xMAAAAAAAAAAADp/wgAAAAAAAAAAADp/wkAAAAAAAAAAADp/woAAAAAAAAAAADp/wsAAAAAAAAAAADp/wwAAAAAAAAAAADp/w0AAAAAAAAAAADp/w4AAAAAAAAAAADp/w8AAAAAAAAAAADp/xAAAAAAAAAAAADp/xEAAAAAAAAAAADp/xIAAAAAAAAAAADp/xMAAAAAAAAAAADq/wgAAAAAAAAAAADq/wkAAAAAAAAAAADq/woAAAAAAAAAAADq/wsAAAAAAAAAAADq/wwAAAAAAAAAAADq/w0AAAAAAAAAAADq/w4AAAAAAAAAAADq/w8AAAAAAAAAAADq/xAAAAAAAAAAAADq/xEAAAAAAAAAAADq/xIAAAAAAAAAAADq/xMAAAAAAAAAAADr/wgAAAAAAAAAAADr/wkAAAAAAAAAAADr/woAAAAAAAAAAADr/wsAAAAAAAAAAADr/wwAAAAAAAAAAADr/w0AAAAAAAAAAADr/w4AAAAAAAAAAADr/w8AAAAAAAAAAADr/xAAAAAAAAAAAADr/xEAAAAAAAAAAADr/xIAAAAAAAAAAADr/xMAAAAAAAAAAADs/wgAAAAAAAAAAADs/wkAAAAAAAAAAADs/woAAAAAAAAAAADs/wsAAAAAAAAAAADs/wwAAAAAAAAAAADs/w0AAAAAAAAAAADs/w4AAAAAAAAAAADs/w8AAAAAAAAAAADs/xAAAAAAAAAAAADs/xEAAAAAAAAAAADs/xIAAAAAAAAAAADs/xMAAAAAAAAAAADt/wgAAAAAAAAAAADt/wkAAAAAAAAAAADt/woAAAAAAAAAAADt/wsAAAAAAAAAAADt/wwAAAAAAAAAAADt/w0AAAAAAAAAAADt/w4AAAAAAAAAAADt/w8AAAAAAAAAAADt/xAAAAAAAAAAAADt/xEAAAAAAAAAAADt/xIAAAAAAAAAAADt/xMAAAAAAAAAAADu/wgAAAAAAAAAAADu/wkAAAAAAAAAAADu/woAAAAAAAAAAADu/wsAAAAAAAAAAADu/wwAAAAAAAAAAADu/w0AAAAAAAAAAADu/w4AAAAAAAAAAADu/w8AAAAAAAAAAADu/xAAAAAAAAAAAADu/xEAAAAAAAAAAADu/xIAAAAAAAAAAADu/xMAAAAAAAAAAAARAAgAAAAAAAAAAAARAAkAAAAAAAAAAAARAAoAAAAAAAAAAAARAAsAAAAAAAAAAAARAAwAAAAAAAAAAAARAA0AAAAAAAAAAAARAA4AAAAAAAAAAAARAA8AAAAAAAAAAAARABAAAAAAAAAAAAARABEAAAAAAAAAAAARABIAAAAAAAAAAAARABMAAAAAAAAAAAASAAgAAAAAAAAAAAASAAkAAAAAAAAAAAASAAoAAAAAAAAAAAASAAsAAAAAAAAAAAASAAwAAAAAAAAAAAASAA0AAAAAAAAAAAASAA4AAAAAAAAAAAASAA8AAAAAAAAAAAASABAAAAAAAAAAAAASABEAAAAAAAAAAAASABIAAAAAAAAAAAASABMAAAAAAAAAAAATAAgAAAAAAAAAAAATAAkAAAAAAAAAAAATAAoAAAAAAAAAAAATAAsAAAAAAAAAAAATAAwAAAAAAAAAAAATAA0AAAAAAAAAAAATAA4AAAAAAAAAAAATAA8AAAAAAAAAAAATABAAAAAAAAAAAAATABEAAAAAAAAAAAATABIAAAAAAAAAAAATABMAAAAAAAAAAAAUAAgAAAAAAAAAAAAUAAkAAAAAAAAAAAAUAAoAAAAAAAAAAAAUAAsAAAAAAAAAAAAUAAwAAAAAAAAAAAAUAA0AAAAAAAAAAAAUAA4AAAAAAAAAAAAUAA8AAAAAAAAAAAAUABAAAAAAAAAAAAAUABEAAAAAAAAAAAAUABIAAAAAAAAAAAAUABMAAAAAAAAAAAAVAAgAAAAAAAAAAAAVAAkAAAAAAAAAAAAVAAoAAAAAAAAAAAAVAAsAAAAAAAAAAAAVAAwAAAAAAAAAAAAVAA0AAAAAAAAAAAAVAA4AAAAAAAAAAAAVAA8AAAAAAAAAAAAVABAAAAAAAAAAAAAVABEAAAAAAAAAAAAVABIAAAAAAAAAAAAVABMAAAAAAAAAAADn/wYAAAAAAAAAAADn/wcAAAAAAAAAAADo/wYAAAAAAAAAAADo/wcAAAAAAAAAAADp/wYAAAAAAAAAAADp/wcAAAAAAAAAAADq/wYAAAAAAAAAAADq/wcAAAAAAAAAAADr/wYAAAAAAAAAAADr/wcAAAAAAAAAAADs/wYAAAAAAAAAAADs/wcAAAAAAAAAAADt/wYAAAAAAAAAAADt/wcAAAAAAAAAAADu/wYAAAAAAAAAAADu/wcAAAAAAAAAAADv/wYAAAAAAAAAAADv/wcAAAAAAAAAAADw/wYAAAAAAAAAAADw/wcAAAAAAAAAAADx/wYAAAAAAAAAAADx/wcAAAAAAAAAAADy/wYAAAAAAAAAAADy/wcAAAAAAAAAAADz/wYAAAAAAAAAAADz/wcAAAAAAAAAAAD0/wYAAAAAAAAAAAD0/wcAAAAAAAAAAAD1/wYAAAAAAAAAAAD1/wcAAAAAAAAAAAD2/wYAAAAAAAAAAAD2/wcAAAAAAAAAAAD3/wYAAAAAAAAAAAD3/wcAAAAAAAAAAAD4/wYAAAAAAAAAAAD4/wcAAAAAAAAAAAD5/wYAAAAAAAAAAAD5/wcAAAAAAAAAAAD6/wYAAAAAAAAAAAD6/wcAAAAAAAAAAAD7/wYAAAAAAAAAAAD7/wcAAAAAAAAAAAD8/wYAAAAAAAAAAAD8/wcAAAAAAAAAAAD9/wYAAAAAAAAAAAD9/wcAAAAAAAAAAAD+/wYAAAAAAAAAAAD+/wcAAAAAAAAAAAD//wYAAAAAAAAAAAD//wcAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAcAAAAAAAAAAAABAAYAAAAAAAAAAAABAAcAAAAAAAAAAAACAAYAAAAAAAAAAAACAAcAAAAAAAAAAAADAAYAAAAAAAAAAAADAAcAAAAAAAAAAAAEAAYAAAAAAAAAAAAEAAcAAAAAAAAAAAAFAAYAAAAAAAAAAAAFAAcAAAAAAAAAAAAGAAYAAAAAAAAAAAAGAAcAAAAAAAAAAAAHAAYAAAAAAAAAAAAHAAcAAAAAAAAAAAAIAAYAAAAAAAAAAAAIAAcAAAAAAAAAAAAJAAYAAAAAAAAAAAAJAAcAAAAAAAAAAAAKAAYAAAAAAAAAAAAKAAcAAAAAAAAAAAALAAYAAAAAAAAAAAALAAcAAAAAAAAAAAAMAAYAAAAAAAAAAAAMAAcAAAAAAAAAAAANAAYAAAAAAAAAAAANAAcAAAAAAAAAAAAOAAYAAAAAAAAAAAAOAAcAAAAAAAAAAAAPAAYAAAAAAAAAAAAPAAcAAAAAAAAAAAAQAAYAAAAAAAAAAAAQAAcAAAAAAAAAAAARAAYAAAAAAAAAAAARAAcAAAAAAAAAAAASAAYAAAAAAAAAAAASAAcAAAAAAAAAAAATAAYAAAAAAAAAAAATAAcAAAAAAAAAAAAUAAYAAAAAAAAAAAAUAAcAAAAAAAAAAAAVAAYAAAAAAAAAAAAVAAcAAAAAAAAAAADn/xgAAAAAAAAAAADn/xkAAAAAAAAAAADo/xgAAAAAAAAAAADo/xkAAAAAAAAAAADp/xgAAAAAAAAAAADp/xkAAAAAAAAAAADq/xgAAAAAAAAAAADq/xkAAAAAAAAAAADr/xgAAAAAAAAAAADr/xkAAAAAAAAAAADs/xgAAAAAAAAAAADs/xkAAAAAAAAAAADt/xgAAAAAAAAAAADt/xkAAAAAAAAAAADu/xgAAAAAAAAAAADu/xkAAAAAAAAAAADv/xgAAAAAAAAAAADv/xkAAAAAAAAAAADw/xgAAAAAAAAAAADw/xkAAAAAAAAAAADx/xgAAAAAAAAAAADx/xkAAAAAAAAAAADy/xgAAAAAAAAAAADy/xkAAAAAAAAAAADz/xgAAAAAAAAAAADz/xkAAAAAAAAAAAD0/xgAAAAAAAAAAAD0/xkAAAAAAAAAAAD1/xgAAAAAAAAAAAD1/xkAAAAAAAAAAAD2/xgAAAAAAAAAAAD2/xkAAAAAAAAAAAD3/xgAAAAAAAAAAAD3/xkAAAAAAAAAAAD4/xgAAAAAAAAAAAD4/xkAAAAAAAAAAAD5/xgAAAAAAAAAAAD5/xkAAAAAAAAAAAD6/xgAAAAAAAAAAAD6/xkAAAAAAAAAAAD7/xgAAAAAAAAAAAD7/xkAAAAAAAAAAAD8/xgAAAAAAAAAAAD8/xkAAAAAAAAAAAD9/xgAAAAAAAAAAAD9/xkAAAAAAAAAAAD+/xgAAAAAAAAAAAD+/xkAAAAAAAAAAAD//xgAAAAAAAAAAAD//xkAAAAAAAAAAAAAABgAAAAAAAAAAAAAABkAAAAAAAAAAAABABgAAAAAAAAAAAABABkAAAAAAAAAAAACABgAAAAAAAAAAAACABkAAAAAAAAAAAADABgAAAAAAAAAAAADABkAAAAAAAAAAAAEABgAAAAAAAAAAAAEABkAAAAAAAAAAAAFABgAAAAAAAAAAAAFABkAAAAAAAAAAAAGABgAAAAAAAAAAAAGABkAAAAAAAAAAAAHABgAAAAAAAAAAAAHABkAAAAAAAAAAAAIABgAAAAAAAAAAAAIABkAAAAAAAAAAAAJABgAAAAAAAAAAAAJABkAAAAAAAAAAAAKABgAAAAAAAAAAAAKABkAAAAAAAAAAAALABgAAAAAAAAAAAALABkAAAAAAAAAAAAMABgAAAAAAAAAAAAMABkAAAAAAAAAAAANABgAAAAAAAAAAAANABkAAAAAAAAAAAAOABgAAAAAAAAAAAAOABkAAAAAAAAAAAAPABgAAAAAAAAAAAAPABkAAAAAAAAAAAAQABgAAAAAAAAAAAAQABkAAAAAAAAAAAARABgAAAAAAAAAAAARABkAAAAAAAAAAAASABgAAAAAAAAAAAASABkAAAAAAAAAAAATABgAAAAAAAAAAAATABkAAAAAAAAAAAAUABgAAAAAAAAAAAAUABkAAAAAAAAAAAAVABgAAAAAAAAAAAAVABkAAAAAAAAAAAA=")
+rendering_quadrant_size = 32
+
+[node name="Light" type="Node2D" parent="."]
+position = Vector2(2130, 997)
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="Light"]
+visible = false
+position = Vector2(1495, 561)
+scale = Vector2(0.5, 0.5)
+energy = 0.98
+blend_mode = 1
+range_layer_min = -50
+range_layer_max = 50
+
+[node name="Camera" type="Node2D" parent="."]
+position = Vector2(2130, 997)
+
+[node name="SmartCamera2D" parent="Camera" node_paths=PackedStringArray("player") instance=ExtResource("5_v3pjc")]
+position = Vector2(221, 584)
+zoom = Vector2(0.75, 0.75)
+limit_left = 1250
+limit_top = 1000
+limit_right = 3050
+limit_bottom = 2100
+player = NodePath("../../Shady")
+speedup_threshold = 150.0
+display_fps = true

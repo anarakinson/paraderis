@@ -8,50 +8,42 @@ layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_eitgq")
 
-[node name="Parallax0" type="ParallaxBackground" parent="."]
+[node name="Parallax-50" type="CanvasLayer" parent="."]
 layer = -50
+follow_viewport_enabled = true
+follow_viewport_scale = 0.95
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="Parallax0"]
-motion_scale = Vector2(0.5, 0.75)
+[node name="CPUParticles2D" parent="Parallax-50" instance=ExtResource("2_yow8m")]
 
-[node name="CPUParticles2D" parent="Parallax0/ParallaxLayer" instance=ExtResource("2_yow8m")]
+[node name="Parallax-10" type="CanvasLayer" parent="."]
+layer = -10
+follow_viewport_enabled = true
+follow_viewport_scale = 0.97
 
-[node name="Parallax1" type="ParallaxBackground" parent="."]
-layer = -25
+[node name="CPUParticles2D" parent="Parallax-10" instance=ExtResource("2_yow8m")]
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="Parallax1"]
-motion_scale = Vector2(0.75, 0.9)
+[node name="Parallax-1" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+follow_viewport_scale = -0.99
 
-[node name="CPUParticles2D" parent="Parallax1/ParallaxLayer" instance=ExtResource("2_yow8m")]
+[node name="CPUParticles2D" parent="Parallax-1" instance=ExtResource("2_yow8m")]
 
-[node name="Parallax2" type="ParallaxBackground" parent="."]
-layer = -1
+[node name="Parallax+1" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+follow_viewport_scale = 1.01
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="Parallax2"]
-motion_scale = Vector2(0.9, 1)
+[node name="CPUParticles2D" parent="Parallax+1" instance=ExtResource("2_yow8m")]
 
-[node name="CPUParticles2D" parent="Parallax2/ParallaxLayer" instance=ExtResource("2_yow8m")]
+[node name="Parallax+10" type="CanvasLayer" parent="."]
+layer = 10
+follow_viewport_enabled = true
+follow_viewport_scale = 1.03
 
-[node name="Parallax3" type="ParallaxBackground" parent="."]
-layer = 1
+[node name="CPUParticles2D" parent="Parallax+10" instance=ExtResource("2_yow8m")]
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="Parallax3"]
-motion_scale = Vector2(1.1, 1)
-
-[node name="CPUParticles2D" parent="Parallax3/ParallaxLayer" instance=ExtResource("2_yow8m")]
-
-[node name="Parallax4" type="ParallaxBackground" parent="."]
-layer = 25
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="Parallax4"]
-motion_scale = Vector2(1.25, 1.1)
-
-[node name="CPUParticles2D" parent="Parallax4/ParallaxLayer" instance=ExtResource("2_yow8m")]
-
-[node name="Parallax5" type="ParallaxBackground" parent="."]
+[node name="Parallax+50" type="CanvasLayer" parent="."]
 layer = 50
+follow_viewport_enabled = true
+follow_viewport_scale = 1.05
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="Parallax5"]
-motion_scale = Vector2(1.5, 1.25)
-
-[node name="CPUParticles2D" parent="Parallax5/ParallaxLayer" instance=ExtResource("2_yow8m")]
+[node name="CPUParticles2D" parent="Parallax+50" instance=ExtResource("2_yow8m")]

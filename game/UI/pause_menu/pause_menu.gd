@@ -10,7 +10,7 @@ func _ready() -> void:
 
 
 func activate():
-	#print("activate ", self)
+	print("activate ", is_active)
 	if is_active == true:
 		visible = false
 		is_active = false
@@ -22,24 +22,23 @@ func activate():
 	
 
 func _on_resume_pressed() -> void:
-	print("resume")
+	#print("resume")
 	activate()
 	
 func _on_options_pressed() -> void:
-	print("options")
+	#print("options")
 	pass # Replace with function body.
 	
 func _on_quit_pressed() -> void:
-	print("quit")
+	#print("quit")
 	get_tree().quit()
 
 
 func _input(event: InputEvent) -> void:
 	if (event is InputEventKey or event is InputEventJoypadButton) and event.pressed:
 		if get_tree().paused and event.is_action("pause"):
-			visible = false
-			is_active = false
-			get_tree().paused = false
+			await get_tree().create_timer(0.01).timeout
+			activate()
 
 
 func _on_visibility_changed() -> void:

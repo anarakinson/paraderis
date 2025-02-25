@@ -6,14 +6,14 @@ extends CharacterBody2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var hurtbox: Area2D = $Hurtbox
 @onready var vision: Node2D = $Vision
-#@onready var label: Label = $Label
+@onready var label: Label = $Label
 
 var skull_sprite_preload = preload("res://game/enemies/almscorpse/almscorpse_skull.tscn")
 var bone_sprite_preload = preload("res://game/enemies/almscorpse/almscorpse_bones.tscn")
 
 #@export_enum("orange", "blue", "yellow") var corpse_type = "yellow"
 @export var begger = false
-@export var direction = 1
+@export_range(-1, 1, 2) var direction = 1
 
 var hit_direction = 0
 var knockback_force = 0
@@ -23,12 +23,6 @@ var counter : float = 0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * GlobalParams.gravity_coeff
-
-
-func _ready() -> void:
-	set_direction()
-	hurtbox.set_shape(collision_shape.shape.radius, collision_shape.shape.height)
-	pass
 
 
 enum {
@@ -50,22 +44,9 @@ var statename = {
 	DEATH : "DEATH",
 } 
 
-var state : int = IDLE:
+var state : int:
 	set(value):
 		state = value
-		match state:
-			DEATH:
-				pass
-			IDLE:
-				pass
-			OBSERVE:
-				observe_state()
-			SLEEP:
-				sleep_state()
-			BEGGING:
-				pass
-			DO_NOTHING:
-				pass
 		set_direction()
 
 
@@ -77,9 +58,17 @@ func set_direction():
 
 
 
+func _ready() -> void:
+	#label.visible = true
+	vision.chase_time = 1
+	set_direction()
+	hurtbox.set_shape(collision_shape.shape.radius, collision_shape.shape.height)
+	pass
+
+
 
 func _physics_process(delta: float) -> void:
-	#$Label.text = statename[state]
+	#label.text = statename[state]
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -93,6 +82,8 @@ func _physics_process(delta: float) -> void:
 	
 	if state == OBSERVE:
 		observe_state()
+	elif state == SLEEP:
+		sleep_state()
 	
 	move_and_slide()
 
@@ -100,10 +91,12 @@ func _physics_process(delta: float) -> void:
 
 
 func died():
+	state = DEATH
 	animated_sprite.play("die")
 	set_collision_layer_value(3, false)
 	set_collision_layer_value(4, false)
-
+	
+	await get_tree().create_timer(0.02).timeout
 	var skull_sprite = skull_sprite_preload.instantiate()
 	get_parent().add_child(skull_sprite)
 	var bone_sprite = bone_sprite_preload.instantiate()
@@ -140,30 +133,24 @@ func died():
 				-hit_direction * Vector2(1.1, 0.3))
 
 
-	tracked_character = null
 	vision.is_active = false
-	state = DEATH
-	await get_tree().create_timer(0.5).timeout
-	vision.free()
+	tracked_character = null
 
 
 
 func observe_state():
 	if tracked_character != null:
-		if tracked_character.global_position.x > global_position.x + 100:
-			print("right")
+		if tracked_character.global_position.x > global_position.x + 50:
 			if direction > 0:
 				animated_sprite.play("look_right")
 			elif direction < 0:
 				animated_sprite.play("look_left")
-		elif tracked_character.global_position.x < global_position.x - 100:
-			print("left")
+		elif tracked_character.global_position.x < global_position.x - 50:
 			if direction > 0:
 				animated_sprite.play("look_left")
 			elif direction < 0:
 				animated_sprite.play("look_right")
 		else:
-			print("mid")
 			animated_sprite.play("idle")
 
 
@@ -177,22 +164,26 @@ func check_visions():
 	
 	if tracked_character != null:
 		if tracked_character.state == Shady.REST:
+			if state == OBSERVE:
+				await get_tree().create_timer(0.5).timeout
 			tracked_character = null
 			go_to_sleep()
 		else:
 			awared()
 	elif tracked_character == null:
-			go_to_sleep()
+		go_to_sleep()
 
 
 func awared():
 	if state != OBSERVE:
+		state = DO_NOTHING
 		animated_sprite.play("idle")
 		await get_tree().create_timer(0.2).timeout
 		state = OBSERVE
 
 func go_to_sleep():
 	if state != SLEEP:
+		state = DO_NOTHING
 		animated_sprite.play("idle")
 		await get_tree().create_timer(0.2).timeout
 		state = SLEEP
@@ -200,18 +191,19 @@ func go_to_sleep():
 
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:
-	var owner = area.get_parent()
+	var area_owner = area.get_parent()
 	if area.name == "Hitbox":
 		hurtbox.disable()
 		knockback_force = area.knockback_force
-		if owner.name == "Shady":
+		if area_owner.name == "Shady":
 			hit_direction = -GlobalParams.shady_params.attack_direction.x
-			owner.attack_recoil()
+			area_owner.attack_recoil()
 		else:
 			if global_position < area.global_position:
 				hit_direction = 1
 			else:
 				hit_direction = -1
 		GlobalParams.screenshake.emit(0.15, 10)
-		call_deferred("died")
+		#state = DO_NOTHING
+		died()
 			

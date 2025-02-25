@@ -1,17 +1,11 @@
 extends Control
 
-#@onready var particles0: CPUParticles2D = $Parallax0/ParallaxLayer/CPUParticles2D
-#@onready var particles1: CPUParticles2D = $Parallax1/ParallaxLayer/CPUParticles2D
-#@onready var particles2: CPUParticles2D = $Parallax2/ParallaxLayer/CPUParticles2D
-#@onready var particles3: CPUParticles2D = $Parallax3/ParallaxLayer/CPUParticles2D
-#@onready var particles4: CPUParticles2D = $Parallax4/ParallaxLayer/CPUParticles2D
-#@onready var particles5: CPUParticles2D = $Parallax5/ParallaxLayer/CPUParticles2D
-@onready var particles0: CPUParticles2D = $"Parallax-50/CPUParticles2D"
-@onready var particles1: CPUParticles2D = $"Parallax-10/CPUParticles2D"
-@onready var particles2: CPUParticles2D = $"Parallax-1/CPUParticles2D"
-@onready var particles3: CPUParticles2D = $"Parallax+1/CPUParticles2D"
-@onready var particles4: CPUParticles2D = $"Parallax+10/CPUParticles2D"
-@onready var particles5: CPUParticles2D = $"Parallax+50/CPUParticles2D"
+@onready var particles0: CPUParticles2D = $Parallax0/ParallaxLayer/CPUParticles2D
+@onready var particles1: CPUParticles2D = $Parallax1/ParallaxLayer/CPUParticles2D
+@onready var particles2: CPUParticles2D = $Parallax2/ParallaxLayer/CPUParticles2D
+@onready var particles3: CPUParticles2D = $Parallax3/ParallaxLayer/CPUParticles2D
+@onready var particles4: CPUParticles2D = $Parallax4/ParallaxLayer/CPUParticles2D
+@onready var particles5: CPUParticles2D = $Parallax5/ParallaxLayer/CPUParticles2D
 
 
 @export var init_amount = 8

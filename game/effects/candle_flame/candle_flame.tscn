@@ -1,0 +1,49 @@
+[gd_scene load_steps=10 format=3 uid="uid://15hoo7wmvs6o"]
+
+[ext_resource type="Texture2D" uid="uid://phuqxbox2ldx" path="res://assets/environment/candles/candle_flame1/frame0000.png" id="1_1mqkt"]
+[ext_resource type="Script" path="res://game/effects/candle_flame/candle_flame.gd" id="1_bpwy7"]
+[ext_resource type="Texture2D" uid="uid://g822qpnc6ycs" path="res://assets/environment/candles/candle_flame1/frame0001.png" id="2_v6g8y"]
+[ext_resource type="Texture2D" uid="uid://uk251ymmdn7m" path="res://assets/environment/candles/candle_flame1/frame0002.png" id="3_8mfhi"]
+[ext_resource type="Texture2D" uid="uid://b40kv444ffg2j" path="res://assets/environment/candles/candle_flame1/frame0003.png" id="4_sg7ns"]
+[ext_resource type="Texture2D" uid="uid://cvpbq72c7nqxb" path="res://assets/environment/candles/candle_flame1/frame0004.png" id="5_h061w"]
+[ext_resource type="Texture2D" uid="uid://1u8x7tmutjie" path="res://assets/environment/candles/candle_flame1/frame0005.png" id="6_2vh40"]
+[ext_resource type="Texture2D" uid="uid://l7tpj3xfiibm" path="res://assets/environment/candles/candle_flame1/frame0006.png" id="7_0pk6p"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qjmen"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1mqkt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_v6g8y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_8mfhi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_sg7ns")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_h061w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_2vh40")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_0pk6p")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="CandleFlame" type="Node2D"]
+script = ExtResource("1_bpwy7")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(1.5, 1.5, 1.5, 0.9)
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_qjmen")
+autoplay = "default"
+frame_progress = 0.0202039

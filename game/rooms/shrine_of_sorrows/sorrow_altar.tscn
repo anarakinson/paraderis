@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://mcqswxmy3xyp"]
+
+[ext_resource type="Texture2D" uid="uid://su2cs6fr5x6t" path="res://assets/environment/shrine_of_sorrows/sorrow_altar.png" id="1_gluap"]
+
+[node name="SorrowAltar" type="StaticBody2D"]
+collision_priority = 10.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(6, -3)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_gluap")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-1, 0)
+polygon = PackedVector2Array(-9, -53, 9, -8, 21, -8, -9, 50)

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cbobwm8topqus"]
+
+[ext_resource type="Shader" path="res://game/shaders/blur_shader.gdshader" id="1_s6iwi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qk83y"]
+shader = ExtResource("1_s6iwi")
+shader_parameter/amount = 0.1
+
+[node name="Blur" type="ColorRect"]
+material = SubResource("ShaderMaterial_qk83y")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

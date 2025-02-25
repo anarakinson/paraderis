@@ -23,7 +23,7 @@ class ShadyParams:
 	var max_hitpoints : int = 5
 	var invincibility_time = 1.6
 
-	var attack_cooldown_time = 0.25
+	var attack_cooldown_time = 0.2
 	var knockback_force = 400
 	var recoil_force = Vector2(-150, -350)
 	

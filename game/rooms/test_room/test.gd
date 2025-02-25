@@ -2,7 +2,6 @@ extends Node2D
 
 
 @onready var camera_2d = $Camera/SmartCamera2D
-@onready var camera_2d_2 = $Camera/SmartCamera2D2
 @onready var directional_light_2d: DirectionalLight2D = $Light/DirectionalLight2D
 #@onready var background_rect: Sprite2D = $"Background/CanvasLayer-50/BackgroundRect"
 @onready var background_rect: ColorRect = $Background/CanvasLayer/BackgroundRect
@@ -28,9 +27,6 @@ func _ready():
 var camera_number: int = 0
 @onready var camera_list : Array = [
 	$Camera/SmartCamera2D,
-	$Camera/SmartCamera2D2,
-	$Camera/SmartCamera2D3,
-	$Camera/SmartCamera2D4,
 ]
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:

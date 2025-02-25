@@ -29,10 +29,12 @@ class_name Shady
 @onready var ceiling_raycast: RayCast2D = $RayCasts/CeilingRaycast
 @onready var floor_raycast: RayCast2D = $RayCasts/FloorRaycast
 @onready var throw_ray_cast: RayCast2D = $RayCasts/ThrowRayCast
+@onready var dash_ray_cast: RayCast2D = $RayCasts/DashRayCast
 
 @onready var wall_ray_cast_lenght = wall_ray_cast.target_position.x
 @onready var throw_ray_cast_lenght = throw_ray_cast.target_position.x
 @onready var climb_shape_cast_x = climb_shape_cast.position.x
+@onready var dash_ray_cast_x = dash_ray_cast.position.x
 @onready var camera_position: Node2D = $CameraPosition
 
 @export_category("Global metrics")
@@ -44,6 +46,7 @@ class_name Shady
 @export var koyotee_time = 0.15
 @export var camera_position_point = 250
 @export var look_addition = 750
+@export var dash_coeff = 1.9
 @export_enum("dagger", "sword") var main_weapon = "dagger"
 
 
@@ -66,6 +69,7 @@ enum {
 	JUMP_START,
 	JUMP_KOYOTEE,
 	FALL,
+	DASH,
 	DEATH,
 	CONJURE,
 	MAGIC_ATTACK,
@@ -77,6 +81,7 @@ enum {
 	STAND_UP,
 	REST,
 	LYING,
+	CRYING,
 	FADING,
 	WAKE_UP,
 	WALL_CLIMB,
@@ -103,6 +108,7 @@ var state_dict = {
 	JUMP_START : "JUMP_START",
 	JUMP_KOYOTEE : "JUMP_KOYOTEE",
 	FALL : "FALL",
+	DASH : "DASH",
 	DEATH : "DEATH",
 	CONJURE : "CONJURE",
 	MAGIC_ATTACK : "MAGIC_ATTACK",
@@ -114,6 +120,7 @@ var state_dict = {
 	STAND_UP : "STAND_UP",
 	REST : "REST",
 	LYING : "LYING",
+	CRYING : "CRYING",
 	FADING : "FADING",
 	WAKE_UP : "WAKE_UP",
 	WALL_CLIMB : "WALL_CLIMB",
@@ -186,12 +193,15 @@ var attack_shapes_dagger : Dictionary = {
 ### radius, height, rotation, position_y
 var collider_shape : Dictionary = {
 	"basic" : [21, 214, 0, 0],
+	#"basic" : [35, 214, 0, 0],
 	"run" : [35, 214, 0, 0],
 	"lying" : [15, 175, 90, 92],
 	"sit" : [60, 120, 0, 47],
 	"jump" : [40, 170, 0, 22],
 	"on_wall" : [35, 214, 0, 0],
 	"on_wall2" : [25, 232, 0, 10],
+	"dash" : [60, 170, 90, 0],
+	"roll" : [57, 115, 90, 0],
 }
 
 
@@ -218,13 +228,13 @@ func set_direction(coeff = 1., with_sprite=true):
 		var round_direction = int(direction > 0) - int(direction < 0)
 		velocity.x = round_direction * speed * coeff
 	
-	set_face_direction(with_sprite)
 
 	if direction < 0:
 		face_direction = -1
 	elif direction > 0:
 		face_direction = 1
 	
+	set_face_direction(with_sprite)
 	#camera_position.position.x = camera_position_point * face_direction
 
 
@@ -237,6 +247,7 @@ func set_face_direction(with_sprite=true):
 		climb_ray_cast_2.target_position.x = -wall_ray_cast_lenght
 		throw_ray_cast.target_position.x = -throw_ray_cast_lenght
 		climb_shape_cast.position.x = -climb_shape_cast_x
+		dash_ray_cast.position.x = -dash_ray_cast_x
 		#$CameraPosition.position.x = -camera_position_point
 	elif face_direction == 1:
 		if with_sprite:
@@ -246,6 +257,7 @@ func set_face_direction(with_sprite=true):
 		climb_ray_cast_2.target_position.x = wall_ray_cast_lenght
 		throw_ray_cast.target_position.x = throw_ray_cast_lenght
 		climb_shape_cast.position.x = climb_shape_cast_x
+		dash_ray_cast.position.x = dash_ray_cast_x
 		#$CameraPosition.position.x = camera_position_point
 
 
@@ -276,6 +288,7 @@ func _physics_process(delta):
 	match state:
 		DEATH:
 			death_state()
+			move_and_slide()
 			return
 		IDLE:
 			idle_state()
@@ -291,6 +304,10 @@ func _physics_process(delta):
 		BORED:
 			set_collision_shape(collider_shape["basic"])
 			bored_state()
+		DASH:
+			apply_gravity(delta)
+			move_and_slide()
+			return
 		SIT:
 			set_collision_shape(collider_shape["sit"])
 			sit_state()
@@ -318,6 +335,9 @@ func _physics_process(delta):
 		LYING:
 			set_collision_shape(collider_shape["lying"])
 			lying_state()
+		CRYING:
+			set_collision_shape(collider_shape["sit"])
+			crying_state()
 		WAKE_UP:
 			set_collision_shape(collider_shape["sit"])
 			wake_up_state()
@@ -405,7 +425,7 @@ func _physics_process(delta):
 	##########################
 	if (state == MOVE or state == BORED):
 		if Input.is_action_just_pressed("dash"):
-			disappear()
+			dash_start()
 		if Input.is_action_just_pressed("interact"):
 			interaction_state()
 		
@@ -416,6 +436,9 @@ func _physics_process(delta):
 			sit_down()
 		if Input.is_action_pressed("fading"):
 			state = FADING
+		if Input.is_action_pressed("crying"):
+			print("cry")
+			crying_start()
 	
 	if (state == MOVE or state == DO_NOTHIG or 
 		state == WALL_CLIMB or state == SIT):
@@ -541,6 +564,7 @@ func move_state(delta):
 
 
 func idle_state():
+	full_stop()
 	pass
 
 func bored_state():
@@ -656,6 +680,35 @@ func disappear():
 	await animation_player.animation_finished
 	appear()
 
+func dash_start():
+	state = DASH
+	full_stop()
+	time_to_turn = false
+	set_collision_shape(collider_shape["dash"])
+	animation_player.play("dash_start")
+	velocity.x = speed * dash_coeff * face_direction
+	velocity.y = jump_velocity * 0.01
+	await animation_player.animation_finished
+	dash_finish()
+
+func dash_finish():
+	velocity.x = speed * 0.85 * face_direction
+	if (is_on_floor() or
+	#### ???? ####
+	#dash_ray_cast.is_colliding() or 
+	ceiling_raycast.is_colliding() or
+	edge_detection.is_colliding() or
+	edge_detection_2.is_colliding()):
+		set_collision_shape(collider_shape["roll"])
+		animation_player.play("dash_finish")
+		await animation_player.animation_finished
+		state = SIT
+	else:
+		set_collision_shape(collider_shape["jump"])
+		animation_player.play("fall")
+		await get_tree().create_timer(0.1).timeout
+		state = FALL
+
 func appear():
 	position.x += speed_blink * face_direction
 	animation_player.play("collapse_end")
@@ -745,7 +798,8 @@ func sit_state():
 		if Input.is_action_just_pressed("dash"):
 			stand_up()
 			await animation_player.animation_finished
-			disappear()
+			dash_start()
+			#disappear()
 		if Input.is_action_just_pressed("interact"):
 			stand_up()
 			await animation_player.animation_finished
@@ -802,6 +856,29 @@ func fading_state():
 	set_collision_shape(collider_shape["lying"])
 	await get_tree().create_timer(2).timeout
 	state = LYING
+
+func crying_start():
+	print("cry start")
+	state = DO_NOTHIG 
+	full_stop()
+	animation_player.play("cry_start")
+	await animation_player.animation_finished
+	set_collision_shape(collider_shape["sit"])
+	state = CRYING
+
+func crying_state():
+	animation_player.play("cry_process")
+	if is_any_button_pressed():
+		print("STP")
+		state = DO_NOTHIG 
+		cry_end()
+
+func cry_end():
+	state = DO_NOTHIG 
+	full_stop()
+	animation_player.play("cry_end")
+	await animation_player.animation_finished
+	state = MOVE 
 
 
 func climb_ledge_state(delta):
@@ -1139,6 +1216,7 @@ func return_to_checkpoint(shake=false):
 	fall_counter = 0
 	if state == DEATH:
 		return
+	# if there is no checkpoint - DEATH
 	if GlobalParams.last_checkpoint == null:
 		hitpoints.hitpoints = 0 
 		hitpoints.decrease(1)
@@ -1147,6 +1225,7 @@ func return_to_checkpoint(shake=false):
 	animation_player.play("collapse_start")
 	await animation_player.animation_finished
 	global_position = GlobalParams.last_checkpoint.global_position
+	full_stop()
 	animation_player.play("collapse_end")
 	await animation_player.animation_finished
 	hitpoints.invincibility()
@@ -1181,6 +1260,7 @@ func _on_hitpoints_time_to_die() -> void:
 	death_process()
 
 func death_state():
+	full_stop()
 	pass
 	
 func death_process():

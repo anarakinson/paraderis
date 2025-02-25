@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://iuul3kmkpnib"]
+
+[ext_resource type="Texture2D" uid="uid://dx4lw7wa26y2j" path="res://assets/environment/shrine_of_sorrows/sorrow_statue.png" id="1_41rbf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iuklk"]
+size = Vector2(132, 37)
+
+[node name="StatueOfSorrow" type="StaticBody2D"]
+collision_priority = 10.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_41rbf")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(66, 74, 42, -39, -8, -102, -31, -79, -66, 74)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 92.5)
+shape = SubResource("RectangleShape2D_iuklk")

@@ -31,7 +31,7 @@ var knockback_force = 0
 
 @export_group("Parameters")
 @export var damage = 1
-@export var hitpoints = 4
+@export var hitpoints = 3
 @export var direction = 1
 
 
@@ -269,7 +269,7 @@ func hitted_state():
 	direction = hit_direction
 	velocity = (knockback_force * 
 				-direction * Vector2(1, 0.25))
-	print(hit_direction, velocity)
+	#print(hit_direction, velocity)
 	set_collision_direction()
 	await animation_player.animation_finished
 	if hitpoints > 0:
@@ -302,14 +302,14 @@ func instant_death():
 
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:
-	var owner = area.get_parent()
+	var area_owner = area.get_parent()
 	if area.name == "Hitbox" and not is_invincible:
 		hitpoints -= area.damage
 		knockback_force = area.knockback_force
 		hurtbox.invincibility()
-		if owner.name == "Shady":
+		if area_owner.name == "Shady":
 			hit_direction = -GlobalParams.shady_params.attack_direction.x
-			owner.attack_recoil()
+			area_owner.attack_recoil()
 		else:
 			if global_position < area.global_position:
 				hit_direction = 1
@@ -323,13 +323,13 @@ func _on_hurtbox_area_entered(area: Area2D) -> void:
 			hitted.emit()
 			
 	if area.name == "Hurtbox":
-		if owner.name == "Shady":
-			if owner.global_position.x > global_position.x:
+		if area_owner.name == "Shady":
+			if area_owner.global_position.x > global_position.x:
 				GlobalParams.shady_params.hazard_direction = -1
-			elif owner.global_position.x < global_position.x:
+			elif area_owner.global_position.x < global_position.x:
 				GlobalParams.shady_params.hazard_direction = 1
-			if not owner.hitpoints.is_invincible:
-				owner.hitpoints.decrease(1)
+			if not area_owner.hitpoints.is_invincible:
+				area_owner.hitpoints.decrease(1)
 
 
 func _on_death() -> void:
