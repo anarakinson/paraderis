@@ -72,6 +72,7 @@ enum {
 	FALL,
 	DASH,
 	DEATH,
+	HIT,
 	CONJURE,
 	MAGIC_ATTACK,
 	MAGICAL_STATE,
@@ -93,8 +94,6 @@ enum {
 	ATTACK_SIT,
 	ATTACK_WALL,
 	ATTACK_END,
-	USE_ITEM,
-	USE_ITEM_SIT,
 }
 
 enum attack_variants {
@@ -110,6 +109,7 @@ var state_dict = {
 	JUMP_KOYOTEE : "JUMP_KOYOTEE",
 	FALL : "FALL",
 	DASH : "DASH",
+	HIT : "HIT",
 	DEATH : "DEATH",
 	CONJURE : "CONJURE",
 	MAGIC_ATTACK : "MAGIC_ATTACK",
@@ -132,8 +132,6 @@ var state_dict = {
 	ATTACK_SIT : "ATTACK_SIT",
 	ATTACK_WALL : "ATTACK_WALL",
 	ATTACK_END : "ATTACK_END",
-	USE_ITEM : "USE_ITEM",
-	USE_ITEM_SIT : "USE_ITEM_SIT",
 }
 
 
@@ -159,6 +157,8 @@ var full_idle = true
 var is_invincible = false
 var is_fall_hitted = false
 var is_recoiled = false
+var is_aiming = false
+var is_dash_invincible = true
 
 # states counters
 var bored_counter = 0
@@ -167,6 +167,8 @@ var run_counter = 0
 var combo_counter = 0
 var attack_counter = 0
 @onready var current_item_id = GlobalParams.shady_params.current_item_id
+
+var item_throwing_direction = Vector2(0, 0)
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * GlobalParams.gravity_coeff
@@ -286,6 +288,7 @@ func _ready() -> void:
 func _physics_process(delta):
 	#print(state_dict[state], " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
 	$Label.text = state_dict[state] + " " + str(is_invincible) + " " + str(GlobalParams.shady_params.attack_direction) + " " + str(is_on_floor())
+	$Label.text += "\nAIM: " + str(is_aiming)
 	match state:
 		DEATH:
 			death_state()
@@ -293,6 +296,10 @@ func _physics_process(delta):
 			return
 		IDLE:
 			idle_state()
+			apply_gravity(delta)
+			move_and_slide()
+			return
+		HIT:
 			apply_gravity(delta)
 			move_and_slide()
 			return
@@ -367,10 +374,6 @@ func _physics_process(delta):
 		ATTACK_END:
 			set_collision_shape(collider_shape["basic"])
 			attack_end_state()
-		USE_ITEM:
-			use_item()
-		USE_ITEM_SIT:
-			use_item_sit()
 	
 	# Apply gravity
 	apply_gravity(delta)
@@ -414,13 +417,15 @@ func _physics_process(delta):
 		direction = Input.get_axis("left", "right")
 		look_direction = Input.get_vector("look_left", "look_right", "look_up", "look_down")
 	
+	######
+	### UNDER PLATFORM MOVING DOWN
 	if (is_on_floor() and ceiling_raycast.is_colliding() 
 		and state != ATTACK_PROCESS and state != REST and state != DO_NOTHIG):
 		if (state == IDLE or state == MOVE or state == BORED):
 			sit_down()
 		else:
 			state = SIT
-	
+
 	##########################
 	### Handle actions
 	##########################
@@ -433,7 +438,7 @@ func _physics_process(delta):
 		# Conjuring 
 		if Input.is_action_pressed("trick"):
 			state = CONJURE
-		if Input.is_action_pressed("down") and is_on_floor():
+		if Input.is_action_pressed("down") and is_on_floor() and not is_aiming:
 			sit_down()
 		if Input.is_action_pressed("fading"):
 			state = FADING
@@ -484,11 +489,19 @@ func _physics_process(delta):
 			state = ATTACK_SIT
 	
 	# Use item
-	if Input.is_action_just_pressed("use_item"):
+	if Input.is_action_pressed("use_item"):
 		if (state == MOVE or state == BORED or
 			state == FALL or state == JUMP):
-			state = USE_ITEM
-
+			if is_on_floor():
+				full_stop()
+			is_aiming = true
+	if Input.is_action_just_released("use_item"):
+		if is_aiming:
+			use_item()
+		is_aiming = false
+	
+	if is_aiming:
+		use_item_aiming()
 	
 	# ledge climb
 	if (
@@ -520,12 +533,6 @@ func _physics_process(delta):
 		velocity.x += speed * delta * face_direction
 	
 	
-	# Jump and fall inertia
-	if not is_on_floor():
-		velocity.x = move_toward(velocity.x, speed*face_direction, 1*delta)
-		#velocity.x = move_toward(velocity.x, speed*face_direction, jump_inertia*delta)
-	
-	
 	attack_counter += delta
 	if attack_counter > 0.8 or combo_counter == 0:
 		attack_counter = 0
@@ -536,7 +543,7 @@ func _physics_process(delta):
 
 func move_state(delta):
 	# Run
-	if direction:
+	if direction and not is_aiming:
 		set_collision_shape(collider_shape["run"])
 		full_idle = false
 		run_counter += 1 * delta
@@ -690,12 +697,19 @@ func disappear():
 	await animation_player.animation_finished
 	appear()
 
+func dash_invincibility():
+	hurtbox.disable()
+	await get_tree().create_timer(0.2).timeout
+	hurtbox.enable()
+
 func dash_start():
 	state = DASH
 	full_stop()
 	time_to_turn = false
 	set_collision_shape(collider_shape["dash"])
 	animation_player.play("dash_start")
+	if is_dash_invincible:
+		dash_invincibility()
 	velocity.x = speed * dash_coeff * face_direction
 	velocity.y = jump_velocity * 0.01
 	await animation_player.animation_finished
@@ -703,9 +717,7 @@ func dash_start():
 
 func dash_finish():
 	velocity.x = speed * 0.85 * face_direction
-	if (is_on_floor() or
-	#### ???? ####
-	#dash_ray_cast.is_colliding() or 
+	if (is_on_floor() or 
 	ceiling_raycast.is_colliding() or
 	edge_detection.is_colliding() or
 	edge_detection_2.is_colliding()):
@@ -793,8 +805,8 @@ func sit_state():
 
 	if Input.is_action_just_pressed("attack"):
 		state = ATTACK_SIT
-	if Input.is_action_just_pressed("use_item"):
-		state = USE_ITEM_SIT
+	#if Input.is_action_just_pressed("use_item"):
+		#state = USE_ITEM_SIT
 
 	if not ceiling_raycast.is_colliding():
 		if Input.is_action_just_pressed("jump"):
@@ -1145,48 +1157,77 @@ func attack_recoil():
 
 #####################################################################
 
+func use_item_aiming():
+	item_throwing_direction.x = int(Input.get_axis("left", "right"))
+	item_throwing_direction.y = int(Input.get_axis("up", "down"))
+
+
 func use_item():
+	is_aiming = false
+	set_direction()
 	if is_in_attack_cooldown:
 		state = MOVE
 		return
 	state = ATTACK_PROCESS
-	var position_addition = Vector2(throw_ray_cast_lenght * 0.5 * face_direction, -15)
+	if item_throwing_direction == Vector2(0, 0):
+		item_throwing_direction.x = face_direction
+	if is_on_floor() and item_throwing_direction == Vector2(0, 1):
+		state = MOVE
+		return
+	var position_addition = Vector2(throw_ray_cast_lenght * 0.5 * item_throwing_direction.x, -15 + item_throwing_direction.y * 20)
 	if throw_ray_cast.is_colliding():
-		position_addition = Vector2(0 * face_direction, -15)
-	match GlobalParams.shady_params.current_item:
-		ItemManager.NONE:
-			pass
-		ItemManager.BOMB:
-			if is_on_floor():
-				full_stop()
-				animation_player.play("throw")
-			elif not is_on_floor():
-				animation_player.play("throw_jump")
-			await get_tree().create_timer(0.1).timeout
-			var new_projectile = ItemManager.get_new_item(
-				ItemManager.BOMB,
-				global_position + position_addition
-			)
-			new_projectile.throw(
-				Vector2(face_direction, 0)
-			)
-			await animation_player.animation_finished
-		ItemManager.THROWING_KNIFE:
-			if is_on_floor():
-				full_stop()
-				animation_player.play("throw")
-			elif not is_on_floor():
-				animation_player.play("throw_jump")
-			await get_tree().create_timer(0.1).timeout
-			var new_projectile = ItemManager.get_new_item(
-				ItemManager.THROWING_KNIFE,
-				global_position + position_addition
-			)
-			new_projectile.throw(
-				Vector2(face_direction, 0),
-			)
-			await animation_player.animation_finished
+		position_addition = Vector2(0, -15 + item_throwing_direction.y * 20)
+	if item_throwing_direction.x == 0:
+		position_addition.y = 75 * item_throwing_direction.y
+	var current_item = GlobalParams.shady_params.current_item
+	if current_item == ItemManager.NONE:
+		state = MOVE
+		return
+	else:
+		if is_on_floor():
+			full_stop()
+			if item_throwing_direction.x != 0:
+				if item_throwing_direction.y == 0:
+					animation_player.play("throw")
+				elif item_throwing_direction.y < 0:
+					animation_player.play("throw_uf")
+				elif item_throwing_direction.y > 0:
+					animation_player.play("throw_df")
+			elif item_throwing_direction.x == 0:
+				if item_throwing_direction.y < 0:
+					animation_player.play("throw_up")
+				elif item_throwing_direction.y > 0:
+					animation_player.play("throw_down")
+		elif not is_on_floor():
+			if item_throwing_direction.x != 0:
+				if item_throwing_direction.y == 0:
+					animation_player.play("throw_jump")
+				elif item_throwing_direction.y < 0:
+					animation_player.play("throw_uf_jump")
+				elif item_throwing_direction.y > 0:
+					animation_player.play("throw_df_jump")
+			elif item_throwing_direction.x == 0:
+				if item_throwing_direction.y < 0:
+					animation_player.play("throw_up")
+				elif item_throwing_direction.y > 0:
+					animation_player.play("throw_down")
+		await get_tree().create_timer(0.1).timeout
+		###################
+		### CHOSE ITEM
+		###################
+		var new_projectile = null
+		new_projectile = ItemManager.get_new_item(
+			current_item,
+			global_position + position_addition
+		)
+		new_projectile.throw(
+			item_throwing_direction
+		)
+		await animation_player.animation_finished
+	await get_tree().create_timer(0.01).timeout
 	state = MOVE
+	#if velocity.y > 0:
+		#state = FALL
 	attack_cooldown()
 
 
@@ -1248,20 +1289,22 @@ func _on_hitpoints_hitted() -> void:
 	camera_position.position.y = 0
 	if is_fall_hitted:
 		return
-	state = IDLE
+	state = HIT
 	GlobalParams.screenshake.emit(0.3, 5)
-	#fall_counter = 0
-	#full_stop()
+	fall_counter = 0
 	velocity = Vector2(0,0)
 	if GlobalParams.shady_params.hazard_direction != 0:
 		face_direction = GlobalParams.shady_params.hazard_direction
 	velocity = Vector2(-face_direction * speed * 1., jump_velocity * 0.3)
 	set_face_direction()
-	animation_player.play("hit")
-	await get_tree().create_timer(0.25).timeout
+	animation_player.play("hit_instance")
+	await animation_player.animation_finished
+	#await get_tree().create_timer(0.25).timeout
 	fall_counter = 0
 	velocity.x = 0 
 	full_idle = true
+	run_counter = 0
+	bored_counter = 0
 	state = MOVE
 
 
@@ -1276,6 +1319,7 @@ func death_state():
 func death_process():
 	print("DIE!")
 	state = DEATH
+	velocity = Vector2(0, 0)
 	animation_player.play("collapse_start")
 	await animation_player.animation_finished
 	visible = false

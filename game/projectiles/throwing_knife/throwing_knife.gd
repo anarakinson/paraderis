@@ -19,7 +19,22 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if gravity_scale <= 1:
 		gravity_scale += delta
+	animated_sprite.rotation_degrees = get_degrees()
 
+func get_degrees():
+	if abs(linear_velocity.x) > abs(2*linear_velocity.y):
+		return 0
+	elif abs(linear_velocity.y) > abs(2*linear_velocity.x):
+		return 90
+	else:
+		if linear_velocity.y >= 0 and linear_velocity.x >= 0: 
+			return 45
+		elif linear_velocity.y < 0 and linear_velocity.x >= 0: 
+			return -45
+		elif linear_velocity.y >= 0 and linear_velocity.x < 0: 
+			return -45
+		elif linear_velocity.y < 0 and linear_velocity.x < 0: 
+			return 45
 
 func _on_body_entered(body: Node) -> void:
 	if collision_counter == 0:

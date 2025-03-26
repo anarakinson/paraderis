@@ -46,8 +46,8 @@ var statename = {
 
 var state : int:
 	set(value):
-		state = value
 		set_direction()
+		state = value
 
 
 func set_direction():
@@ -75,17 +75,18 @@ func _physics_process(delta: float) -> void:
 
 	if state == DEATH:
 		dead_state()
-	elif state != DEATH:
+		return
+	elif state == OBSERVE:
+		observe_state()
+	elif state == SLEEP:
+		sleep_state()
+	
+	if state != DEATH:
 		counter += 1 * delta
 		if counter > 1:
 			counter = 0
 			# check visions
 			check_visions()
-	
-	if state == OBSERVE:
-		observe_state()
-	elif state == SLEEP:
-		sleep_state()
 	
 	move_and_slide()
 
@@ -135,14 +136,15 @@ func died():
 				-hit_direction * Vector2(1.1, 0.3))
 	
 	
-	vision.is_active = false
-	await animated_sprite.animation_finished
+	#vision.is_active = false
 	state = DEATH
+	vision.free()
+	await animated_sprite.animation_finished
 	tracked_character = null
 
 
 func dead_state():
-	animation_player.play("dead")
+	animated_sprite.play("dead")
 
 
 func observe_state():

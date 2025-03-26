@@ -1,4 +1,4 @@
-[gd_scene load_steps=387 format=3 uid="uid://clc02tsxv7afg"]
+[gd_scene load_steps=418 format=3 uid="uid://clc02tsxv7afg"]
 
 [ext_resource type="Script" path="res://game/shady/shady.gd" id="1_rfscw"]
 [ext_resource type="Shader" path="res://game/shaders/flickering_damage.gdshader" id="2_7cgup"]
@@ -279,10 +279,34 @@
 [ext_resource type="Texture2D" uid="uid://c2f3f3dse71lq" path="res://assets/shady/frames/attack_sit_slash/frame0002.png" id="229_kyupk"]
 [ext_resource type="Texture2D" uid="uid://cwyk70b7wrj8e" path="res://assets/shady/frames/attack_sit_slash/frame0003.png" id="230_5t6o4"]
 [ext_resource type="Texture2D" uid="uid://jq27x30h8rit" path="res://assets/shady/frames/attack_sit_slash/frame0004.png" id="231_1ymx2"]
+[ext_resource type="Texture2D" uid="uid://bwg0f16512mkd" path="res://assets/shady/frames/throw/frame0009.png" id="236_ic4ys"]
+[ext_resource type="Texture2D" uid="uid://bw7tjww8dvn25" path="res://assets/shady/frames/throw/frame0010.png" id="237_2uo45"]
+[ext_resource type="Texture2D" uid="uid://bq064v8khgxd8" path="res://assets/shady/frames/throw/frame0011.png" id="238_3mt1w"]
+[ext_resource type="Texture2D" uid="uid://ckk6lp8qedqes" path="res://assets/shady/frames/throw/frame0012.png" id="239_x8aok"]
+[ext_resource type="Texture2D" uid="uid://v5nlqy1b6e56" path="res://assets/shady/frames/throw_jump/frame0009.png" id="240_vxolt"]
+[ext_resource type="Texture2D" uid="uid://0sy4yigptpk7" path="res://assets/shady/frames/throw_jump/frame0010.png" id="241_s3m86"]
+[ext_resource type="Texture2D" uid="uid://ets0xgxbri3n" path="res://assets/shady/frames/throw_jump/frame0011.png" id="242_2r43e"]
+[ext_resource type="Texture2D" uid="uid://bak28e1obbkyx" path="res://assets/shady/frames/throw_jump/frame0012.png" id="243_dpo8w"]
+[ext_resource type="Texture2D" uid="uid://bse50qj2l1mgq" path="res://assets/shady/frames/throw_up_down/frame0005.png" id="244_axbdq"]
+[ext_resource type="Texture2D" uid="uid://vb1gjplhqvcl" path="res://assets/shady/frames/throw_up_down/frame0006.png" id="245_1a14d"]
+[ext_resource type="Texture2D" uid="uid://dgljqmva8hxwh" path="res://assets/shady/frames/throw_up_down/frame0007.png" id="246_foih4"]
+[ext_resource type="Texture2D" uid="uid://db41igmnb7ndx" path="res://assets/shady/frames/throw_up_down/frame0008.png" id="247_inlrj"]
+[ext_resource type="Texture2D" uid="uid://hmnkcmistos8" path="res://assets/shady/frames/throw/frame0005.png" id="252_6s8lm"]
+[ext_resource type="Texture2D" uid="uid://bhcmc2812ufir" path="res://assets/shady/frames/throw/frame0006.png" id="253_my0ae"]
+[ext_resource type="Texture2D" uid="uid://4rh30be0m31l" path="res://assets/shady/frames/throw/frame0007.png" id="254_tik10"]
+[ext_resource type="Texture2D" uid="uid://bs3jhpiup16dj" path="res://assets/shady/frames/throw/frame0008.png" id="255_mns0u"]
+[ext_resource type="Texture2D" uid="uid://dielcigglkd20" path="res://assets/shady/frames/throw_jump/frame0005.png" id="256_hmxae"]
+[ext_resource type="Texture2D" uid="uid://dvstqx1ffpo0r" path="res://assets/shady/frames/throw_jump/frame0006.png" id="257_erp6l"]
+[ext_resource type="Texture2D" uid="uid://chjvrdq865u14" path="res://assets/shady/frames/throw_jump/frame0007.png" id="258_jacya"]
+[ext_resource type="Texture2D" uid="uid://raykijeeaxpa" path="res://assets/shady/frames/throw_jump/frame0008.png" id="259_2wro1"]
 [ext_resource type="Texture2D" uid="uid://0a7efvplys7f" path="res://assets/shady/frames/attack_dagger_slash/frame0001.png" id="259_qlhd7"]
 [ext_resource type="Texture2D" uid="uid://blu47sdkuly3q" path="res://assets/shady/frames/attack_dagger_slash/frame0002.png" id="260_lqq4r"]
+[ext_resource type="Texture2D" uid="uid://cs7f3qfmlbflg" path="res://assets/shady/frames/throw_up_down/frame0001.png" id="260_vdksg"]
 [ext_resource type="Texture2D" uid="uid://wt543gr1jsyf" path="res://assets/shady/frames/attack_dagger_slash/frame0003.png" id="261_lj4iu"]
+[ext_resource type="Texture2D" uid="uid://b3oox5qpf28j2" path="res://assets/shady/frames/throw_up_down/frame0002.png" id="261_w8twx"]
 [ext_resource type="Texture2D" uid="uid://bv8piioea8gs3" path="res://assets/shady/frames/attack_dagger_slash/frame0004.png" id="262_ogr7v"]
+[ext_resource type="Texture2D" uid="uid://briotmik0ua6d" path="res://assets/shady/frames/throw_up_down/frame0003.png" id="262_piulp"]
+[ext_resource type="Texture2D" uid="uid://cjos2pqfsoyky" path="res://assets/shady/frames/throw_up_down/frame0004.png" id="263_5a1ex"]
 [ext_resource type="Texture2D" uid="uid://c5adha6aph275" path="res://assets/shady/frames/attack_dagger_slash/frame0005.png" id="263_knawc"]
 [ext_resource type="Texture2D" uid="uid://b8d2oro8bqai5" path="res://assets/shady/frames/attack_dagger_slash/frame0006.png" id="264_uwser"]
 [ext_resource type="Texture2D" uid="uid://bi8cinq2g54yy" path="res://assets/shady/frames/attack_dagger_jump_slash/frame0013.png" id="265_887bo"]
@@ -998,6 +1022,20 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("100_i61ay")
+}, {
+"duration": 1.0,
+"texture": ExtResource("111_lankt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("111_lankt")
+}],
+"loop": false,
+"name": &"hit_instance",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("111_lankt")
 }, {
 "duration": 1.0,
@@ -1400,7 +1438,58 @@ animations = [{
 }],
 "loop": false,
 "name": &"throw",
-"speed": 10.0
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("236_ic4ys")
+}, {
+"duration": 1.0,
+"texture": ExtResource("237_2uo45")
+}, {
+"duration": 1.0,
+"texture": ExtResource("238_3mt1w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("239_x8aok")
+}],
+"loop": false,
+"name": &"throw_df",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("240_vxolt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("241_s3m86")
+}, {
+"duration": 1.0,
+"texture": ExtResource("242_2r43e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("243_dpo8w")
+}],
+"loop": false,
+"name": &"throw_df_jump",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("244_axbdq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("245_1a14d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("246_foih4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("247_inlrj")
+}],
+"loop": false,
+"name": &"throw_down",
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1417,7 +1506,58 @@ animations = [{
 }],
 "loop": false,
 "name": &"throw_jump",
-"speed": 10.0
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("252_6s8lm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("253_my0ae")
+}, {
+"duration": 1.0,
+"texture": ExtResource("254_tik10")
+}, {
+"duration": 1.0,
+"texture": ExtResource("255_mns0u")
+}],
+"loop": false,
+"name": &"throw_uf",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("256_hmxae")
+}, {
+"duration": 1.0,
+"texture": ExtResource("257_erp6l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("258_jacya")
+}, {
+"duration": 1.0,
+"texture": ExtResource("259_2wro1")
+}],
+"loop": false,
+"name": &"throw_uf_jump",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("260_vdksg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("261_w8twx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("262_piulp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("263_5a1ex")
+}],
+"loop": false,
+"name": &"throw_up",
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2781,6 +2921,33 @@ tracks/1/keys = {
 "values": ["hit_heavy_landing"]
 }
 
+[sub_resource type="Animation" id="Animation_2tkcv"]
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0833333, 0.166667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["hit_instance"]
+}
+
 [sub_resource type="Animation" id="Animation_ds2yg"]
 length = 0.4
 tracks/0/type = "value"
@@ -3469,7 +3636,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_xnoij"]
-length = 0.4
+length = 0.266667
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -3477,7 +3644,7 @@ tracks/0/path = NodePath("AnimatedSprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3]
@@ -3495,8 +3662,8 @@ tracks/1/keys = {
 "values": ["throw"]
 }
 
-[sub_resource type="Animation" id="Animation_lisa8"]
-length = 0.4
+[sub_resource type="Animation" id="Animation_rqd6a"]
+length = 0.266667
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -3504,7 +3671,88 @@ tracks/0/path = NodePath("AnimatedSprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["throw_df"]
+}
+
+[sub_resource type="Animation" id="Animation_d0tg4"]
+length = 0.266667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["throw_df_jump"]
+}
+
+[sub_resource type="Animation" id="Animation_4bjgm"]
+length = 0.266667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["throw_down"]
+}
+
+[sub_resource type="Animation" id="Animation_lisa8"]
+length = 0.266667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3]
@@ -3520,6 +3768,87 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": ["throw_jump"]
+}
+
+[sub_resource type="Animation" id="Animation_67jp5"]
+length = 0.266667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["throw_uf"]
+}
+
+[sub_resource type="Animation" id="Animation_qkt58"]
+length = 0.266667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["throw_uf_jump"]
+}
+
+[sub_resource type="Animation" id="Animation_b85j6"]
+length = 0.266667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["throw_up"]
 }
 
 [sub_resource type="Animation" id="Animation_k8wi4"]
@@ -3647,6 +3976,7 @@ _data = {
 "hit_heavy": SubResource("Animation_xxs1l"),
 "hit_heavy_fly": SubResource("Animation_jmmvv"),
 "hit_heavy_landing": SubResource("Animation_83rv5"),
+"hit_instance": SubResource("Animation_2tkcv"),
 "hit_landing": SubResource("Animation_ds2yg"),
 "idle": SubResource("Animation_2x8e3"),
 "jump": SubResource("Animation_tjoq1"),
@@ -3673,7 +4003,13 @@ _data = {
 "sit_state": SubResource("Animation_gr0yu"),
 "sit_walk": SubResource("Animation_tlte4"),
 "throw": SubResource("Animation_xnoij"),
+"throw_df": SubResource("Animation_rqd6a"),
+"throw_df_jump": SubResource("Animation_d0tg4"),
+"throw_down": SubResource("Animation_4bjgm"),
 "throw_jump": SubResource("Animation_lisa8"),
+"throw_uf": SubResource("Animation_67jp5"),
+"throw_uf_jump": SubResource("Animation_qkt58"),
+"throw_up": SubResource("Animation_b85j6"),
 "wake_up": SubResource("Animation_k8wi4"),
 "wall_jump": SubResource("Animation_xe8r8"),
 "wall_jump_start": SubResource("Animation_6kln6")
@@ -3888,7 +4224,7 @@ script = ExtResource("1_rfscw")
 material = SubResource("ShaderMaterial_hlg2r")
 position = Vector2(0, -21)
 sprite_frames = SubResource("SpriteFrames_flbuy")
-animation = &"dissolve"
+animation = &"front"
 autoplay = "idle"
 
 [node name="SlashSprite2D" type="AnimatedSprite2D" parent="."]
@@ -3991,7 +4327,6 @@ shape = SubResource("RectangleShape2D_bpqpf")
 disabled = true
 
 [node name="Label" type="Label" parent="."]
-visible = false
 z_index = 3
 offset_left = -205.0
 offset_top = -330.0

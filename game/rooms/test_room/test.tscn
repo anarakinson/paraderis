@@ -243,7 +243,7 @@ direction = -1
 position = Vector2(2122, -1518)
 
 [node name="Shady" parent="." node_paths=PackedStringArray("step_dust") instance=ExtResource("9_ul232")]
-position = Vector2(4992, 678)
+position = Vector2(3878, 1592)
 step_dust = NodePath("../Technical/StepDust")
 
 [node name="Camera2D" type="Camera2D" parent="Shady"]
