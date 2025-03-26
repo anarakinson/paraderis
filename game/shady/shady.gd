@@ -159,6 +159,8 @@ var is_fall_hitted = false
 var is_recoiled = false
 var is_aiming = false
 var is_dash_invincible = true
+var is_waiting_sit = false
+@onready var timer_sit: Timer = $TimerSit
 
 # states counters
 var bored_counter = 0
@@ -171,18 +173,18 @@ var attack_counter = 0
 var item_throwing_direction = Vector2(0, 0)
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * GlobalParams.gravity_coeff
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 
 
 #################
 ### r, h, pos_x, pos_y
 var attack_shapes : Dictionary = {
-	"basic" : [150, 300, 70, -35],
-	"sit" : [30, 170, 155, 30],
-	"up" : [150, 300, -5, -75],
-	"down" : [150, 300, 20, 15],
-	"wall" : [150, 300, -75, -75],
+	"basic" : [145, 290, 110, -35],
+	"sit" : [40, 190, 155, 30],
+	"up" : [145, 290, -5, -110],
+	"down" : [145, 290, 20, 60],
+	"wall" : [145, 290, -85, -85],
 }
 var attack_shapes_dagger : Dictionary = {
 	"basic" : [130, 260, 70, -35],
@@ -289,6 +291,7 @@ func _physics_process(delta):
 	#print(state_dict[state], " ", combo_counter, " ", fall_counter, " ", is_in_attack_cooldown)
 	$Label.text = state_dict[state] + " " + str(is_invincible) + " " + str(GlobalParams.shady_params.attack_direction) + " " + str(is_on_floor())
 	$Label.text += "\nAIM: " + str(is_aiming)
+	#$Label.text += "\nAIM: " + str(snapped(timer_sit.time_left, 0.1))
 	match state:
 		DEATH:
 			death_state()
@@ -438,7 +441,10 @@ func _physics_process(delta):
 		# Conjuring 
 		if Input.is_action_pressed("trick"):
 			state = CONJURE
-		if Input.is_action_pressed("down") and is_on_floor() and not is_aiming:
+		if Input.is_action_just_pressed("down") and is_on_floor():
+			timer_sit.start(0.12)
+		if Input.is_action_pressed("down") and is_on_floor() and not is_aiming and timer_sit.time_left <= 0:
+			timer_sit.stop()
 			sit_down()
 		if Input.is_action_pressed("fading"):
 			state = FADING
@@ -495,6 +501,8 @@ func _physics_process(delta):
 			if is_on_floor():
 				full_stop()
 			is_aiming = true
+		else:
+			is_aiming = false
 	if Input.is_action_just_released("use_item"):
 		if is_aiming:
 			use_item()

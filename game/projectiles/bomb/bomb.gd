@@ -8,6 +8,8 @@ var pre_explosion = preload("res://game/effects/fireburst/fireburst.tscn")
 func _ready() -> void:
 	pass # Replace with function body.
 
+#func _physics_process(delta: float) -> void:
+	#linear_velocity.y += 500 * delta
 
 func _on_body_entered(body: Node) -> void:
 	explode(0.2)
@@ -30,6 +32,12 @@ func explode_deferred(after : float):
 
 
 func throw(direction : Vector2, initial_speed : float = 1000):
+	if direction.x != 0 and direction.y < 0:
+		direction *= Vector2(0.6, 0.75)
+	elif direction.x != 0 and direction.y > 0:
+		direction *= Vector2(1.1, 0.8)
+	else:
+		direction *= Vector2(1.25, 1)
 	linear_velocity = initial_speed * direction
 	animated_sprite.play("active")
 

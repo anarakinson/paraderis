@@ -11,7 +11,7 @@ signal screenshake(duration : float)
 var last_checkpoint : Node2D = null
 var last_savekpoint : Node2D = null
 
-var gravity_coeff = 1.75
+var gravity_coeff = 1
 
 
 class ShadyParams:
@@ -25,7 +25,7 @@ class ShadyParams:
 
 	var attack_cooldown_time = 0.2
 	var knockback_force = 400
-	var recoil_force = Vector2(-250, -450)
+	var recoil_force = Vector2(-200, -400)
 	
 	var current_state : int = Shady.MOVE
 	var transition_state : int = Shady.MOVE
@@ -48,6 +48,9 @@ var shady_params : ShadyParams
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	shady_params = ShadyParams.new()
+	
+	#ProjectSettings.set_setting("physics/2d/default_gravity", ProjectSettings.get_setting("physics/2d/default_gravity") * 1.75)
+	#print(ProjectSettings.get_setting("physics/2d/default_gravity"))
 	
 	var resolution = Vector2(1920, 1080)
 	DisplayServer.window_set_size(resolution)

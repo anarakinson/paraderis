@@ -189,6 +189,7 @@ crying={
 
 common/physics_ticks_per_second=120
 common/max_physics_steps_per_frame=16
+2d/default_gravity=1750.0
 2d/layer_6="hurtbox"
 2d/layer_5="hitbox"
 2d/layer_8="projectiles"

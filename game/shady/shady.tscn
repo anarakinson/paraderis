@@ -4257,6 +4257,10 @@ disabled = true
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
+[node name="TimerSit" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [node name="CameraPosition" type="Node2D" parent="."]
 visible = false
 

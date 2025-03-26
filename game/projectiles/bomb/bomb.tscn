@@ -69,7 +69,6 @@ height = 16.0
 [node name="Bomb" type="RigidBody2D"]
 collision_layer = 128
 collision_mask = 7
-mass = 0.1
 physics_material_override = SubResource("PhysicsMaterial_dbnt0")
 contact_monitor = true
 max_contacts_reported = 1
