@@ -1,0 +1,115 @@
+[gd_scene load_steps=24 format=3 uid="uid://bvfq8uxgpxxjj"]
+
+[ext_resource type="Script" path="res://game/effects/magic/potion_smoke/potion_smoke.gd" id="1_7rhi5"]
+[ext_resource type="Texture2D" uid="uid://dsjkyrvdpab0c" path="res://assets/shady/frames/potion_smoke/frame0000.png" id="1_jurnr"]
+[ext_resource type="Texture2D" uid="uid://b3ldlhn8yxdsr" path="res://assets/shady/frames/potion_smoke/frame0004.png" id="2_5gtdc"]
+[ext_resource type="Texture2D" uid="uid://b46wnx7p30a3i" path="res://assets/shady/frames/potion/frame0006.png" id="2_a1l7x"]
+[ext_resource type="Texture2D" uid="uid://c3kggbmglg38a" path="res://assets/shady/frames/potion/frame0005.png" id="3_8uspe"]
+[ext_resource type="Texture2D" uid="uid://bd34tw1vjcm1o" path="res://assets/shady/frames/potion_smoke/frame0001.png" id="3_287c1"]
+[ext_resource type="Texture2D" uid="uid://njnfe24u5ads" path="res://assets/shady/frames/potion_smoke/frame0005.png" id="3_rip5w"]
+[ext_resource type="Texture2D" uid="uid://bkhky7nql435y" path="res://assets/shady/frames/potion/frame0004.png" id="4_7v31g"]
+[ext_resource type="Texture2D" uid="uid://bbvmjlcr0vp" path="res://assets/shady/frames/potion_smoke/frame0006.png" id="4_riff1"]
+[ext_resource type="Texture2D" uid="uid://clh8f052o5qy3" path="res://assets/shady/frames/potion_smoke/frame0002.png" id="4_ylvxo"]
+[ext_resource type="Texture2D" uid="uid://c01mc0fdcmvn3" path="res://assets/shady/frames/potion_smoke/frame0007.png" id="5_078lu"]
+[ext_resource type="Texture2D" uid="uid://cs4pxe7rkehhp" path="res://assets/shady/frames/potion/frame0003.png" id="5_jdlc1"]
+[ext_resource type="Texture2D" uid="uid://cuwq8rbhnlcli" path="res://assets/shady/frames/potion_smoke/frame0008.png" id="6_68ar8"]
+[ext_resource type="Texture2D" uid="uid://bhforls6ilom2" path="res://assets/shady/frames/potion_smoke/frame0009.png" id="7_ijluy"]
+[ext_resource type="Texture2D" uid="uid://b45a1dm05wy13" path="res://assets/shady/frames/potion_smoke/frame0010.png" id="8_8qv3y"]
+[ext_resource type="Texture2D" uid="uid://bcqe5o0cgafo7" path="res://assets/shady/frames/potion_smoke/frame0011.png" id="9_lbkk8"]
+[ext_resource type="Texture2D" uid="uid://cvqmiyjb2cim" path="res://assets/shady/frames/potion_smoke/frame0012.png" id="10_8i7jl"]
+[ext_resource type="Texture2D" uid="uid://drvek8wgtq0pb" path="res://assets/shady/frames/potion_smoke/frame0013.png" id="11_40ibq"]
+[ext_resource type="Texture2D" uid="uid://b6uhns6kubx3t" path="res://assets/shady/frames/potion_smoke/frame0014.png" id="12_dakrv"]
+[ext_resource type="Texture2D" uid="uid://cnweo0r5u4oj5" path="res://assets/shady/frames/potion_smoke/frame0015.png" id="13_x2ob1"]
+[ext_resource type="Texture2D" uid="uid://j5ypsu4s5wxi" path="res://assets/shady/frames/potion_smoke/frame0016.png" id="14_yh8mo"]
+[ext_resource type="Texture2D" uid="uid://iubplod48jxa" path="res://assets/shady/frames/potion_smoke/frame0003.png" id="17_e0rrt"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3da2f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_jurnr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_287c1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ylvxo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_e0rrt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_5gtdc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_rip5w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_riff1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_078lu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_68ar8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ijluy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_8qv3y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_lbkk8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_8i7jl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_40ibq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_dakrv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_x2ob1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_yh8mo")
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}]
+
+[node name="PotionSmoke" type="Node2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_7rhi5")
+
+[node name="Frame0006" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -21)
+texture = ExtResource("2_a1l7x")
+
+[node name="Frame0005" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -21)
+texture = ExtResource("3_8uspe")
+
+[node name="Frame0004" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -21)
+texture = ExtResource("4_7v31g")
+
+[node name="Frame0003" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -21)
+texture = ExtResource("5_jdlc1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(1.1, 1.1, 1.1, 0.9)
+position = Vector2(0, -21)
+sprite_frames = SubResource("SpriteFrames_3da2f")
+autoplay = "default"
+frame = 16
+frame_progress = 1.0

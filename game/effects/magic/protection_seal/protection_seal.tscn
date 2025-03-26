@@ -1,0 +1,60 @@
+[gd_scene load_steps=13 format=3 uid="uid://c0xcm16n1lp5m"]
+
+[ext_resource type="Script" path="res://game/effects/magic/protection_seal/protection_seal.gd" id="1_qys7s"]
+[ext_resource type="Texture2D" uid="uid://bmspo6i6i1c7q" path="res://assets/effects/magic/magic_shield/frame0000.png" id="2_sgspu"]
+[ext_resource type="Texture2D" uid="uid://8xx3g4b1s366" path="res://assets/effects/magic/magic_shield/frame0001.png" id="3_cekc6"]
+[ext_resource type="Texture2D" uid="uid://b3as8e2wr6hmi" path="res://assets/effects/magic/magic_shield/frame0002.png" id="4_jjvwq"]
+[ext_resource type="Texture2D" uid="uid://dilu2cv6p74wi" path="res://assets/effects/magic/magic_shield/frame0003.png" id="5_8ohq4"]
+[ext_resource type="Texture2D" uid="uid://rarw6h6kirq2" path="res://assets/effects/magic/magic_shield/frame0004.png" id="6_uq3qd"]
+[ext_resource type="Texture2D" uid="uid://nbyi15wk07s4" path="res://assets/effects/magic/magic_shield/frame0005.png" id="7_gwpvh"]
+[ext_resource type="Texture2D" uid="uid://cirfgvaqujubs" path="res://assets/effects/magic/magic_shield/frame0006.png" id="8_egehv"]
+[ext_resource type="Texture2D" uid="uid://bbi4xhqdmisit" path="res://assets/effects/magic/magic_shield/frame0007.png" id="9_x71rh"]
+[ext_resource type="Texture2D" uid="uid://b5bfk6mhbtdpw" path="res://assets/effects/magic/magic_shield/frame0008.png" id="10_m82fx"]
+[ext_resource type="Texture2D" uid="uid://dlbynybtjgcjq" path="res://assets/effects/magic/magic_shield/frame0009.png" id="11_xv214"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3da2f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_sgspu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_cekc6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_jjvwq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_8ohq4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_uq3qd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_gwpvh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_egehv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_x71rh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_m82fx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_xv214")
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}]
+
+[node name="ProtectionSeal" type="Node2D"]
+script = ExtResource("1_qys7s")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(1.2, 1.2, 1.2, 0.9)
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_3da2f")
+autoplay = "default"

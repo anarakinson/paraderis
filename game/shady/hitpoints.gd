@@ -47,6 +47,7 @@ func instant_decrease(value : int = 1):
 
 func increase(value : int = 1):
 	hitpoints += value
+	hitpoints_update.emit()
 	
 	
 func invincibility():

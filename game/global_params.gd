@@ -37,9 +37,10 @@ class ShadyParams:
 	var current_item_id = 0
 	var current_item = ItemManager.NONE
 	var available_items : Array = [
-		ItemManager.NONE,
+		#ItemManager.NONE,
 		ItemManager.BOMB, 
 		ItemManager.THROWING_KNIFE, 
+		ItemManager.POTION_PROTECTION,
 	]
 
 var shady_params : ShadyParams

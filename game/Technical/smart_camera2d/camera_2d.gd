@@ -129,7 +129,7 @@ func _on_hitted():
 	
 
 func _input(event: InputEvent) -> void:
-	if !self.is_current() or is_dead:
+	if !self.is_current():
 		return
 	elif (event is InputEventKey or event is InputEventJoypadButton) and event.pressed:
 		if event.as_text() == "K":

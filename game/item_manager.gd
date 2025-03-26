@@ -6,6 +6,12 @@ enum {
 	BOMB,
 	THROWING_KNIFE,
 	ELDRITCHBOMB,
+	FIREBOMB,
+	POTION_PROTECTION,
+	SIGIL_MAGIC_BOLT,
+	SIGIL_PROTECTION,
+	SIGIL_FIRESTORM,
+	WAND,
 }
 
 
@@ -14,6 +20,12 @@ var item_names : Dictionary = {
 	BOMB : "BOMB",
 	THROWING_KNIFE : "THROWING_KNIFE",
 	ELDRITCHBOMB : "ELDRITCHBOMB",
+	FIREBOMB : "FIREBOMB",
+	POTION_PROTECTION : "POTION_PROTECTION",
+	SIGIL_MAGIC_BOLT : "SIGIL_MAGIC_BOLT",
+	SIGIL_PROTECTION : "SIGIL_PROTECTION",
+	SIGIL_FIRESTORM : "SIGIL_FIRESTORM",
+	WAND : "WAND",
 }
 
 
@@ -22,7 +34,26 @@ var item_preloaded : Dictionary = {
 	BOMB : preload("res://game/projectiles/bomb/bomb.tscn"),
 	THROWING_KNIFE : preload("res://game/projectiles/throwing_knife/throwing_knife.tscn"),
 	ELDRITCHBOMB : null,
+	POTION_PROTECTION : preload("res://game/effects/magic/protection_seal/protection_seal.tscn"),
+	SIGIL_MAGIC_BOLT : null,
+	SIGIL_PROTECTION : null,
+	SIGIL_FIRESTORM : null,
+	WAND : null,
 }
+
+var projectiles : Array = [
+	BOMB,
+	THROWING_KNIFE,
+	ELDRITCHBOMB,
+	FIREBOMB,
+	SIGIL_MAGIC_BOLT,
+	SIGIL_PROTECTION,
+	SIGIL_FIRESTORM,
+]
+
+var potions : Array = [
+	POTION_PROTECTION,
+]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

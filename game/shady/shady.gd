@@ -6,7 +6,7 @@ class_name Shady
 
 
 
-
+const SMOKE_SPRITE_PRELOADED = preload("res://game/effects/magic/potion_smoke/potion_smoke.tscn")
 
 @onready var hitbox: Area2D = $Hitbox
 @onready var hurtbox: Area2D = $Hurtbox
@@ -1191,7 +1191,7 @@ func use_item():
 	if current_item == ItemManager.NONE:
 		state = MOVE
 		return
-	else:
+	elif current_item in ItemManager.projectiles:
 		if is_on_floor():
 			full_stop()
 			if item_throwing_direction.x != 0:
@@ -1232,7 +1232,27 @@ func use_item():
 			item_throwing_direction
 		)
 		await animation_player.animation_finished
-	await get_tree().create_timer(0.01).timeout
+		await get_tree().create_timer(0.01).timeout
+	elif current_item in ItemManager.potions:
+		if not is_on_floor():
+			state = MOVE
+			return
+		if current_item == ItemManager.POTION_PROTECTION:
+			if hitpoints.hitpoints < GlobalParams.shady_params.max_hitpoints:
+				var smoke_sprite = SMOKE_SPRITE_PRELOADED.instantiate()
+				get_parent().add_child(smoke_sprite)
+				smoke_sprite.animated_sprite_2d.flip_h = animated_sprite_2d.flip_h
+				smoke_sprite.global_position = global_position
+				animation_player.play("potion")
+				smoke_sprite.play()
+				#await get_tree().create_timer(0.5).timeout
+				await animation_player.animation_finished
+				hitpoints.increase()
+				# effects
+				var protection_seal = ItemManager.get_new_item(current_item, global_position)
+				protection_seal.follow(self)
+	elif current_item == ItemManager.WAND:
+		pass
 	state = MOVE
 	#if velocity.y > 0:
 		#state = FALL
