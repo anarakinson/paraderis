@@ -52,6 +52,7 @@ class_name Shady
 
 @onready var speed = GlobalParams.shady_params.speed
 @onready var jump_velocity = GlobalParams.shady_params.jump_velocity
+@onready var jump_inertia = 10
 
 @export_category("Effects")
 @export_range(0., 2., 0.1) var slash_glowing: float = .9
@@ -508,6 +509,7 @@ func _physics_process(delta):
 		$ClimbCollision.disabled = false
 	
 	
+	
 	if Input.is_anything_pressed():
 		is_bored = false
 		bored_counter = 0
@@ -516,6 +518,12 @@ func _physics_process(delta):
 	if (state == IDLE and 
 		edge_detection.is_colliding() != edge_detection_2.is_colliding()):
 		velocity.x += speed * delta * face_direction
+	
+	
+	# Jump and fall inertia
+	if not is_on_floor():
+		velocity.x = move_toward(velocity.x, speed*face_direction, 1*delta)
+		#velocity.x = move_toward(velocity.x, speed*face_direction, jump_inertia*delta)
 	
 	
 	attack_counter += delta
@@ -609,6 +617,8 @@ func fall_hit_state():
 	full_stop()
 	is_fall_hitted = true
 	hitpoints.decrease(1)
+	if hitpoints.hitpoints == 0:
+		return 
 	if fall_counter > 2 * critical_fall_lenght:
 		hitpoints.decrease(1)
 	fall_counter = 0

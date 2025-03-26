@@ -72,8 +72,10 @@ func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-	
-	if state != DEATH:
+
+	if state == DEATH:
+		dead_state()
+	elif state != DEATH:
 		counter += 1 * delta
 		if counter > 1:
 			counter = 0
@@ -91,7 +93,7 @@ func _physics_process(delta: float) -> void:
 
 
 func died():
-	state = DEATH
+	state = DO_NOTHING
 	animated_sprite.play("die")
 	set_collision_layer_value(3, false)
 	set_collision_layer_value(4, false)
@@ -131,11 +133,16 @@ func died():
 	bone_sprite2.visible = true
 	bone_sprite2.throw(knockback_force * 
 				-hit_direction * Vector2(1.1, 0.3))
-
-
+	
+	
 	vision.is_active = false
+	await animated_sprite.animation_finished
+	state = DEATH
 	tracked_character = null
 
+
+func dead_state():
+	animation_player.play("dead")
 
 
 func observe_state():
@@ -160,6 +167,8 @@ func sleep_state():
 
 func check_visions():
 	# check visions
+	if vision.is_active == false:
+		return
 	tracked_character = vision.get_tracked_character()
 	
 	if tracked_character != null:

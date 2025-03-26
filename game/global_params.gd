@@ -25,7 +25,7 @@ class ShadyParams:
 
 	var attack_cooldown_time = 0.2
 	var knockback_force = 400
-	var recoil_force = Vector2(-150, -350)
+	var recoil_force = Vector2(-250, -450)
 	
 	var current_state : int = Shady.MOVE
 	var transition_state : int = Shady.MOVE
