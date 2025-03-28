@@ -14,7 +14,6 @@
 [ext_resource type="PackedScene" uid="uid://6c0j8fpmufor" path="res://game/hurtbox/hurtbox.tscn" id="12_2c5b0"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6opsa"]
-friction = 0.1
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_64nfd"]
 animations = [{
@@ -74,13 +73,11 @@ height = 36.0
 
 [node name="ThrowingKnife" type="RigidBody2D"]
 collision_layer = 128
-mass = 0.1
 physics_material_override = SubResource("PhysicsMaterial_6opsa")
-gravity_scale = 0.1
+gravity_scale = 0.0
 contact_monitor = true
 max_contacts_reported = 1
-linear_damp = 1.0
-angular_damp = 10.0
+angular_damp = 5.0
 script = ExtResource("1_msl57")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -29,6 +29,11 @@ func explode():
 	dust_particles.emitting = true
 	cloud_particles.emitting = true
 	spark_particles.emitting = true
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(0.1).timeout
 	point_light_2d.visible = false
 	point_light_2d.enabled = false
+
+func set_color(new_color : Color):
+	cloud_particles.color_ramp.set_color(0, new_color)
+	dust_particles.color_ramp.set_color(0, new_color)
+	point_light_2d.color = new_color

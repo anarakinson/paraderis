@@ -10,6 +10,7 @@ extends CharacterBody2D
 
 var skull_sprite_preload = preload("res://game/enemies/almscorpse/almscorpse_skull.tscn")
 var bone_sprite_preload = preload("res://game/enemies/almscorpse/almscorpse_bones.tscn")
+#var corpse_sprite_preload = preload("res://game/enemies/almscorpse/almscorpse_corpse.tscn")
 
 #@export_enum("orange", "blue", "yellow") var corpse_type = "yellow"
 @export var begger = false
@@ -75,6 +76,7 @@ func _physics_process(delta: float) -> void:
 
 	if state == DEATH:
 		dead_state()
+		move_and_slide()
 		return
 	elif state == OBSERVE:
 		observe_state()
@@ -95,17 +97,40 @@ func _physics_process(delta: float) -> void:
 
 func died():
 	state = DO_NOTHING
-	animated_sprite.play("die")
+	animation_player.play("die")
 	set_collision_layer_value(3, false)
 	set_collision_layer_value(4, false)
 	
-	await get_tree().create_timer(0.02).timeout
+	spread_bones()
+	
+	vision.is_active = false
+	tracked_character = null
+	await animation_player.animation_finished
+	state = DEATH
+	
+	#var corpse_sprite = corpse_sprite_preload.instantiate()
+	#get_parent().add_child(corpse_sprite)
+	##await animation_player.animation_finished
+	#corpse_sprite.global_position = global_position
+	#if "Yellow" in self.name:
+		#corpse_sprite.set_type("yellow")
+	#elif "Blue" in self.name:
+		#corpse_sprite.set_type("blue")
+	#elif "Orange" in self.name:
+		#corpse_sprite.set_type("orange")
+	#corpse_sprite.animated_sprite_2d.flip_h = animated_sprite.flip_h
+	#corpse_sprite.visible = true
+	#call_deferred("queue_free")
+
+func spread_bones():
+	await get_tree().create_timer(0.02).timeout	
 	var skull_sprite = skull_sprite_preload.instantiate()
 	get_parent().add_child(skull_sprite)
 	var bone_sprite = bone_sprite_preload.instantiate()
 	get_parent().add_child(bone_sprite)
 	var bone_sprite2 = bone_sprite_preload.instantiate()
 	get_parent().add_child(bone_sprite2)
+	
 	
 	bone_sprite.animated_sprite.play("bone1")
 	bone_sprite2.animated_sprite.play("bone2")
@@ -116,7 +141,7 @@ func died():
 		bone_sprite.animated_sprite.play("cap")
 	elif "Orange" in self.name:
 		skull_sprite.animated_sprite.play("orange")
-	
+
 	skull_sprite.global_position = global_position
 	skull_sprite.animated_sprite.flip_h = animated_sprite.flip_h
 	skull_sprite.visible = true
@@ -135,41 +160,34 @@ func died():
 	bone_sprite2.throw(knockback_force * 
 				-hit_direction * Vector2(1.1, 0.3))
 	
-	
-	#vision.is_active = false
-	state = DEATH
-	vision.free()
-	await animated_sprite.animation_finished
-	tracked_character = null
-
 
 func dead_state():
-	animated_sprite.play("dead")
+	animation_player.play("dead")
 
 
 func observe_state():
 	if tracked_character != null:
 		if tracked_character.global_position.x > global_position.x + 50:
 			if direction > 0:
-				animated_sprite.play("look_right")
+				animation_player.play("look_right")
 			elif direction < 0:
-				animated_sprite.play("look_left")
+				animation_player.play("look_left")
 		elif tracked_character.global_position.x < global_position.x - 50:
 			if direction > 0:
-				animated_sprite.play("look_left")
+				animation_player.play("look_left")
 			elif direction < 0:
-				animated_sprite.play("look_right")
+				animation_player.play("look_right")
 		else:
-			animated_sprite.play("idle")
+			animation_player.play("idle")
 
 
 func sleep_state():
-	animated_sprite.play("sleep")
+	animation_player.play("sleep")
 
 
 func check_visions():
 	# check visions
-	if vision.is_active == false:
+	if not vision.is_active or vision == null:
 		return
 	tracked_character = vision.get_tracked_character()
 	
@@ -188,14 +206,14 @@ func check_visions():
 func awared():
 	if state != OBSERVE:
 		state = DO_NOTHING
-		animated_sprite.play("idle")
+		animation_player.play("idle")
 		await get_tree().create_timer(0.2).timeout
 		state = OBSERVE
 
 func go_to_sleep():
 	if state != SLEEP:
 		state = DO_NOTHING
-		animated_sprite.play("idle")
+		animation_player.play("idle")
 		await get_tree().create_timer(0.2).timeout
 		state = SLEEP
 
@@ -215,6 +233,5 @@ func _on_hurtbox_area_entered(area: Area2D) -> void:
 			else:
 				hit_direction = -1
 		GlobalParams.screenshake.emit(0.15, 10)
-		#state = DO_NOTHING
 		died()
 			

@@ -41,7 +41,7 @@ const SMOKE_SPRITE_PRELOADED = preload("res://game/effects/magic/potion_smoke/po
 @export_range(0, 5) var critical_fall_lenght = 0.99
 
 @export_category("Personal metrics")
-@export_range(1, 10) var is_bored_timer = 2.5
+@export_range(1, 10) var is_bored_timer = 3.75
 @export var speed_blink = 150.0
 @export var koyotee_time = 0.15
 @export var camera_position_point = 250
@@ -94,6 +94,7 @@ enum {
 	ATTACK_SIT,
 	ATTACK_WALL,
 	ATTACK_END,
+	WAND_USE_STATE,
 }
 
 enum attack_variants {
@@ -132,6 +133,7 @@ var state_dict = {
 	ATTACK_SIT : "ATTACK_SIT",
 	ATTACK_WALL : "ATTACK_WALL",
 	ATTACK_END : "ATTACK_END",
+	WAND_USE_STATE : "WAND_USE_STATE",
 }
 
 
@@ -377,6 +379,9 @@ func _physics_process(delta):
 		ATTACK_END:
 			set_collision_shape(collider_shape["basic"])
 			attack_end_state()
+		WAND_USE_STATE:
+			set_collision_shape(collider_shape["basic"])
+			wand_use_state()
 	
 	# Apply gravity
 	apply_gravity(delta)
@@ -498,9 +503,18 @@ func _physics_process(delta):
 	if Input.is_action_pressed("use_item"):
 		if (state == MOVE or state == BORED or
 			state == FALL or state == JUMP):
+			is_aiming = true
 			if is_on_floor():
 				full_stop()
-			is_aiming = true
+				if GlobalParams.shady_params.current_item == ItemManager.WAND:
+					state = DO_NOTHIG
+					is_aiming = false
+					animation_player.play("wand_use_start")
+					await animation_player.animation_finished
+					if not Input.is_action_pressed("use_item"):
+						state = MOVE
+					else:
+						state = WAND_USE_STATE
 		else:
 			is_aiming = false
 	if Input.is_action_just_released("use_item"):
@@ -573,9 +587,10 @@ func move_state(delta):
 				animation_player.play("idle")
 				bored_counter += 1 * delta
 				#print(bored_counter)
-				if (bored_counter > is_bored_timer or 
-					not edge_detection.is_colliding() or 
-					not edge_detection_2.is_colliding()):
+				if (bored_counter > is_bored_timer 
+					#or not edge_detection.is_colliding() 
+					#or not edge_detection_2.is_colliding()
+					):
 					state = BORED
 			else:
 				animation_player.play("run_stop")
@@ -1165,6 +1180,18 @@ func attack_recoil():
 
 #####################################################################
 
+func wand_use_state():
+	animation_player.play("wand_use")
+	if Input.is_action_just_released("use_item"):
+		use_wand_finish()
+
+func use_wand_finish():
+	state = DO_NOTHIG
+	animation_player.play("wand_use_finish")
+	await animation_player.animation_finished
+	state = MOVE
+
+
 func use_item_aiming():
 	item_throwing_direction.x = int(Input.get_axis("left", "right"))
 	item_throwing_direction.y = int(Input.get_axis("up", "down"))
@@ -1182,9 +1209,9 @@ func use_item():
 	if is_on_floor() and item_throwing_direction == Vector2(0, 1):
 		state = MOVE
 		return
-	var position_addition = Vector2(throw_ray_cast_lenght * 0.5 * item_throwing_direction.x, -15 + item_throwing_direction.y * 20)
+	var position_addition = Vector2(throw_ray_cast_lenght * 0.5 * item_throwing_direction.x, -10 + item_throwing_direction.y * 20)
 	if throw_ray_cast.is_colliding():
-		position_addition = Vector2(0, -15 + item_throwing_direction.y * 20)
+		position_addition = Vector2(0, -10 + item_throwing_direction.y * 20)
 	if item_throwing_direction.x == 0:
 		position_addition.y = 75 * item_throwing_direction.y
 	var current_item = GlobalParams.shady_params.current_item

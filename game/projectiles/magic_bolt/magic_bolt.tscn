@@ -1,16 +1,37 @@
-[gd_scene load_steps=12 format=3 uid="uid://c3lp71ka3y7y5"]
+[gd_scene load_steps=16 format=3 uid="uid://c3lp71ka3y7y5"]
 
 [ext_resource type="Texture2D" uid="uid://dpvcg1d6nbpd" path="res://assets/projectiles/magic_bolt/frame0000.png" id="1_ag5ek"]
 [ext_resource type="Script" path="res://game/projectiles/magic_bolt/magic_bolt.gd" id="1_sjhq5"]
 [ext_resource type="Texture2D" uid="uid://bypnw06vmtfgc" path="res://assets/projectiles/magic_bolt/frame0001.png" id="2_40vq1"]
+[ext_resource type="Texture2D" uid="uid://cece764btmn1y" path="res://assets/effects/magic/magic_bolt/frame0000.png" id="2_g3a5w"]
 [ext_resource type="Texture2D" uid="uid://c70tbs58pocfk" path="res://assets/projectiles/magic_bolt/frame0002.png" id="3_bnc6f"]
+[ext_resource type="Texture2D" uid="uid://cfdyfcr0i16u2" path="res://assets/effects/magic/magic_bolt/frame0001.png" id="3_fp0o1"]
 [ext_resource type="Texture2D" uid="uid://bfh5rmbxke55x" path="res://assets/projectiles/magic_bolt/frame0003.png" id="4_djol1"]
+[ext_resource type="Texture2D" uid="uid://csqronb5uwrvt" path="res://assets/effects/magic/magic_bolt/frame0002.png" id="4_tu5ip"]
 [ext_resource type="Texture2D" uid="uid://c4s0cmwspjmj3" path="res://assets/projectiles/magic_bolt/frame0004.png" id="5_bar8q"]
+[ext_resource type="Texture2D" uid="uid://c1b7h711tmaqj" path="res://assets/effects/magic/magic_bolt/frame0003.png" id="5_wggd0"]
 [ext_resource type="PackedScene" uid="uid://chh85payasdch" path="res://game/effects/magic/magic_trail/magic_trail.tscn" id="6_t4oe8"]
 [ext_resource type="PackedScene" uid="uid://cq3t4v3sscktm" path="res://game/hitbox/hitbox.tscn" id="8_ce3dn"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_t8hnr"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_g3a5w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_fp0o1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_tu5ip")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_wggd0")
+}],
+"loop": true,
+"name": &"active",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("1_ag5ek")
@@ -28,7 +49,7 @@ animations = [{
 "texture": ExtResource("5_bar8q")
 }],
 "loop": true,
-"name": &"active",
+"name": &"active2",
 "speed": 25.0
 }]
 
@@ -42,14 +63,15 @@ height = 32.0
 [node name="MagicBolt" type="RigidBody2D"]
 collision_layer = 128
 collision_mask = 15
-mass = 0.001
 gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 1
 script = ExtResource("1_sjhq5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_t8hnr")
-animation = &"active"
+animation = &"active2"
 autoplay = "active"
 
 [node name="MagicTrail" parent="." node_paths=PackedStringArray("follow_node") instance=ExtResource("6_t4oe8")]
@@ -67,6 +89,12 @@ shape = SubResource("CapsuleShape2D_l2t8w")
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0
 
+[node name="TimerSin" type="Timer" parent="."]
+wait_time = 0.05
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="TimerSin" to="." method="_on_timer_sin_timeout"]
 
 [editable path="Hitbox"]

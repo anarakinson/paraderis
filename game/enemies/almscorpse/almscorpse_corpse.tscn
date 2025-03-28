@@ -1,78 +1,38 @@
-[gd_scene load_steps=22 format=3 uid="uid://djgdk6fa6y25e"]
+[gd_scene load_steps=14 format=3 uid="uid://ca0urhpwi1rkg"]
 
-[ext_resource type="Script" path="res://game/enemies/almscorpse/almscorpse.gd" id="1_fret2"]
-[ext_resource type="Texture2D" uid="uid://crfpgyas1dtho" path="res://assets/enemies/almscorpse/frames/almscorpse3/frame0004.png" id="2_2mg0k"]
-[ext_resource type="Texture2D" uid="uid://dj4rq2xjqeur4" path="res://assets/enemies/almscorpse/frames/almscorpse3/frame0005.png" id="3_l6kss"]
-[ext_resource type="Texture2D" uid="uid://d2iby8qf753af" path="res://assets/enemies/almscorpse/frames/almscorpse3/frame0006.png" id="4_iei5s"]
-[ext_resource type="Texture2D" uid="uid://b2dbg6omh0ejw" path="res://assets/enemies/almscorpse/frames/almscorpse3/frame0007.png" id="5_0ugcc"]
-[ext_resource type="Texture2D" uid="uid://d1471ck6ypc0k" path="res://assets/enemies/almscorpse/frames/almscorpse3/frame0000.png" id="6_ceffv"]
-[ext_resource type="Texture2D" uid="uid://dc688dmawper4" path="res://assets/enemies/almscorpse/frames/almscorpse3/frame0003.png" id="7_3qyn7"]
-[ext_resource type="Texture2D" uid="uid://bqmndyupaul6o" path="res://assets/enemies/almscorpse/frames/almscorpse3/frame0002.png" id="8_lf2t2"]
-[ext_resource type="Texture2D" uid="uid://cfeib3fjfoyag" path="res://assets/enemies/almscorpse/frames/almscorpse3/frame0001.png" id="9_575e0"]
-[ext_resource type="PackedScene" uid="uid://6c0j8fpmufor" path="res://game/hurtbox/hurtbox.tscn" id="10_po4hs"]
-[ext_resource type="PackedScene" uid="uid://bcmypsow4rnjk" path="res://game/technical/enemy_vision/vision.tscn" id="11_hnjch"]
+[ext_resource type="Script" path="res://game/enemies/almscorpse/almscorpse_corpse.gd" id="1_il7i0"]
+[ext_resource type="Texture2D" uid="uid://vu5c8i5fpyua" path="res://assets/enemies/almscorpse/frames/almscorpse2/frame0007.png" id="2_d2283"]
+[ext_resource type="Texture2D" uid="uid://bbem57qyn3gt6" path="res://assets/enemies/almscorpse/frames/almscorpse1/frame0007.png" id="2_phl7r"]
+[ext_resource type="Texture2D" uid="uid://b2dbg6omh0ejw" path="res://assets/enemies/almscorpse/frames/almscorpse3/frame0007.png" id="3_pce2l"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_85bye"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("5_0ugcc")
+"texture": ExtResource("2_d2283")
+}],
+"loop": false,
+"name": &"blue",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_pce2l")
 }],
 "loop": true,
-"name": &"dead",
+"name": &"orange",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_2mg0k")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_l6kss")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_iei5s")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_0ugcc")
-}],
-"loop": false,
-"name": &"die",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("6_ceffv")
+"texture": ExtResource("2_phl7r")
 }],
 "loop": true,
-"name": &"idle",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("7_3qyn7")
-}],
-"loop": true,
-"name": &"look_left",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("8_lf2t2")
-}],
-"loop": true,
-"name": &"look_right",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("9_575e0")
-}],
-"loop": true,
-"name": &"sleep",
+"name": &"yellow",
 "speed": 10.0
 }]
 
-[sub_resource type="Animation" id="Animation_2di1c"]
+[sub_resource type="Animation" id="Animation_g3yqk"]
 length = 0.2
 loop_mode = 1
 tracks/0/type = "value"
@@ -100,7 +60,7 @@ tracks/1/keys = {
 "values": ["dead"]
 }
 
-[sub_resource type="Animation" id="Animation_c52kb"]
+[sub_resource type="Animation" id="Animation_i6p84"]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -127,7 +87,7 @@ tracks/1/keys = {
 "values": ["die"]
 }
 
-[sub_resource type="Animation" id="Animation_v86s3"]
+[sub_resource type="Animation" id="Animation_j358v"]
 length = 0.1
 loop_mode = 1
 tracks/0/type = "value"
@@ -155,7 +115,7 @@ tracks/1/keys = {
 "values": ["idle"]
 }
 
-[sub_resource type="Animation" id="Animation_wce5i"]
+[sub_resource type="Animation" id="Animation_y0d1u"]
 length = 0.1
 loop_mode = 1
 tracks/0/type = "value"
@@ -183,7 +143,7 @@ tracks/1/keys = {
 "values": ["look_left"]
 }
 
-[sub_resource type="Animation" id="Animation_sbv37"]
+[sub_resource type="Animation" id="Animation_r8r24"]
 length = 0.1
 loop_mode = 1
 tracks/0/type = "value"
@@ -211,7 +171,7 @@ tracks/1/keys = {
 "values": ["look_right"]
 }
 
-[sub_resource type="Animation" id="Animation_3f68n"]
+[sub_resource type="Animation" id="Animation_g1ps2"]
 length = 0.1
 loop_mode = 1
 tracks/0/type = "value"
@@ -239,58 +199,36 @@ tracks/1/keys = {
 "values": ["sleep"]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_2i256"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ckk1o"]
 _data = {
-"dead": SubResource("Animation_2di1c"),
-"die": SubResource("Animation_c52kb"),
-"idle": SubResource("Animation_v86s3"),
-"look_left": SubResource("Animation_wce5i"),
-"look_right": SubResource("Animation_sbv37"),
-"sleep": SubResource("Animation_3f68n")
+"dead": SubResource("Animation_g3yqk"),
+"die": SubResource("Animation_i6p84"),
+"idle": SubResource("Animation_j358v"),
+"look_left": SubResource("Animation_y0d1u"),
+"look_right": SubResource("Animation_r8r24"),
+"sleep": SubResource("Animation_g1ps2")
 }
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dt5se"]
-radius = 40.0
-height = 156.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_imljf"]
+radius = 6.0
+height = 62.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3e0lw"]
-
-[node name="AlmscorpseOrange" type="CharacterBody2D" groups=["enemies", "npc"]]
+[node name="AlmscorpseCorpse" type="CharacterBody2D" groups=["enemies", "npc"]]
 collision_layer = 8
-script = ExtResource("1_fret2")
+script = ExtResource("1_il7i0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -53)
+position = Vector2(0, -62)
 sprite_frames = SubResource("SpriteFrames_85bye")
-animation = &"dead"
-autoplay = "idle"
+animation = &"yellow"
+autoplay = "yellow"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_2i256")
+"": SubResource("AnimationLibrary_ckk1o")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_dt5se")
-
-[node name="Hurtbox" parent="." instance=ExtResource("10_po4hs")]
-
-[node name="CollisionShape2D" parent="Hurtbox" index="0"]
-shape = SubResource("CapsuleShape2D_3e0lw")
-
-[node name="Vision" parent="." instance=ExtResource("11_hnjch")]
-back = -800
-front = 1000
-
-[node name="Label" type="Label" parent="."]
-visible = false
-offset_left = -86.0
-offset_top = -138.0
-offset_right = 83.0
-offset_bottom = -115.0
-text = "aaaa"
-horizontal_alignment = 1
-
-[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
-
-[editable path="Hurtbox"]
+position = Vector2(0, 61)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_imljf")

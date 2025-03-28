@@ -17,9 +17,8 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if gravity_scale <= 1:
-		gravity_scale += delta
-	animated_sprite.rotation_degrees = get_degrees()
+	if collision_counter == 0:
+		rotation_degrees = get_degrees()
 
 func get_degrees():
 	if abs(linear_velocity.x) > abs(2*linear_velocity.y):
@@ -47,25 +46,28 @@ func _on_body_entered(body: Node) -> void:
 		linear_velocity.y = -150
 		angular_velocity = 100
 		animated_sprite.play("default")
-		collision_shape.shape.height = 28
-		collision_shape.shape.radius = 2
-		timer.start(15)
+		timer.stop()
+		timer.start(5)
 	elif collision_counter == 1:
 		timer.stop()
 		timer.start(5)
 
 
-func throw(dir : Vector2, initial_speed : float = 1800):
+func throw(dir : Vector2, initial_speed : float = 2300):
 	direction = dir
 	if direction.x > 0:
 		animated_sprite.flip_h = false
 	else:
 		animated_sprite.flip_h = true
 	
+	if direction.x != 0 and direction.y != 0:
+		direction *= 0.65
 	linear_velocity = initial_speed * direction
 	animated_sprite.play("active")
-	#await get_tree().create_timer(0.01).timeout
+	timer.start(1)
+	await get_tree().create_timer(0.02).timeout
 	hitbox.enable()
+
 
 
 func _on_body_detection_body_entered(body: Node2D) -> void:

@@ -24,7 +24,8 @@ particles_anim_v_frames = 1
 particles_anim_loop = false
 
 [sub_resource type="Gradient" id="Gradient_ituxo"]
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+offsets = PackedFloat32Array(0, 0.220779, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.538961, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_a07le"]
 gradient = SubResource("Gradient_ituxo")
@@ -37,7 +38,7 @@ script = ExtResource("1_ba1yi")
 
 [node name="DustParticles" type="CPUParticles2D" parent="."]
 emitting = false
-lifetime = 0.6
+lifetime = 0.3
 one_shot = true
 explosiveness = 0.8
 randomness = 0.7
@@ -69,7 +70,7 @@ hue_variation_curve = SubResource("Curve_115jm")
 material = SubResource("CanvasItemMaterial_34feg")
 emitting = false
 amount = 3
-lifetime = 0.8
+lifetime = 0.4
 one_shot = true
 explosiveness = 0.8
 randomness = 0.7
@@ -97,7 +98,7 @@ anim_speed_max = 0.9
 
 [node name="SparkParticles" type="CPUParticles2D" parent="."]
 emitting = false
-lifetime = 0.5
+lifetime = 0.2
 one_shot = true
 explosiveness = 0.9
 randomness = 0.7

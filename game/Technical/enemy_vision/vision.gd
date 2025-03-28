@@ -34,6 +34,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if not is_active:
+		tracked_character = null
 		return
 	counter += 1
 	lost_counter += delta

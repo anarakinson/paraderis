@@ -41,6 +41,9 @@ class ShadyParams:
 		ItemManager.BOMB, 
 		ItemManager.THROWING_KNIFE, 
 		ItemManager.POTION_PROTECTION,
+		ItemManager.WAND,
+		ItemManager.SIGIL_MAGIC_BOLT,
+		ItemManager.SIGIL_MAGIC_BOLT_SPRAY,
 	]
 
 var shady_params : ShadyParams

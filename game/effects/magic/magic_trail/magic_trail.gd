@@ -16,16 +16,15 @@ func _ready() -> void:
 	spark_particles.color = color * 2
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+## Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
 	#var pos = get_global_mouse_position()
 	#follow(pos)
 
 
 func follow(pos : Vector2):
-	#pos = follow_node.global_position
 	spark_particles.global_position = pos
-	queue.push_front(pos)
+	queue.push_front(position)
 	if queue.size() > max_lenght:
 		queue.pop_back()
 		
