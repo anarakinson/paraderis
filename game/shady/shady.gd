@@ -510,6 +510,7 @@ func _physics_process(delta):
 					state = DO_NOTHIG
 					is_aiming = false
 					animation_player.play("wand_use_start")
+					ItemManager.wand_input_sequence = ""
 					await animation_player.animation_finished
 					if not Input.is_action_pressed("use_item"):
 						state = MOVE
@@ -1184,12 +1185,35 @@ func wand_use_state():
 	animation_player.play("wand_use")
 	if Input.is_action_just_released("use_item"):
 		use_wand_finish()
+	elif Input.is_action_just_pressed("up"):
+		ItemManager.wand_input_sequence += "u"
+	elif Input.is_action_just_pressed("down"):
+		ItemManager.wand_input_sequence += "d"
+	elif Input.is_action_just_pressed("left"):
+		ItemManager.wand_input_sequence += "l"
+	elif Input.is_action_just_pressed("right"):
+		ItemManager.wand_input_sequence += "r"
 
 func use_wand_finish():
 	state = DO_NOTHIG
 	animation_player.play("wand_use_finish")
+	ItemManager.wand_temp_item = GlobalParams.shady_params.current_item
+	if (ItemManager.wand_input_sequence in 
+		ItemManager.wand_success_sequence):
+			wand_spell_activation(ItemManager.wand_temp_item)
 	await animation_player.animation_finished
 	state = MOVE
+
+func wand_spell_activation(temp_item):
+	ItemManager.is_wand_in_use = true
+	GlobalParams.shady_params.current_item = ItemManager.wand_success_sequence[ItemManager.wand_input_sequence]
+	GlobalParams.ui_update.emit()
+	await get_tree().create_timer(ItemManager.wand_magic_timeout).timeout
+	if ItemManager.is_wand_in_use:
+		GlobalParams.shady_params.current_item = temp_item
+		ItemManager.wand_temp_item = null
+		ItemManager.is_wand_in_use = false
+		GlobalParams.ui_update.emit()
 
 
 func use_item_aiming():
@@ -1215,37 +1239,11 @@ func use_item():
 	if item_throwing_direction.x == 0:
 		position_addition.y = 75 * item_throwing_direction.y
 	var current_item = GlobalParams.shady_params.current_item
-	if current_item == ItemManager.NONE:
+	if current_item == ItemManager.NONE or ItemManager.item_preloaded[current_item] == null:
 		state = MOVE
 		return
 	elif current_item in ItemManager.projectiles:
-		if is_on_floor():
-			full_stop()
-			if item_throwing_direction.x != 0:
-				if item_throwing_direction.y == 0:
-					animation_player.play("throw")
-				elif item_throwing_direction.y < 0:
-					animation_player.play("throw_uf")
-				elif item_throwing_direction.y > 0:
-					animation_player.play("throw_df")
-			elif item_throwing_direction.x == 0:
-				if item_throwing_direction.y < 0:
-					animation_player.play("throw_up")
-				elif item_throwing_direction.y > 0:
-					animation_player.play("throw_down")
-		elif not is_on_floor():
-			if item_throwing_direction.x != 0:
-				if item_throwing_direction.y == 0:
-					animation_player.play("throw_jump")
-				elif item_throwing_direction.y < 0:
-					animation_player.play("throw_uf_jump")
-				elif item_throwing_direction.y > 0:
-					animation_player.play("throw_df_jump")
-			elif item_throwing_direction.x == 0:
-				if item_throwing_direction.y < 0:
-					animation_player.play("throw_up")
-				elif item_throwing_direction.y > 0:
-					animation_player.play("throw_down")
+		chose_throw_animation()
 		await get_tree().create_timer(0.1).timeout
 		###################
 		### CHOSE ITEM
@@ -1278,12 +1276,77 @@ func use_item():
 				# effects
 				var protection_seal = ItemManager.get_new_item(current_item, global_position)
 				protection_seal.follow(self)
-	elif current_item == ItemManager.WAND:
-		pass
+	#elif current_item == ItemManager.WAND:
+		#pass
+	if ItemManager.is_wand_in_use:
+		GlobalParams.shady_params.current_item = ItemManager.wand_temp_item
+		ItemManager.wand_temp_item = null
+		ItemManager.is_wand_in_use = false
+		GlobalParams.ui_update.emit()
 	state = MOVE
 	#if velocity.y > 0:
 		#state = FALL
 	attack_cooldown()
+
+
+func chose_throw_animation():
+	if is_on_floor():
+		full_stop()
+		if ItemManager.is_wand_in_use:
+			if item_throwing_direction.x != 0:
+				if item_throwing_direction.y == 0:
+					animation_player.play("wand_f")
+				elif item_throwing_direction.y < 0:
+					animation_player.play("wand_uf")
+				elif item_throwing_direction.y > 0:
+					animation_player.play("wand_df")
+			elif item_throwing_direction.x == 0:
+				if item_throwing_direction.y < 0:
+					animation_player.play("wand_up")
+				elif item_throwing_direction.y > 0:
+					animation_player.play("wand_down")
+		else:
+			if item_throwing_direction.x != 0:
+				if item_throwing_direction.y == 0:
+					animation_player.play("throw")
+				elif item_throwing_direction.y < 0:
+					animation_player.play("throw_uf")
+				elif item_throwing_direction.y > 0:
+					animation_player.play("throw_df")
+			elif item_throwing_direction.x == 0:
+				if item_throwing_direction.y < 0:
+					animation_player.play("throw_up")
+				elif item_throwing_direction.y > 0:
+					animation_player.play("throw_down")
+	elif not is_on_floor():
+		if ItemManager.is_wand_in_use:
+			if item_throwing_direction.x != 0:
+				if item_throwing_direction.y == 0:
+					animation_player.play("wand_f_jump")
+				elif item_throwing_direction.y < 0:
+					animation_player.play("wand_uf_jump")
+				elif item_throwing_direction.y > 0:
+					animation_player.play("wand_df_jump")
+			elif item_throwing_direction.x == 0:
+				if item_throwing_direction.y < 0:
+					animation_player.play("wand_up")
+				elif item_throwing_direction.y > 0:
+					animation_player.play("wand_down")
+		else:
+			if item_throwing_direction.x != 0:
+				if item_throwing_direction.y == 0:
+					animation_player.play("throw_jump")
+				elif item_throwing_direction.y < 0:
+					animation_player.play("throw_uf_jump")
+				elif item_throwing_direction.y > 0:
+					animation_player.play("throw_df_jump")
+			elif item_throwing_direction.x == 0:
+				if item_throwing_direction.y < 0:
+					animation_player.play("throw_up")
+				elif item_throwing_direction.y > 0:
+					animation_player.play("throw_down")
+
+
 
 
 func use_item_sit():
@@ -1294,7 +1357,9 @@ func use_item_sit():
 func chose_item():
 	GlobalParams.shady_params.current_item_id = current_item_id
 	GlobalParams.shady_params.current_item = GlobalParams.shady_params.available_items[current_item_id]
+	ItemManager.is_wand_in_use = false
 	GlobalParams.ui_update.emit()
+
 
 
 

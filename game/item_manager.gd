@@ -51,13 +51,22 @@ var projectiles : Array = [
 	FIREBOMB,
 	SIGIL_MAGIC_BOLT,
 	SIGIL_MAGIC_BOLT_SPRAY,
-	SIGIL_PROTECTION,
 	SIGIL_FIRESTORM,
 ]
 
 var potions : Array = [
 	POTION_PROTECTION,
 ]
+
+var wand_input_sequence : String = ""
+var wand_success_sequence : Dictionary = {
+	"uudduu" : SIGIL_PROTECTION,
+	"uldru" : SIGIL_MAGIC_BOLT,
+	"uldrurdlu" : SIGIL_MAGIC_BOLT_SPRAY
+}
+var wand_magic_timeout = 1.75
+var wand_temp_item = null
+var is_wand_in_use = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
